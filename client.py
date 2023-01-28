@@ -1,30 +1,37 @@
 import datetime
+import os
 import pickle
 import random
 import select
 import socket
 import sqlite3
+import webbrowser
 
 import pygame
 from pygame.locals import *
 
 from lib.functions.on_quit import save_stats
-from lib.functions.start import get_maps, get_images
+from lib.functions.start import get_maps, get_images, get_posts_surface
 from lib.models.player import Player
 from lib.models.screen import Screen
 from lib.functions.movement import move
+from lib.models.touchable_opacity import TouchableOpacity
 from lib.storage.constants import Constants
 from lib.models.buttons import Button
 import lib.functions.api as api
+from lib.functions.telegram import get_recent_posts
 
 pygame.init()
 pygame.font.init()
 fonts = {}
 for i in range(10, 25):
-    fonts.update({i: pygame.font.SysFont('Comic Sans MS', i)})
+    # fonts.update({i: pygame.font.Font(f"lib/assets/fonts/Poppins-Light.ttf", i)})
+    fonts.update({i: pygame.font.SysFont("Helvetica", i)})
 
 SIZE = WIDTH, HEIGHT = (1920, 1080)
-screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1280, 787))
+
+# screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
 
 HEADER = 64
 PORT = 5050  # server port
@@ -34,7 +41,7 @@ SERVER = '192.168.1.64'  # server address to connect
 BLOCK_SIZE = 32  # 60 blocks in width, 33.75 blocks in height
 NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
 
-ADDR = (SERVER, PORT)
+ADDR = (SERVER, PORT)  # server address
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
@@ -42,8 +49,9 @@ client.connect(ADDR)
 db_connection = sqlite3.connect("lib/storage/database.db")
 db_cur = db_connection.cursor()
 
-db_user = db_cur.execute("SELECT * FROM user").fetchone()
-print(db_user)
+db_user = db_cur.execute("SELECT * FROM user").fetchone()  # current user
+
+get_recent_posts(contained_string="")  # get posts from telegram updates channel
 
 
 def send(msg):
@@ -56,7 +64,7 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
-PLAYER = Player((28, 60), (100, 100), 20, 20, 1, f"Subvius-{random.randint(1, 10)}")
+PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1, f"Subvius-{random.randint(1, 10)}")
 SCREEN = Screen()
 CONSTANTS = Constants()
 client.send(pickle.dumps(["id-update", PLAYER]))
@@ -78,14 +86,23 @@ api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True
               {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
 
 
-def main_screen():
+def start_screen():
     on_screen = True
+    pygame.display.set_caption("Launcher")
+    width = 1280
+    height = 787
     buttons = [
-        Button("play", 150, 25, "gray", "white", WIDTH // 2 - 75, HEIGHT // 2 - 15, "lightgray", 0),
-        Button("settings", 150, 25, "gray", "white", WIDTH // 2 - 75, HEIGHT // 2 + 15, "lightgray", 1),
+        Button("Launch", 175, 40, CONSTANTS.launch_color, "white", width // 2 - 75, height // 2 - 15,
+               CONSTANTS.launch_color_hovered, 0, lighting=True),
     ]
-    title = fonts[24].render("MINECRAFT 2D MULTIPLAYER", False, "white")
-    logo_title = fonts[15].render("MINECRAFT 2D", False, "white")
+    global screen
+    logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
+
+    posts, posts_data = get_posts_surface(fonts)
+    touchables = list()
+    for p_i, post in enumerate(posts):
+        touchables.append(TouchableOpacity(post, (30 + 415 * p_i, 475), p_i, True))
+
     while on_screen:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -98,6 +115,94 @@ def main_screen():
                 for btn in buttons:
                     btn.on_mouse_motion(*pos)
 
+                for touchable in touchables:
+                    touchable.on_mouse_motion(pos)
+
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                btn = None
+                for button in buttons:
+                    res = button.on_mouse_click(*pos)
+                    if res:
+                        btn = button
+                        break
+                if btn is not None:
+                    if btn.id == 0:
+                        on_screen = False
+                        pygame.display.quit()
+                        pygame.display.init()
+                        screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
+                        break
+                    elif btn.id == 1:
+                        pass
+                touchable = None
+                for tch in touchables:
+                    res = tch.on_click(pos)
+                    if res:
+                        touchable = tch
+                        break
+                if touchable is not None:
+                    webbrowser.open(
+                        f"https://t.me/{CONSTANTS.telegram_channel_id}/{list(posts_data.keys())[touchable.id]}")
+
+        screen.fill((20, 20, 20))
+        logo_image = icons['logo']
+
+        for button in buttons:
+            button.render(screen, fonts[20])
+
+        screen.blit(pygame.transform.scale(logo_image, (64, 64)), (15, 15))
+        screen.blit(logo_text, (85, 33))
+
+        for touchable in touchables:
+            touchable.render(screen)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+
+start_screen()
+
+
+def main_screen():
+    on_screen = True
+    pygame.display.set_caption("Minecraft 2D")
+
+    buttons = [
+        Button("play", 150, 25, "gray", "white", WIDTH // 2 - 75, HEIGHT // 2 - 15, "lightgray", 0),
+        Button("settings", 150, 25, "gray", "white", WIDTH // 2 - 75, HEIGHT // 2 + 15, "lightgray", 1),
+        Button("", 24, 24, "gray", "white", 25, 25, "lightgray", 2),
+    ]
+    title = fonts[24].render("MINECRAFT 2D MULTIPLAYER", False, "white")
+    logo_title = fonts[15].render("MINECRAFT 2D", False, "white")
+    profile_image = icons['profile']
+    while on_screen:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit(0)
+
+            if event.type == MOUSEMOTION:
+                pos = event.pos
+                SCREEN.set_mouse_pos(pos)
+                for btn in buttons:
+                    btn.on_mouse_motion(*pos)
+
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                btn = None
+                for button in buttons:
+                    res = button.on_mouse_click(*pos)
+                    if res:
+                        btn = button
+                        break
+                if btn is not None:
+                    if btn.id == 0:
+                        on_screen = False
+                        break
+                    elif btn.id == 1:
+                        pass
+
         screen.fill("black")
         background_image = images['main_screen_bg']
         logo_image = icons['logo']
@@ -108,6 +213,7 @@ def main_screen():
 
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 100))
         screen.blit(pygame.transform.scale(logo_image, (128, 128)), (22, HEIGHT - 150))
+        screen.blit(pygame.transform.scale(profile_image, (24, 24)), (25, 25))
         screen.blit(logo_title, (30 + 128, HEIGHT - 150 + 54))
 
         pygame.display.flip()
@@ -155,10 +261,11 @@ while running:
                     moving_right = False
 
     screen.fill(CONSTANTS.sky)
+    screen.blit(pygame.transform.scale(icons['Ocean_background_6'], SIZE), (0, 0))
     colliding_objects = list()
     if SCREEN.screen == 'lobby':
-        possible_x = [i for i in range(WIDTH // BLOCK_SIZE)]
-        possible_y = [i for i in range(HEIGHT // BLOCK_SIZE)]
+        possible_x = [i for i in range(WIDTH // BLOCK_SIZE + 2)]
+        possible_y = [i for i in range(HEIGHT // BLOCK_SIZE + 1)]
         gm_map: dict = lobby_map.get("map")
 
     for tile_y in possible_y:
@@ -172,9 +279,10 @@ while running:
                 image = images[block_data["item_id"]]
 
                 screen.blit(pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE)),
-                            (tile_x * BLOCK_SIZE, tile_y * BLOCK_SIZE))
+                            (tile_x * BLOCK_SIZE - BLOCK_SIZE, tile_y * BLOCK_SIZE))
                 if block_id not in NOT_COLLIDING_BLOCKS:
-                    block_rect = pygame.Rect(tile_x * 32, tile_y * 32, BLOCK_SIZE, BLOCK_SIZE)
+                    block_rect = pygame.Rect(tile_x * BLOCK_SIZE - BLOCK_SIZE, tile_y * BLOCK_SIZE, BLOCK_SIZE,
+                                             BLOCK_SIZE)
                     colliding_objects.append(block_rect)
 
     movement = [0, 0]

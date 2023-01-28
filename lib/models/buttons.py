@@ -3,7 +3,8 @@ import pygame
 
 class Button:
     def __init__(self, label: str = "Button Label", width: int = 100, height: int = 20, background_color: str = "black",
-                 text_color: str = "white", x: int = 0, y: int = 0, hover_color: str = "gray", uniq_id: int = 1
+                 text_color: str = "white", x: int = 0, y: int = 0, hover_color: str = "gray", uniq_id: int = 1,
+                 lighting: bool = False
                  ):
         self.label = label
         self.width = width
@@ -16,13 +17,17 @@ class Button:
         self.id = uniq_id
         self.high_lighted = False
 
-    def render(self, surface, font):
+    def render(self, surface, font: pygame.font.Font):
         text_surface = font.render(self.label, False, self.text_color)
         pygame.draw.rect(surface, self.background_color if not self.is_hovered else self.hover_color, self.rect)
+
         if self.high_lighted:
             pygame.draw.rect(surface, (10, 10, 225), self.rect, width=2)
 
-        surface.blit(text_surface, (self.rect.midtop[0] - len(self.label) * 3.5, self.rect.midtop[1]))
+        surface.blit(text_surface,
+                     (
+                         self.rect.midtop[0] - text_surface.get_width() // 2,
+                         self.rect.midtop[1] + (self.height - text_surface.get_height()) // 2))
 
     def on_mouse_motion(self, x, y):
         rect = pygame.Rect(x, y, 1, 1)
