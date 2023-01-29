@@ -1,5 +1,4 @@
 import datetime
-import os
 import pickle
 import random
 import select
@@ -8,6 +7,7 @@ import sqlite3
 import webbrowser
 
 import pygame
+from pygame.event import Event
 from pygame.locals import *
 
 from lib.functions.on_quit import save_stats
@@ -30,7 +30,7 @@ for i in range(10, 25):
     fonts.update({i: pygame.font.SysFont("Helvetica", i)})
 
 SIZE = WIDTH, HEIGHT = (1920, 1080)
-screen = pygame.display.set_mode((1280, 787))
+screen = pygame.display.set_mode((1280, 787), pygame.NOFRAME)
 
 # screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
 
@@ -137,7 +137,8 @@ def log_in_screen():
                             session_stats.update({"play_time": datetime.datetime.now()})
                             if db_user is None:
                                 db_cur.execute(
-                                    f"INSERT INTO user(id, username, password, logged_in) VALUES(0, '{PLAYER.nickname}',"
+                                    f"INSERT INTO user(id, username, password, logged_in)"
+                                    f" VALUES(0, '{PLAYER.nickname}',"
                                     f" '{password_input.text.strip()}', 1)")
                                 db_connection.commit()
                                 db_user = (
@@ -169,14 +170,20 @@ def start_screen():
     pygame.display.set_caption("Launcher")
     width = 1280
     height = 787
+    # noinspection PyTypeChecker
     buttons = [
-        Button("Launch", 175, 40, CONSTANTS.launch_color, "white", width // 2 - 75, height // 2 - 15,
-               CONSTANTS.launch_color_hovered, 0, lighting=True),
+        Button("Launch", 175, 40, CONSTANTS.launch_color_hovered, "white", width // 2 - 175 // 2, height // 2 - 150,
+               CONSTANTS.launch_color, 0, lighting=True, border_radius=5),
+        Button("X", 30, 32, (31, 31, 31), "white", width - 48, 18,
+               (208, 53, 53), 1, lighting=True, font=fonts[16], high_light_color=(35, 35, 35), border_radius=5),
+
     ]
+    buttons[1].toggle_high_light()
     global screen
     logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
+    recent_news_text = fonts[16].render("Recent News", False, "white")
 
-    posts, posts_data = get_posts_surface(fonts)
+    posts, posts_data = get_posts_surface(fonts, icons)
     touchables = list()
     for p_i, post in enumerate(posts):
         touchables.append(TouchableOpacity(post, (30 + 415 * p_i, 475), p_i, True))
@@ -223,7 +230,9 @@ def start_screen():
                         screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
                         break
                     elif btn.id == 1:
-                        pass
+                        on_screen = False
+                        pygame.quit()
+                        exit(0)
                 touchable = None
                 for tch in touchables:
                     res = tch.on_click(pos)
@@ -234,14 +243,19 @@ def start_screen():
                     webbrowser.open(
                         f"https://t.me/{CONSTANTS.telegram_channel_id}/{list(posts_data.keys())[touchable.id]}")
 
-        screen.fill((20, 20, 20))
+        screen.fill((10, 10, 10))
         logo_image = icons['logo']
 
+        screen.blit(pygame.transform.scale(images['launcher_background'], (width, 375)), (0, 68))
         for button in buttons:
             button.render(screen, fonts[20])
 
-        screen.blit(pygame.transform.scale(logo_image, (64, 64)), (15, 15))
+        screen.blit(pygame.transform.scale(logo_image, (48, 48)), (15, 15))
         screen.blit(logo_text, (85, 33))
+
+        pygame.draw.rect(screen, (20, 19, 17), pygame.Rect(0, height // 2 + 20, width, 30))
+        pygame.draw.rect(screen, (24, 24, 24), pygame.Rect(0, height // 2 + 50, width, 315))
+        screen.blit(recent_news_text, (width // 2 - recent_news_text.get_width() // 2, height // 2 + 60))
 
         for touchable in touchables:
             touchable.render(screen)

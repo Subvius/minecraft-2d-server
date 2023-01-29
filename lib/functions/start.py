@@ -25,6 +25,7 @@ def get_images(blocks_data: dict):
     for block in list(blocks_data.values()):
         images.update({block['item_id']: pygame.image.load(f"lib/assets/{block['image_root']}")})
     images.update({"main_screen_bg": pygame.image.load("lib/assets/main_screen_bg.png")})
+    images.update({"launcher_background": pygame.image.load("lib/assets/launcher_background.jpg")})
     images.update({"world_select_bg": pygame.image.load("lib/assets/world_select_bg.jpg")})
     images.update({"overworld_background": pygame.image.load("lib/assets/overworld_background.png")})
     images.update({"no_textures": pygame.image.load("lib/assets/no_textures.webp")})
@@ -36,6 +37,10 @@ def get_images(blocks_data: dict):
     for file in os.listdir("lib/assets/icons"):
         if file.endswith(".webp") or file.endswith(".png"):
             icons.update({f"{file.split('.')[0]}": pygame.image.load(f"lib/assets/icons/{file}")})
+
+    for file in os.listdir("lib/assets/developers"):
+        if file.endswith(".webp") or file.endswith(".png"):
+            icons.update({f"{file.split('.')[0]}": pygame.image.load(f"lib/assets/developers/{file}")})
 
     icons.update({"sun": pygame.image.load("lib/assets/sun.png")})
     icons.update({"moon": pygame.image.load("lib/assets/moon.png")})
@@ -63,7 +68,7 @@ def get_images(blocks_data: dict):
     return images, icons, mob_images
 
 
-def get_posts_surface(fonts):
+def get_posts_surface(fonts, icons):
     with open("lib/temp/recent_posts.json", "r") as f:
         data = json.load(f)
 
@@ -85,9 +90,15 @@ def get_posts_surface(fonts):
             image = pygame.image.load(image_path)
             surface.blit(pygame.transform.scale(image, (390, 166)), (0, 0))
         temp_surf.set_colorkey((0, 0, 0))
-        author_surf = fonts[14].render(f"Posted by - {author}", False, text_color)
+        author_surf = fonts[14].render(f"Posted by", False, text_color)
         surface.blit(author_surf, (4, 170 + fonts[14].get_height() * 2 + 25))
         surface.blit(temp_surf, (4, 170))
+        author_icon = "subvius" if author == "Артур" else "artur_huzhin" if author == 'Артур Хужин' else "elisha"
+        # author_icon = "subvius"
+        surface.blit(pygame.transform.scale(icons[author_icon], (16, 16)),
+                     (4 + author_surf.get_width() + 4, 170 + fonts[14].get_height() * 2 + 23))
+        surface.blit(fonts[14].render(author.capitalize(), False, text_color),
+                     (4 + author_surf.get_width() + 24, 170 + fonts[14].get_height() * 2 + 25))
 
         pygame.draw.rect(surface, (36, 114, 206), pygame.Rect(300, 170 + fonts[14].get_height() * 2 + 18, 80, 30))
         surface.blit(fonts[14].render("Read more", False, "white"), (300 + 4, 170 + fonts[14].get_height() * 2 + 26))
