@@ -13,6 +13,7 @@ def get_player_data():
     player = request.args.get("player")
     create = request.args.get("create")
     stats = request.args.get("stats")
+    password = request.args.get("password")
     method = request.method
     response = {
         "success": False,
@@ -26,9 +27,10 @@ def get_player_data():
                 if player_data is not None:
                     response.update({"player": player_data})
                     response.update({"success": True})
-                elif create is not None and create:
+                elif create is not None and create and password is not None:
                     player_data = {
                         "id": uuid.uuid4().__str__(),
+                        "password": password,
                         'nickname': player,
                         "first_login": datetime.datetime.now().timestamp(),
                         "last_logout": datetime.datetime.now().timestamp(),
@@ -55,7 +57,7 @@ def get_player_data():
                 keys = list(player_update.keys())
                 if stats is not None and stats:
                     for key in keys:
-                        data[player]['stats'].update({key: player_update.get(key)})
+                        data[player]['stats'].update({key: data[player]['stats'].get(key, 0) + player_update.get(key)})
                 else:
                     for key in keys:
                         data[player].update({key: player_update.get(key)})

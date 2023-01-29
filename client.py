@@ -15,6 +15,7 @@ from lib.functions.start import get_maps, get_images, get_posts_surface
 from lib.models.player import Player
 from lib.models.screen import Screen
 from lib.functions.movement import move
+from lib.models.text_input import InputBox
 from lib.models.touchable_opacity import TouchableOpacity
 from lib.storage.constants import Constants
 from lib.models.buttons import Button
@@ -44,7 +45,6 @@ NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
 ADDR = (SERVER, PORT)  # server address
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(ADDR)
 
 db_connection = sqlite3.connect("lib/storage/database.db")
 db_cur = db_connection.cursor()
@@ -64,26 +64,104 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
-PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1, f"Subvius-{random.randint(1, 10)}")
 SCREEN = Screen()
 CONSTANTS = Constants()
-client.send(pickle.dumps(["id-update", PLAYER]))
-
-running = True
 clock = pygame.time.Clock()
-player_id = PLAYER.nickname
-players: dict[str, Player] = {}
-players.update({player_id: PLAYER})
 
 moving_left = moving_right = False
 
 lobby_map, game_map, blocks_data = get_maps()
 images, icons, mobs_images = get_images(blocks_data)
+session_stats = {}
+PLAYER = None
 
-session_stats = api.get_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True").get("stats", {})
-session_stats.update({"play_time": datetime.datetime.now()})
-api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
-              {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
+
+def log_in_screen():
+    on_screen = True
+    pygame.display.set_caption("Launcher - Login")
+    width = 1280
+    height = 787
+    buttons = [
+        Button("Log in", 125, 25, CONSTANTS.launch_color, "white", width // 2 - 125 // 2, height // 2 - 15,
+               CONSTANTS.launch_color_hovered, 0, lighting=True),
+    ]
+    global screen
+    login_text = fonts[18].render("Login", False, "white")
+    username_input = InputBox(width // 2 - 100, 250, 200, fonts[16].get_height() + 10, fonts[16], "white", "gray",
+                              False, fonts[13], True)
+    password_input = InputBox(width // 2 - 100, 280, 200, fonts[16].get_height() + 10, fonts[16], "white", "gray", True,
+                              fonts[13], True, min_length=8)
+    input_boxes = [username_input, password_input]
+    while on_screen:
+        screen.fill((20, 20, 20))
+
+        event_list = pygame.event.get()
+        for event in event_list:
+            if event.type == QUIT:
+                pygame.quit()
+                exit(0)
+            for box in input_boxes:
+                box.handle_event(event)
+            if event.type == MOUSEMOTION:
+                pos = event.pos
+                SCREEN.set_mouse_pos(pos)
+                for btn in buttons:
+                    btn.on_mouse_motion(*pos)
+
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                btn = None
+                for button in buttons:
+                    res = button.on_mouse_click(*pos)
+                    if res:
+                        btn = button
+                        break
+                if btn is not None:
+                    if btn.id == 0:
+                        if len(username_input.text) < 5 or len(password_input.text) < 8:
+                            if len(username_input.text) < 5:
+                                username_input.color = (232, 101, 80)
+
+                            if len(password_input.text) < 8:
+                                password_input.color = (232, 101, 80)
+
+                            continue
+                        else:
+                            global PLAYER, session_stats, db_user, db_cur, db_connection
+                            PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+                                            username_input.text.strip())
+                            session_stats = api.get_data(
+                                CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
+                                                    f"password={password_input.text}").get(
+                                "stats", {})
+                            session_stats.update({"play_time": datetime.datetime.now()})
+                            if db_user is None:
+                                db_cur.execute(
+                                    f"INSERT INTO user(id, username, password, logged_in) VALUES(0, '{PLAYER.nickname}',"
+                                    f" '{password_input.text.strip()}', 1)")
+                                db_connection.commit()
+                                db_user = (
+                                    0, PLAYER.nickname, password_input.text.strip(), 1
+                                )
+
+                        on_screen = False
+                        pygame.display.quit()
+                        pygame.display.init()
+                        screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
+                        break
+                    elif btn.id == 1:
+                        return start_screen()
+
+        for btn in buttons:
+            btn.render(screen, fonts[14])
+
+        for box in input_boxes:
+            box.update()
+            box.draw(screen)
+        screen.blit(login_text, (width // 2 - login_text.get_width() // 2, 150))
+
+        pygame.display.flip()
+        clock.tick(60)
 
 
 def start_screen():
@@ -128,6 +206,17 @@ def start_screen():
                         break
                 if btn is not None:
                     if btn.id == 0:
+                        if db_user is None or not db_user[3]:
+                            return log_in_screen()
+                        else:
+                            global PLAYER, session_stats
+                            PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+                                            db_user[1])
+                            session_stats = api.get_data(
+                                CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
+                                                    f"password={db_user[2]}").get(
+                                "stats", {})
+                            session_stats.update({"play_time": datetime.datetime.now()})
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -162,6 +251,17 @@ def start_screen():
 
 
 start_screen()
+
+client.connect(ADDR)
+client.send(pickle.dumps(["id-update", PLAYER]))
+
+running = True
+player_id = PLAYER.nickname
+players: dict[str, Player] = {}
+players.update({player_id: PLAYER})
+
+api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
+              {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
 
 
 def main_screen():
@@ -221,6 +321,8 @@ def main_screen():
 
 
 main_screen()
+
+print(PLAYER.nickname)
 
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
