@@ -73,7 +73,7 @@ moving_left = moving_right = False
 lobby_map, game_map, blocks_data = get_maps()
 images, icons, mobs_images = get_images(blocks_data)
 session_stats = {}
-PLAYER = None
+PLAYER: Player = None
 
 
 def log_in_screen():
@@ -277,6 +277,9 @@ players.update({player_id: PLAYER})
 api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
               {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
 
+ENTITIES_UPDATE_DELAY = 300
+last_entities_update = pygame.time.get_ticks()
+
 
 def main_screen():
     on_screen = True
@@ -337,6 +340,9 @@ def main_screen():
 main_screen()
 
 print(PLAYER.nickname)
+sheet_path = "lib/assets/animations/Entities/player/"
+PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
+PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
 
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
@@ -375,6 +381,11 @@ while running:
                     moving_left = False
                 elif event.key == K_RIGHT:
                     moving_right = False
+    current_time = pygame.time.get_ticks()
+    if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
+        PLAYER.update_frame()
+        last_entities_update = current_time
+    PLAYER.set_size(28, 60)
 
     screen.fill(CONSTANTS.sky)
     screen.blit(pygame.transform.scale(icons['Ocean_background_6'], SIZE), (0, 0))
@@ -402,10 +413,19 @@ while running:
                     colliding_objects.append(block_rect)
 
     movement = [0, 0]
+    if moving_right or moving_left:
+        if PLAYER.condition != 'walk':
+            PLAYER.change_condition('walk')
+    else:
+        if PLAYER.condition != 'idle':
+            PLAYER.change_condition()
     if moving_right:
         movement[0] += 2
+        PLAYER.moving_direction = 'right'
     if moving_left:
         movement[0] -= 2
+        PLAYER.moving_direction = 'left'
+
     movement[1] += PLAYER.vertical_momentum
     PLAYER.vertical_momentum = PLAYER.vertical_momentum + 0.5 if PLAYER.vertical_momentum + 0.5 <= 3 else 3
 
@@ -417,10 +437,11 @@ while running:
 
     for key in players:
         player = players[key]
-        pygame.draw.rect(screen, "white", player.rect)
+        # pygame.draw.rect(screen, "white", player.rect)
+        player.draw(screen, (0, 0))
 
     pygame.display.flip()
 
     clock.tick(60)
     if list(players.keys()).count(player_id) > 0:
-        client.send(pickle.dumps(["player-update", player_id, PLAYER]))
+        client.send(pickle.dumps(["player-update", player_id, PLAYER.server_data()]))

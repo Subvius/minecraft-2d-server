@@ -4,15 +4,17 @@ import pygame
 class Entity:
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int,
                  images_path: str = "",
-                 entity_type: str = "Player"):
+                 entity_type: str = "player"):
         self.rect = pygame.Rect(*pos, *size)
         self.hp = hp
         self.max_hp = max_hp
         self.damage = damage
+        self.image = None
         self.images_path = images_path
         self.type = entity_type
         self.frame = 0
         self.condition = 'idle'
+        self.moving_direction = "right"
         self.images = dict()
         self.width, self.height = size
         self.dead = False
@@ -21,15 +23,26 @@ class Entity:
         if self.images_path != "":
             self.prepare_images()
 
-    def cut_sheet(self, sheet, columns, rows, animation_type):
-        self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
-                                sheet.get_height() // rows)
+    def cut_sheet(self, sheet, columns, rows, animation_type, frame_width, step):
         for j in range(rows):
             for i in range(columns):
-                frame_location = (self.width * i + 29 * i, (self.width - 2) * j)
+                frame_location = (frame_width * i + step * i, 0)
                 image = sheet.subsurface(pygame.Rect(
-                    frame_location, (self.width, 70)))
+                    frame_location, (frame_width, sheet.get_height() // rows)))
+                if animation_type not in list(self.images.keys()):
+                    self.images.update({animation_type: []})
                 self.images[animation_type].append(image)
+
+    def update_frame(self):
+        self.frame = (self.frame + 1) % len(self.images[self.condition])
+        self.image = self.images[self.condition][self.frame]
+
+    def change_condition(self, condition='idle'):
+        self.condition = condition
+        self.frame = 0
+
+    def set_size(self, w, h):
+        self.rect.width, self.rect.height = w, h
 
     def prepare_images(self):
         pass
@@ -53,4 +66,11 @@ class Entity:
             self.hp = self.max_hp
 
     def draw(self, surface: pygame.Surface, scroll: tuple[int, int]):
-        pass
+        surface.blit(
+            pygame.transform.flip(pygame.transform.scale(self.image, self.rect.size), self.moving_direction == 'left',
+                                  False),
+            (self.rect.x - scroll[0], self.rect.y - scroll[1]))
+
+    def server_data(self):
+        return Entity(self.rect.size, (self.rect.x, self.rect.y), self.hp, self.max_hp, self.damage, self.images_path,
+                      self.type)

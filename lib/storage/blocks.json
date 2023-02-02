@@ -198,6 +198,16 @@
     "diggable": 1,
     "material": "dirt"
   },
+  "219": {
+    "item_id": "white_shulker_box",
+    "image_root": "white_shulker_box.png",
+    "numerical_id": "219",
+    "stackable": 0,
+    "max_stack_size": 1,
+    "hardness": 2.5,
+    "diggable": 1,
+    "material": "rock"
+  },
   "81": {
     "item_id": "cactus",
     "image_root": "cactus.png",
