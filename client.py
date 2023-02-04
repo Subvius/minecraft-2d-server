@@ -1,4 +1,5 @@
 import datetime
+import json
 import pickle
 import random
 import select
@@ -10,6 +11,7 @@ import pygame
 from pygame.event import Event
 from pygame.locals import *
 
+from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
 from lib.functions.start import get_maps, get_images, get_posts_surface
 from lib.models.player import Player
@@ -21,6 +23,8 @@ from lib.storage.constants import Constants
 from lib.models.buttons import Button
 import lib.functions.api as api
 from lib.functions.telegram import get_recent_posts
+from lib.functions.drawing import *
+from lib.models.npc import Npc
 
 pygame.init()
 pygame.font.init()
@@ -343,6 +347,20 @@ print(PLAYER.nickname)
 sheet_path = "lib/assets/animations/Entities/player/"
 PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
 PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
+MIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+           "mira", )
+GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+              "greeter")
+
+npcs = [
+    MIRA, GREETER
+]
+
+with open("lib/storage/story_characters.json", "r") as f:
+    data: dict = json.load(f)
+    for key in list(data.keys()):
+        eval(f"{key.upper()}.set_coord({data[key].get('x')}, {data[key].get('y')})")
+        eval(f"{key.upper()}.set_dimension('{data[key].get('dimension')}')")
 
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
@@ -375,15 +393,40 @@ while running:
                 elif event.key == K_UP:
                     if PLAYER.air_timer < 6:
                         PLAYER.vertical_momentum -= 10
-
             if event.type == KEYUP:
                 if event.key == K_LEFT:
                     moving_left = False
                 elif event.key == K_RIGHT:
                     moving_right = False
+
+        if event.type == KEYDOWN:
+            if event.key == K_e:
+                # if not SCREEN.show_dialog:
+                #     SCREEN.start_dialog()
+                # else:
+                #     SCREEN.close_dialog()
+                pass
+            elif event.key == K_ESCAPE:
+                if SCREEN.show_dialog:
+                    SCREEN.close_dialog()
+        if event.type == MOUSEMOTION:
+            SCREEN.set_mouse_pos(event.pos)
+        if event.type == MOUSEBUTTONDOWN:
+            SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle", True)
+            for npc in npcs:
+                stop = npc.on_click(event.pos, event.button, SCREEN, PLAYER, (0, 0))
+                if stop:
+                    moving_left = moving_right = False
+
+        if event.type == MOUSEBUTTONUP:
+            SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle",
+                                   False)
+
     current_time = pygame.time.get_ticks()
     if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
         PLAYER.update_frame()
+        for npc in npcs:
+            npc.update_frame()
         last_entities_update = current_time
     PLAYER.set_size(28, 60)
 
@@ -430,6 +473,8 @@ while running:
     PLAYER.vertical_momentum = PLAYER.vertical_momentum + 0.5 if PLAYER.vertical_momentum + 0.5 <= 3 else 3
 
     PLAYER.rect, collisions = move(PLAYER.rect, movement, colliding_objects)
+
+    move_npc(npcs, colliding_objects, move)
     if not collisions['bottom']:
         PLAYER.air_timer += 1
     else:
@@ -439,6 +484,16 @@ while running:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
         player.draw(screen, (0, 0))
+
+    for npc in npcs:
+        if SCREEN.screen == npc.dimension:
+            npc.draw(screen, (0, 0))
+
+    if SCREEN.show_dialog:
+        img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))
+        screen.blit(img,
+                    (screen.get_width() // 2 - img.get_width() // 2, screen.get_height() // 2 - img.get_height() // 2))
+        draw_dialog_window(screen, SCREEN, fonts[24], PLAYER)
 
     pygame.display.flip()
 

@@ -4,8 +4,8 @@ import pygame
 class Entity:
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int,
                  images_path: str = "",
-                 entity_type: str = "player"):
-        self.rect = pygame.Rect(*pos, *size)
+                 entity_type: str = "player", dimension='stormhold'):
+        self.rect: pygame.Rect = pygame.Rect(*pos, *size)
         self.hp = hp
         self.max_hp = max_hp
         self.damage = damage
@@ -14,12 +14,14 @@ class Entity:
         self.type = entity_type
         self.frame = 0
         self.condition = 'idle'
+        self.moving_left = self.moving_right = False
         self.moving_direction = "right"
         self.images = dict()
         self.width, self.height = size
         self.dead = False
         self.vertical_momentum = 0
         self.air_timer = 0
+        self.dimension = dimension
         if self.images_path != "":
             self.prepare_images()
 
@@ -49,6 +51,13 @@ class Entity:
 
     def move(self, possible_colliders: list[pygame.Rect]):
         pass
+
+    def set_dimension(self, dimension):
+        self.dimension = dimension
+
+    @staticmethod
+    def is_close(x, y, x0, y0, radius) -> bool:
+        return ((x - x0) ** 2 + (y - y0) ** 2) <= (radius * 32) ** 2
 
     def set_coord(self, x: int, y: int):
         self.rect.x, self.rect.y = x, y

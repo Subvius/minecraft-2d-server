@@ -1,0 +1,68 @@
+{
+  "phase1": {
+    "_comment": "First phase, turn on player spawn in the story world",
+    "actions": [
+      {
+        "title": {
+          "show": true,
+          "text": "Welcome to the Stormhold",
+          "time": 3
+        }
+      },
+      {
+        "title": {
+          "show": false
+        }
+      },
+      {
+        "edit": {
+          "key": "Mira",
+          "field": "interact",
+          "value": {
+            "can": true,
+            "actions": [
+              {
+                "text": "Тебе снятся кошмары?",
+                "choices": {
+                  "1": {
+                    "text": "Да, есть такое"
+                  },
+                  "2": {
+                    "text": "Нет"
+                  }
+                }
+              },
+              {
+                "text": "Понятно. И как ты тут оказался?",
+                "choices": {
+                  "1": {
+                    "text": "Всмысле оказался, я тут живу вообще-то",
+                    "answer": "Ага, в пещере далеко от города",
+                    "choices": {
+                      "1": {
+                        "text": "Да, что здесь странного",
+                        "answer": "В этих краях куча нежити и прочих тварей, тебе ли не знать?",
+                        "choices": {
+                          "1": {
+                            "text": "...",
+                            "answer": "Ладно, я что-то засиделась, пойду пожалуй.",
+                            "end": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "2": {
+                    "text": "Кто ты такая и что здесь забыла?",
+                    "answer": "Прости, мне уже пора идти",
+                    "end": true
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

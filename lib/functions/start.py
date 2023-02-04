@@ -33,6 +33,9 @@ def get_images(blocks_data: dict):
     for file in os.listdir("lib/assets/items"):
         if file.endswith(".png"):
             images.update({file.split(".")[0]: pygame.image.load(f"lib/assets/items/{file}")})
+    for file in os.listdir("lib/assets/windows"):
+        if file.endswith(".png"):
+            images.update({file.split(".")[0]: pygame.image.load(f"lib/assets/windows/{file}")})
 
     for file in os.listdir("lib/assets/icons"):
         if file.endswith(".webp") or file.endswith(".png"):
