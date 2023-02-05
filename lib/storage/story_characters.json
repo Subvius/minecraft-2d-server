@@ -56,8 +56,8 @@
               "answer": "Да!",
               "action": "teleport",
               "details": {
-                "dimension": "Stormhold",
-                "coord": "100-100"
+                "dimension": "abyss",
+                "coord": "1000-700"
               }
             },
             "2": {
@@ -74,7 +74,7 @@
     "y": 800,
     "health": 20,
     "fraction": "smuggler",
-    "dimension": "stormhold",
+    "dimension": "abyss",
     "alive": true,
     "display_name": "Неизвестный",
     "interact": {

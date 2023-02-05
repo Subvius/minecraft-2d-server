@@ -3,17 +3,25 @@ import os
 
 import pygame
 from lib.functions.text import blit_text
+from lib.functions.map_actions import generate_chunks
 
 
 def get_maps():
-    with open("lib/storage/game_map.json", "r") as gmf:
-        game_map = json.load(gmf)
-
     with open("lib/storage/lobby_map.json", "r") as lmf:
         lobby_map = json.load(lmf)
 
     with open("lib/storage/blocks.json", "r") as bdf:
         blocks = json.load(bdf)
+
+    with open("lib/storage/game_map.json", "r") as gmf:
+        game_map = json.load(gmf)
+        if game_map == {} or game_map.get("map", None) is None:
+            game_map.update({"map": generate_chunks(blocks, 128, 125, 355, "overworld")})
+
+            gmf.close()
+            with open("lib/storage/game_map.json", "w") as f:
+                json.dump(game_map, f)
+
     return lobby_map, game_map, blocks
 
 

@@ -66,7 +66,7 @@ class Screen:
                     break
             self.high_lighted_choice = picked
 
-    def set_hold_button(self, button: str, value: bool):
+    def set_hold_button(self, button: str, value: bool, player):
         self.hold_buttons.update({button: value})
 
         if button == "left" and value:
@@ -84,6 +84,18 @@ class Screen:
                         self.reset_dialog_rects()
                     elif self.current_dialog.get("end", False):
                         self.close_dialog()
+                        print(answer)
+                        if answer.get("action", None) is not None:
+                            action = answer.get("action")
+                            details = answer.get("details", {})
+
+                            if action == "teleport":
+                                dimension = details.get("dimension", self.screen)
+                                if dimension != self.screen:
+                                    self.screen = dimension
+
+                                player.set_coord(*list(map(int, details.get("coord", "0-0").split("-"))))
+
                     else:
                         self.dialog_action = f"{int(self.dialog_action.split('-')[0]) + 1}"
                         self.current_dialog = self.dialog[int(self.dialog_action)]

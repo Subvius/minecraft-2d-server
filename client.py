@@ -347,14 +347,16 @@ print(PLAYER.nickname)
 sheet_path = "lib/assets/animations/Entities/player/"
 PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
 PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
+
+
+def get_npc():
+    return [MIRA, GREETER]
+
+
 MIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
            "mira", )
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
-
-npcs = [
-    MIRA, GREETER
-]
 
 with open("lib/storage/story_characters.json", "r") as f:
     data: dict = json.load(f)
@@ -362,6 +364,8 @@ with open("lib/storage/story_characters.json", "r") as f:
         eval(f"{key.upper()}.set_coord({data[key].get('x')}, {data[key].get('y')})")
         eval(f"{key.upper()}.set_dimension('{data[key].get('dimension')}')")
 
+true_scroll = [0, 0]
+scroll = [0, 0]
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
 
@@ -412,20 +416,21 @@ while running:
         if event.type == MOUSEMOTION:
             SCREEN.set_mouse_pos(event.pos)
         if event.type == MOUSEBUTTONDOWN:
-            SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle", True)
-            for npc in npcs:
-                stop = npc.on_click(event.pos, event.button, SCREEN, PLAYER, (0, 0))
+            SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle", True,
+                                   PLAYER)
+            for npc in get_npc():
+                stop = npc.on_click(event.pos, event.button, SCREEN, PLAYER, scroll)
                 if stop:
                     moving_left = moving_right = False
 
         if event.type == MOUSEBUTTONUP:
             SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle",
-                                   False)
+                                   False, PLAYER)
 
     current_time = pygame.time.get_ticks()
     if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
         PLAYER.update_frame()
-        for npc in npcs:
+        for npc in get_npc():
             npc.update_frame()
         last_entities_update = current_time
     PLAYER.set_size(28, 60)
@@ -437,6 +442,22 @@ while running:
         possible_x = [i for i in range(WIDTH // BLOCK_SIZE + 2)]
         possible_y = [i for i in range(HEIGHT // BLOCK_SIZE + 1)]
         gm_map: dict = lobby_map.get("map")
+        scroll = [0, 0]
+    elif SCREEN.screen == 'abyss':
+        true_scroll[0] += (PLAYER.rect.x - true_scroll[0] - WIDTH // 2 - PLAYER.image.get_width() // 2) / 20
+        true_scroll[1] += (PLAYER.rect.y - true_scroll[1] - HEIGHT // 2 - PLAYER.image.get_height() // 2) / 20
+        scroll = true_scroll.copy()
+
+        scroll[0] = int(scroll[0])
+        scroll[1] = int(scroll[1])
+        gm_map: dict = game_map.get("map")
+
+        possible_x = [num if abs(PLAYER.rect.x - num * BLOCK_SIZE) <= WIDTH // 2 + (2 * BLOCK_SIZE) else 0 for num in
+                      range(len(gm_map[0]))]
+        possible_y = [num if abs(PLAYER.rect.y - num * BLOCK_SIZE) <= WIDTH // 2 else 0 for num in range(128)]
+
+        possible_x = list(filter((0).__ne__, possible_x))
+        possible_y = list(filter((0).__ne__, possible_y))
 
     for tile_y in possible_y:
         for tile_x in possible_x:
@@ -449,9 +470,10 @@ while running:
                 image = images[block_data["item_id"]]
 
                 screen.blit(pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE)),
-                            (tile_x * BLOCK_SIZE - BLOCK_SIZE, tile_y * BLOCK_SIZE))
+                            (tile_x * BLOCK_SIZE - scroll[0], tile_y * BLOCK_SIZE - scroll[1]))
                 if block_id not in NOT_COLLIDING_BLOCKS:
-                    block_rect = pygame.Rect(tile_x * BLOCK_SIZE - BLOCK_SIZE, tile_y * BLOCK_SIZE, BLOCK_SIZE,
+                    block_rect = pygame.Rect(tile_x * BLOCK_SIZE, tile_y * BLOCK_SIZE,
+                                             BLOCK_SIZE,
                                              BLOCK_SIZE)
                     colliding_objects.append(block_rect)
 
@@ -474,7 +496,7 @@ while running:
 
     PLAYER.rect, collisions = move(PLAYER.rect, movement, colliding_objects)
 
-    move_npc(npcs, colliding_objects, move)
+    move_npc(get_npc(), colliding_objects, move)
     if not collisions['bottom']:
         PLAYER.air_timer += 1
     else:
@@ -483,11 +505,11 @@ while running:
     for key in players:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
-        player.draw(screen, (0, 0))
+        player.draw(screen, scroll)
 
-    for npc in npcs:
+    for npc in get_npc():
         if SCREEN.screen == npc.dimension:
-            npc.draw(screen, (0, 0))
+            npc.draw(screen, scroll)
 
     if SCREEN.show_dialog:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))
