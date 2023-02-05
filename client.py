@@ -11,6 +11,7 @@ import pygame
 from pygame.event import Event
 from pygame.locals import *
 
+from lib.functions.blocks import get_block_from_coords
 from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
 from lib.functions.start import get_maps, get_images, get_posts_surface
@@ -436,7 +437,10 @@ while running:
     PLAYER.set_size(28, 60)
 
     screen.fill(CONSTANTS.sky)
-    screen.blit(pygame.transform.scale(icons['Ocean_background_6'], SIZE), (0, 0))
+    if SCREEN.screen == "lobby":
+        screen.blit(pygame.transform.scale(icons['Ocean_background_6'], SIZE), (0, 0))
+    else:
+        screen.fill((17, 36, 42))
     colliding_objects = list()
     if SCREEN.screen == 'lobby':
         possible_x = [i for i in range(WIDTH // BLOCK_SIZE + 2)]
@@ -465,9 +469,22 @@ while running:
             block_id = block.get("block_id", "0")
 
             if block_id != "0":
-                block_data = blocks_data[block_id]
+                if block_id == "1" and get_block_from_coords(tile_y - 1, tile_x, gm_map).get("block_id") != "0":
+                    gm_map[tile_y][tile_x] = {"block_id": "2"}
+                    block_id = "2"
+                elif block_id == "2" and get_block_from_coords(tile_y - 1, tile_x, gm_map).get(
+                        "block_id") == "0" and (
+                        get_block_from_coords(tile_y, tile_x - 1, gm_map).get(
+                            "block_id") == "1" or
+                        get_block_from_coords(tile_y, tile_x + 1, gm_map).get("block_id") == "1"):
+                    if random.randint(0, 5000) == 4:
+                        gm_map[tile_y][tile_x] = {"block_id": "1"}
+                        block_id = "1"
 
-                image = images[block_data["item_id"]]
+                block_data = blocks_data[block_id]
+                search = block_data["item_id"] if SCREEN.screen == 'lobby' else "abyss-" + block_data[
+                    "item_id"] if SCREEN.screen == "abyss" else "stone"
+                image = images.get(search, images.get(block_data['item_id']))
 
                 screen.blit(pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE)),
                             (tile_x * BLOCK_SIZE - scroll[0], tile_y * BLOCK_SIZE - scroll[1]))
@@ -506,6 +523,15 @@ while running:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
         player.draw(screen, scroll)
+        nick_surf = fonts[12].render(player.nickname, False, "gray" if player.nickname != PLAYER.nickname else "white")
+        nick_rect = pygame.Rect(player.rect.x - player.rect.w // 4 - nick_surf.get_width() // 4 - scroll[0],
+                                player.rect.y - nick_surf.get_height() - 5 - scroll[1],
+                                player.rect.w + nick_surf.get_width(),
+                                nick_surf.get_height() + 5)
+        draw_rect_alpha(screen, (17, 36, 42, 127),
+                        nick_rect)
+        screen.blit(nick_surf,
+                    (nick_rect.centerx - nick_surf.get_width() // 2, nick_rect.y + 3))
 
     for npc in get_npc():
         if SCREEN.screen == npc.dimension:

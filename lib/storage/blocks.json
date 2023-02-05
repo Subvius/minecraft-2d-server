@@ -41,7 +41,7 @@
   },
   "56": {
     "item_id": "diamond_ore",
-    "image_root": "diamond_ore.jpeg",
+    "image_root": "diamond_ore.png",
     "numerical_id": "56",
     "stackable": 1,
     "max_stack_size": 64,
@@ -51,7 +51,7 @@
   },
   "14": {
     "item_id": "gold_ore",
-    "image_root": "gold_ore.jpeg",
+    "image_root": "gold_ore.png",
     "numerical_id": "14",
     "stackable": 1,
     "max_stack_size": 64,
@@ -61,7 +61,7 @@
   },
   "15": {
     "item_id": "iron_ore",
-    "image_root": "iron_ore.jpeg",
+    "image_root": "iron_ore.png",
     "numerical_id": "15",
     "stackable": 1,
     "max_stack_size": 64,
@@ -79,6 +79,26 @@
     "diggable": 1,
     "material": "rock"
   },
+  "69": {
+    "item_id": "aberythe_ore",
+    "image_root": "aberythe_ore.png",
+    "numerical_id": "69",
+    "stackable": 1,
+    "max_stack_size": 64,
+    "hardness": 3.5,
+    "diggable": 1,
+    "material": "rock"
+  },
+  "68": {
+    "item_id": "aboranys_ore",
+    "image_root": "aboranys_ore.png",
+    "numerical_id": "68",
+    "stackable": 1,
+    "max_stack_size": 64,
+    "hardness": 3.5,
+    "diggable": 1,
+    "material": "rock"
+  },
   "21": {
     "item_id": "lapis_lazuli_ore",
     "image_root": "lapis_lazuli_ore.jpeg",
@@ -91,7 +111,7 @@
   },
   "73": {
     "item_id": "redstone_ore",
-    "image_root": "redstone_ore.jpeg",
+    "image_root": "redstone_ore.png",
     "numerical_id": "73",
     "stackable": 1,
     "max_stack_size": 64,
@@ -101,7 +121,7 @@
   },
   "129": {
     "item_id": "emerald_ore",
-    "image_root": "emerald_ore.jpeg",
+    "image_root": "emerald_ore.png",
     "numerical_id": "129",
     "stackable": 1,
     "max_stack_size": 64,

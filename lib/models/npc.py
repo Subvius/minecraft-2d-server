@@ -33,14 +33,11 @@ class Npc(Entity):
         if pos[0] - (self.rect.x - scroll[0]) < self.rect.width and pos[1] - (
                 self.rect.y - scroll[1]) < self.rect.height and self.dimension == screen.screen:
             # if self.rect.collidepoint(*pos) and self.dimension == screen.screen:
-            print('collide')
             if button == 3:
                 if not screen.show_dialog and self.is_close(pos[0] + scroll[0], pos[1] + scroll[1], player.rect.x,
                                                             player.rect.y, 4):
                     with open("lib/storage/story_characters.json", "r") as f:
                         data: dict = json.load(f)
-
-                    print(self.name, self.skin_name)
 
                     if data[self.name].get("interact", {}).get("can", False):
                         screen.dialog_interlocutor = self.name

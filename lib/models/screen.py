@@ -84,7 +84,6 @@ class Screen:
                         self.reset_dialog_rects()
                     elif self.current_dialog.get("end", False):
                         self.close_dialog()
-                        print(answer)
                         if answer.get("action", None) is not None:
                             action = answer.get("action")
                             details = answer.get("details", {})

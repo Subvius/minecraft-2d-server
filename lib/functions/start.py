@@ -31,7 +31,10 @@ def get_images(blocks_data: dict):
     mob_images = dict()
 
     for block in list(blocks_data.values()):
-        images.update({block['item_id']: pygame.image.load(f"lib/assets/{block['image_root']}")})
+        if os.path.exists(f"lib/assets/abyss/{block['image_root']}"):
+            images.update({"abyss-" + block['item_id']: pygame.image.load(f"lib/assets/abyss/{block['image_root']}")})
+        if os.path.exists(f"lib/assets/{block['image_root']}"):
+            images.update({block['item_id']: pygame.image.load(f"lib/assets/{block['image_root']}")})
     images.update({"main_screen_bg": pygame.image.load("lib/assets/main_screen_bg.png")})
     images.update({"launcher_background": pygame.image.load("lib/assets/launcher_background.jpg")})
     images.update({"world_select_bg": pygame.image.load("lib/assets/world_select_bg.jpg")})

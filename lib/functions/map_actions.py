@@ -125,13 +125,15 @@ def generate_chunks(blocks_data, y_max, quantity_of_chunks, seed, dimension):
 
 def ore_generator(y, y_max, dimension='overworld') -> str:
     if dimension == 'overworld':
-        possible_blocks = [16]
+        possible_blocks = [69]
         if y <= y_max // 2:
             possible_blocks.append(15)
         if y <= y_max // 4:
             possible_blocks.append(14)
             possible_blocks.append(21)
             possible_blocks.append(129)
+            possible_blocks.append(68)
+
         if y <= y_max // 8:
             possible_blocks.append(56)
             possible_blocks.append(73)
