@@ -75,8 +75,14 @@ class Entity:
             self.hp = self.max_hp
 
     def draw(self, surface: pygame.Surface, scroll: tuple[int, int]):
+        image = self.image
+        if image is None:
+            image = self.images.get("idle", [None])[0]
+            if image is None:
+                image = pygame.Surface((self.rect.w, self.rect.h))
+                pygame.draw.rect(image, "white", self.rect)
         surface.blit(
-            pygame.transform.flip(pygame.transform.scale(self.image, self.rect.size), self.moving_direction == 'left',
+            pygame.transform.flip(pygame.transform.scale(image, self.rect.size), self.moving_direction == 'left',
                                   False),
             (self.rect.x - scroll[0], self.rect.y - scroll[1]))
 
