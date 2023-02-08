@@ -59,7 +59,7 @@ def handle_client(conn, addr):
 
         except EOFError:
             print("run out of time")
-            # connected = False
+            connected = False
 
         except OSError:
             print("OSError")

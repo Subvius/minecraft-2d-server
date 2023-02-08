@@ -36,7 +36,7 @@ class Screen:
         self.show_dialog = True
         self.paused = True
         self.dialog_action = '0'
-        with open("lib/storage/story_characters.json", "r") as f:
+        with open("lib/storage/story_characters.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
         self.dialog = data[self.dialog_interlocutor]["interact"]['actions']

@@ -35,9 +35,11 @@ class Entity:
                     self.images.update({animation_type: []})
                 self.images[animation_type].append(image)
 
-    def update_frame(self):
-        self.frame = (self.frame + 1) % len(self.images[self.condition])
-        self.image = self.images[self.condition][self.frame]
+    def update_frame(self, images=None):
+        if images is None:
+            images = self.images
+        self.frame = (self.frame + 1) % len(images[self.condition])
+        self.image = images[self.condition][self.frame]
 
     def change_condition(self, condition='idle'):
         self.condition = condition
@@ -74,13 +76,15 @@ class Entity:
         if self.hp > self.max_hp:
             self.hp = self.max_hp
 
-    def draw(self, surface: pygame.Surface, scroll: tuple[int, int]):
-        image = self.image
-        if image is None:
-            image = self.images.get("idle", [None])[0]
-            if image is None:
-                image = pygame.Surface((self.rect.w, self.rect.h))
-                pygame.draw.rect(image, "white", self.rect)
+    def draw(self, surface: pygame.Surface, scroll: tuple[int, int], images=None):
+        if images is None:
+            images = self.images
+        try:
+            image = images[self.condition][self.frame]
+        except KeyError:
+
+            image = pygame.Surface((self.rect.w, self.rect.h))
+            pygame.draw.rect(image, "white", self.rect)
         surface.blit(
             pygame.transform.flip(pygame.transform.scale(image, self.rect.size), self.moving_direction == 'left',
                                   False),

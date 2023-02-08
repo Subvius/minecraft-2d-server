@@ -122,3 +122,16 @@ def get_posts_surface(fonts, icons):
         res.append(surface)
 
     return res, data
+
+
+def load_player_images(sheet_path):
+    images = dict()
+    for file in os.listdir(sheet_path):
+        if file.endswith(".png") and file.count("-"):
+            anim_type = file.split("-")[0]
+            if not list(images.keys()).count(anim_type):
+                images.update({anim_type: []})
+
+            images[anim_type].append(pygame.image.load(os.path.join(sheet_path, file)))
+
+    return images

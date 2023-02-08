@@ -14,7 +14,7 @@ from pygame.locals import *
 from lib.functions.blocks import get_block_from_coords
 from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
-from lib.functions.start import get_maps, get_images, get_posts_surface
+from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
 from lib.models.player import Player
 from lib.models.screen import Screen
 from lib.functions.movement import move
@@ -346,8 +346,9 @@ main_screen()
 
 print(PLAYER.nickname)
 sheet_path = "lib/assets/animations/Entities/player/"
-PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
-PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
+# PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
+# PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
+PLAYER_IMAGES = load_player_images(sheet_path)
 
 
 def get_npc():
@@ -433,7 +434,7 @@ while running:
 
     current_time = pygame.time.get_ticks()
     if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
-        PLAYER.update_frame()
+        PLAYER.update_frame(PLAYER_IMAGES)
         for npc in get_npc():
             npc.update_frame()
         last_entities_update = current_time
@@ -525,7 +526,7 @@ while running:
     for key in players:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
-        player.draw(screen, scroll)
+        player.draw(screen, scroll, PLAYER_IMAGES)
         nick_surf = fonts[12].render(player.nickname, False, "gray" if player.nickname != PLAYER.nickname else "white")
         nick_rect = pygame.Rect(player.rect.x - player.rect.w // 4 - nick_surf.get_width() // 4 - scroll[0],
                                 player.rect.y - nick_surf.get_height() - 5 - scroll[1],
