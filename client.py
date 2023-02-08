@@ -153,7 +153,7 @@ def log_in_screen():
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
-                        screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
+                        screen = pygame.display.set_mode(SIZE)
                         break
                     elif btn.id == 1:
                         return start_screen()
@@ -232,7 +232,7 @@ def start_screen():
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
-                        screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
+                        screen = pygame.display.set_mode(SIZE)
                         break
                     elif btn.id == 1:
                         on_screen = False
@@ -359,7 +359,7 @@ MIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
 
-with open("lib/storage/story_characters.json", "r") as f:
+with open("lib/storage/story_characters.json", "r", encoding="utf-8") as f:
     data: dict = json.load(f)
     for key in list(data.keys()):
         eval(f"{key.upper()}.set_coord({data[key].get('x')}, {data[key].get('y')})")
@@ -371,12 +371,15 @@ while running:
     ins, outs, ex = select.select([client], [], [], 0)
 
     for inm in ins:
-        event = pickle.loads(inm.recv(2048))
-        if event[0] == 'id-update':
-            player_id = event[1]
+        try:
+            event = pickle.loads(inm.recv(4096))
+            if event[0] == 'id-update':
+                player_id = event[1]
 
-        elif event[0] == 'players-update' and event[1] != player_id:
-            players.update({event[1]: event[2]})
+            elif event[0] == 'players-update' and event[1] != player_id:
+                players.update({event[1]: event[2]})
+        except pickle.UnpicklingError:
+            print("[CLIENT] неверные данные")
 
     if random.randint(0, 100) == 9:
         update_data = ["number!", 9]

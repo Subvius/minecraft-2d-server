@@ -36,7 +36,7 @@ class Npc(Entity):
             if button == 3:
                 if not screen.show_dialog and self.is_close(pos[0] + scroll[0], pos[1] + scroll[1], player.rect.x,
                                                             player.rect.y, 4):
-                    with open("lib/storage/story_characters.json", "r") as f:
+                    with open("lib/storage/story_characters.json", "r", encoding="utf-8") as f:
                         data: dict = json.load(f)
 
                     if data[self.name].get("interact", {}).get("can", False):

@@ -35,7 +35,7 @@ def handle_client(conn, addr):
     PLAYER_ID = ""
     while connected:
         try:
-            msg = pickle.loads(conn.recv(2048))
+            msg = pickle.loads(conn.recv(4096))
             if msg == DISCONNECT_MESSAGE:
                 connected = False
 
@@ -51,15 +51,15 @@ def handle_client(conn, addr):
 
                 players_update()
 
-            print(f"[{addr}] {msg}")
         except pickle.UnpicklingError:
             print("неверные данные")
         except ConnectionResetError:
+            print("connection reset error")
             connected = False
 
         except EOFError:
             print("run out of time")
-            connected = False
+            # connected = False
 
         except OSError:
             print("OSError")
