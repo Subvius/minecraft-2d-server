@@ -76,7 +76,7 @@ class Entity:
         if self.hp > self.max_hp:
             self.hp = self.max_hp
 
-    def draw(self, surface: pygame.Surface, scroll: tuple[int, int], images=None):
+    def draw(self, surface: pygame.Surface, scroll: list[int, int], images=None):
         if images is None:
             images = self.images
         try:

@@ -379,6 +379,9 @@ while running:
 
             elif event[0] == 'players-update' and event[1] != player_id:
                 players.update({event[1]: event[2]})
+            elif event[0] == 'player-disconnect':
+                players = {key: val for key, val in players.items() if key != event[1]}
+
         except pickle.UnpicklingError:
             print("[CLIENT] неверные данные")
 
@@ -449,7 +452,7 @@ while running:
     if SCREEN.screen == 'lobby':
         possible_x = [i for i in range(WIDTH // BLOCK_SIZE + 2)]
         possible_y = [i for i in range(HEIGHT // BLOCK_SIZE + 1)]
-        gm_map: dict = lobby_map.get("map")
+        gm_map: list = lobby_map.get("map")
         scroll = [0, 0]
     elif SCREEN.screen == 'abyss':
         true_scroll[0] += (PLAYER.rect.x - true_scroll[0] - WIDTH // 2 - PLAYER.image.get_width() // 2) / 20
@@ -458,7 +461,7 @@ while running:
 
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
-        gm_map: dict = game_map.get("map")
+        gm_map: list = game_map.get("map")
 
         possible_x = [num if abs(PLAYER.rect.x - num * BLOCK_SIZE) <= WIDTH // 2 + (2 * BLOCK_SIZE) else 0 for num in
                       range(len(gm_map[0]))]
@@ -526,16 +529,18 @@ while running:
     for key in players:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
-        player.draw(screen, scroll, PLAYER_IMAGES)
-        nick_surf = fonts[12].render(player.nickname, False, "gray" if player.nickname != PLAYER.nickname else "white")
-        nick_rect = pygame.Rect(player.rect.x - player.rect.w // 4 - nick_surf.get_width() // 4 - scroll[0],
-                                player.rect.y - nick_surf.get_height() - 5 - scroll[1],
-                                player.rect.w + nick_surf.get_width(),
-                                nick_surf.get_height() + 5)
-        draw_rect_alpha(screen, (17, 36, 42, 127),
-                        nick_rect)
-        screen.blit(nick_surf,
-                    (nick_rect.centerx - nick_surf.get_width() // 2, nick_rect.y + 3))
+        if player.dimension == PLAYER.dimension:
+            player.draw(screen, scroll, PLAYER_IMAGES)
+            nick_surf = fonts[12].render(player.nickname, False,
+                                         "gray" if player.nickname != PLAYER.nickname else "white")
+            nick_rect = pygame.Rect(player.rect.x - player.rect.w // 4 - nick_surf.get_width() // 4 - scroll[0],
+                                    player.rect.y - nick_surf.get_height() - 5 - scroll[1],
+                                    player.rect.w + nick_surf.get_width(),
+                                    nick_surf.get_height() + 5)
+            draw_rect_alpha(screen, (17, 36, 42, 127),
+                            nick_rect)
+            screen.blit(nick_surf,
+                        (nick_rect.centerx - nick_surf.get_width() // 2, nick_rect.y + 3))
 
     for npc in get_npc():
         if SCREEN.screen == npc.dimension:

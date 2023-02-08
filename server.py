@@ -27,6 +27,13 @@ def players_update():
                 con.send(pickle.dumps(update_data))
 
 
+def disconnect(player_id):
+    for el in connections:
+        _, con = el, connections.get(el)
+        update_data = ["player-disconnect", player_id]
+        con.send(pickle.dumps(update_data))
+
+
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
 
@@ -67,6 +74,7 @@ def handle_client(conn, addr):
     connections = {key: val for key, val in connections.items() if val != conn}
     players.pop(PLAYER_ID)
     conn.close()
+    disconnect(PLAYER_ID)
     print('connection closed')
 
 
