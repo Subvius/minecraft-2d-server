@@ -1,3 +1,5 @@
+import asyncio
+import json
 import pickle
 import socket
 import threading
@@ -16,6 +18,9 @@ server.bind(ADDR)
 players: dict[str, Player] = dict()
 connections = dict()
 
+with open("lib/storage/game_map.json", "r", encoding='utf-8') as f:
+    game_map = json.load(f).get("map")
+
 
 def players_update():
     for el in connections:
@@ -31,6 +36,13 @@ def disconnect(player_id):
     for el in connections:
         _, con = el, connections.get(el)
         update_data = ["player-disconnect", player_id]
+        con.send(pickle.dumps(update_data))
+
+
+def map_update(pos, value):
+    for el in connections:
+        _, con = el, connections.get(el)
+        update_data = ["block-update", pos, value]
         con.send(pickle.dumps(update_data))
 
 
@@ -58,6 +70,12 @@ def handle_client(conn, addr):
 
                 players_update()
 
+            elif msg[0] == 'block-break':
+                position = msg[1]
+                game_map[position[1]][position[0]] = {"block_id": "0"}
+
+                map_update(position, game_map[position[1]][position[0]])
+
         except pickle.UnpicklingError:
             print("неверные данные")
         except ConnectionResetError:
@@ -75,18 +93,45 @@ def handle_client(conn, addr):
     players.pop(PLAYER_ID)
     conn.close()
     disconnect(PLAYER_ID)
-    print('connection closed')
+    print(f"[DISCONNECT] {addr} disconnected.")
+    print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 2}")
+
+
+async def save_world():
+    print("[SAVE] saving world data...")
+    with open("lib/storage/game_map.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    data.update({"map": game_map})
+
+    with open("lib/storage/game_map.json", "w") as f:
+        json.dump(data, f)
+
+    print("[SAVE] world data has been saved.")
+
+
+async def on_shutdown():
+    tasks = [
+        asyncio.create_task(save_world())
+    ]
+    await asyncio.gather(*tasks)
 
 
 def start():
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
-        conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        try:
+            conn, addr = server.accept()
+            thread = threading.Thread(target=handle_client, args=(conn, addr))
+            thread.start()
+            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        except KeyboardInterrupt:
+            return
 
 
 print("[STARTING] server is starting...")
 start()
+print("[SHUTDOWN] server is shutting down...")
+asyncio.run(on_shutdown())
+print("[SHUTDOWN] server has shut down.")

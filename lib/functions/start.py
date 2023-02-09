@@ -29,6 +29,13 @@ def get_images(blocks_data: dict):
     images = dict()
     icons = dict()
     mob_images = dict()
+    block_breaking = dict()
+
+    for file in os.listdir("lib/assets/animations/block_breaking"):
+        if file.endswith(".png"):
+            index = file[file.index("(") + 1]
+            block_breaking.update(
+                {index: pygame.image.load(os.path.join("lib/assets/animations/block_breaking", file))})
 
     for block in list(blocks_data.values()):
         if os.path.exists(f"lib/assets/abyss/{block['image_root']}"):
@@ -40,6 +47,8 @@ def get_images(blocks_data: dict):
     images.update({"world_select_bg": pygame.image.load("lib/assets/world_select_bg.jpg")})
     images.update({"overworld_background": pygame.image.load("lib/assets/overworld_background.png")})
     images.update({"no_textures": pygame.image.load("lib/assets/no_textures.webp")})
+    images.update({"bed_top": pygame.image.load("lib/assets/bed-top.png")})
+    images.update({"bed_bottom": pygame.image.load("lib/assets/bed-bottom.png")})
 
     for file in os.listdir("lib/assets/items"):
         if file.endswith(".png"):
@@ -79,7 +88,7 @@ def get_images(blocks_data: dict):
     # mob.cut_sheet(mob_images["cave_monster"]["attack"], 4, 1, "attack", 120, 50)
     # mob_images['cave_monster']['attack'] = mob.images
 
-    return images, icons, mob_images
+    return images, icons, mob_images, block_breaking
 
 
 def get_posts_surface(fonts, icons):

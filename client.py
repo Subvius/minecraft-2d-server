@@ -1,5 +1,6 @@
 import datetime
 import json
+import math
 import pickle
 import random
 import select
@@ -12,11 +13,11 @@ from pygame.event import Event
 from pygame.locals import *
 
 from lib.functions.blocks import get_block_from_coords
+from lib.functions.map_actions import is_close, on_left_click, on_right_click
 from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
 from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
 from lib.models.player import Player
-from lib.models.screen import Screen
 from lib.functions.movement import move
 from lib.models.text_input import InputBox
 from lib.models.touchable_opacity import TouchableOpacity
@@ -24,7 +25,8 @@ from lib.storage.constants import Constants
 from lib.models.buttons import Button
 import lib.functions.api as api
 from lib.functions.telegram import get_recent_posts
-from lib.functions.drawing import *
+from lib.models.screen import *
+from lib.functions.drawing import draw_rect_alpha, draw_dialog_window
 from lib.models.npc import Npc
 
 pygame.init()
@@ -34,7 +36,7 @@ for i in range(10, 25):
     # fonts.update({i: pygame.font.Font(f"lib/assets/fonts/Poppins-Light.ttf", i)})
     fonts.update({i: pygame.font.SysFont("Helvetica", i)})
 
-SIZE = WIDTH, HEIGHT = (1920, 1080)
+SIZE = WIDTH, HEIGHT = (1360, 768)
 screen = pygame.display.set_mode((1280, 787), pygame.NOFRAME)
 
 # screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
@@ -44,7 +46,7 @@ PORT = 5050  # server port
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 SERVER = '192.168.1.64'  # server address to connect
-BLOCK_SIZE = 32  # 60 blocks in width, 33.75 blocks in height
+BLOCK_SIZE = 32  # 42.5 blocks in width, 24 blocks in height
 NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
 
 ADDR = (SERVER, PORT)  # server address
@@ -76,9 +78,10 @@ clock = pygame.time.Clock()
 moving_left = moving_right = False
 
 lobby_map, game_map, blocks_data = get_maps()
-images, icons, mobs_images = get_images(blocks_data)
+images, icons, mobs_images, block_breaking = get_images(blocks_data)
 session_stats = {}
 PLAYER: Player = None
+STORY_WORLD_COORD = (0, 0)
 
 
 def log_in_screen():
@@ -133,11 +136,17 @@ def log_in_screen():
                             continue
                         else:
                             global PLAYER, session_stats, db_user, db_cur, db_connection
-                            PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+                            PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
                                             username_input.text.strip())
-                            session_stats = api.get_data(
+                            api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
-                                                    f"password={password_input.text}").get(
+                                                    f"password={password_input.text}")
+                            global STORY_WORLD_COORD
+                            if api_data.get("story_world_coord", None) is None:
+                                STORY_WORLD_COORD = (1240, 2340)
+                            else:
+                                STORY_WORLD_COORD = api_data.get("story_world_coord")
+                            session_stats = api_data.get(
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
                             if db_user is None:
@@ -153,7 +162,9 @@ def log_in_screen():
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
-                        screen = pygame.display.set_mode(SIZE)
+                        screen = pygame.display.set_mode(SIZE
+                                                         # , pygame.FULLSCREEN
+                                                         )
                         break
                     elif btn.id == 1:
                         return start_screen()
@@ -222,17 +233,25 @@ def start_screen():
                             return log_in_screen()
                         else:
                             global PLAYER, session_stats
-                            PLAYER = Player((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+                            PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
                                             db_user[1])
-                            session_stats = api.get_data(
+                            api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
-                                                    f"password={db_user[2]}").get(
+                                                    f"password={db_user[2]}")
+                            global STORY_WORLD_COORD
+                            if api_data.get("story_world_coord", None) is None:
+                                STORY_WORLD_COORD = (1240, 2340)
+                            else:
+                                STORY_WORLD_COORD = api_data.get("story_world_coord")
+                            session_stats = api_data.get(
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
-                        screen = pygame.display.set_mode(SIZE)
+                        screen = pygame.display.set_mode(SIZE
+                                                         # , pygame.FULLSCREEN
+                                                         )
                         break
                     elif btn.id == 1:
                         on_screen = False
@@ -356,7 +375,7 @@ def get_npc():
 
 
 MIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
-           "mira", )
+           "mira", speed=1.75, jump_height=1.5)
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
 
@@ -367,7 +386,11 @@ with open("lib/storage/story_characters.json", "r", encoding="utf-8") as f:
         eval(f"{key.upper()}.set_dimension('{data[key].get('dimension')}')")
 
 true_scroll = [0, 0]
+hold_start = datetime.datetime.now()
 scroll = [0, 0]
+SCREEN.set_story_world_pos(STORY_WORLD_COORD)
+gm_map = []
+
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
 
@@ -381,6 +404,11 @@ while running:
                 players.update({event[1]: event[2]})
             elif event[0] == 'player-disconnect':
                 players = {key: val for key, val in players.items() if key != event[1]}
+
+            elif event[0] == "block-update":
+                pos = event[1]
+                _value = event[2]
+                gm_map[pos[1]][pos[0]] = _value
 
         except pickle.UnpicklingError:
             print("[CLIENT] неверные данные")
@@ -405,6 +433,9 @@ while running:
                 elif event.key == K_UP:
                     if PLAYER.air_timer < 6:
                         PLAYER.vertical_momentum -= 10
+                elif event.key == K_c:
+                    print(PLAYER.rect)
+                    print(MIRA.rect)
             if event.type == KEYUP:
                 if event.key == K_LEFT:
                     moving_left = False
@@ -424,12 +455,19 @@ while running:
         if event.type == MOUSEMOTION:
             SCREEN.set_mouse_pos(event.pos)
         if event.type == MOUSEBUTTONDOWN:
+            hold_start = datetime.datetime.now()
+            print(event.pos[0] + scroll[0], event.pos[1] + scroll[1])
             SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle", True,
                                    PLAYER)
             for npc in get_npc():
                 stop = npc.on_click(event.pos, event.button, SCREEN, PLAYER, scroll)
                 if stop:
                     moving_left = moving_right = False
+
+            if SCREEN.screen == 'abyss':
+                if event.button == 3:
+                    colliding_objects, gm_map = on_right_click(event, colliding_objects, scroll, gm_map, PLAYER, SCREEN,
+                                                               session_stats)
 
         if event.type == MOUSEBUTTONUP:
             SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle",
@@ -450,18 +488,22 @@ while running:
         screen.fill((17, 36, 42))
     colliding_objects = list()
     if SCREEN.screen == 'lobby':
+        PLAYER.dimension = "lobby"
         possible_x = [i for i in range(WIDTH // BLOCK_SIZE + 2)]
-        possible_y = [i for i in range(HEIGHT // BLOCK_SIZE + 1)]
-        gm_map: list = lobby_map.get("map")
+        possible_y = [i for i in range(HEIGHT // BLOCK_SIZE)]
+        if gm_map != lobby_map.get("map"):
+            gm_map: list = lobby_map.get("map")
         scroll = [0, 0]
     elif SCREEN.screen == 'abyss':
+        PLAYER.dimension = "abyss"
         true_scroll[0] += (PLAYER.rect.x - true_scroll[0] - WIDTH // 2 - PLAYER.image.get_width() // 2) / 20
         true_scroll[1] += (PLAYER.rect.y - true_scroll[1] - HEIGHT // 2 - PLAYER.image.get_height() // 2) / 20
         scroll = true_scroll.copy()
 
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
-        gm_map: list = game_map.get("map")
+        if gm_map == lobby_map.get("map"):
+            gm_map: list = game_map.get("map")
 
         possible_x = [num if abs(PLAYER.rect.x - num * BLOCK_SIZE) <= WIDTH // 2 + (2 * BLOCK_SIZE) else 0 for num in
                       range(len(gm_map[0]))]
@@ -474,6 +516,9 @@ while running:
         for tile_x in possible_x:
             block: dict = gm_map[tile_y][tile_x]
             block_id = block.get("block_id", "0")
+            percentage = 0
+            if block.get("percentage", 0.0) > 0:
+                percentage = math.floor(float(block.get("percentage", 0.0)) / 10)
 
             if block_id != "0":
                 if block_id == "1" and get_block_from_coords(tile_y - 1, tile_x, gm_map).get("block_id") != "0":
@@ -491,15 +536,40 @@ while running:
                 block_data = blocks_data[block_id]
                 search = block_data["item_id"] if SCREEN.screen == 'lobby' else "abyss-" + block_data[
                     "item_id"] if SCREEN.screen == "abyss" else "stone"
-                image = images.get(search, images.get(block_data['item_id']))
+                if block_data['item_id'] == "bed":
+                    if gm_map[tile_y][tile_x - 1].get("block_id") == "365":
+                        image = images.get("bed_bottom")
+                    elif gm_map[tile_y][tile_x + 1].get("block_id") == "365":
+                        image = images.get("bed_top")
+                    else:
+                        image = pygame.Surface((32, 32), SRCALPHA).convert()
+                        gm_map[tile_y][tile_x] = {"block_id": "0"}
+
+                else:
+                    image = images.get(search, images.get(block_data['item_id']))
 
                 screen.blit(pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE)),
                             (tile_x * BLOCK_SIZE - scroll[0], tile_y * BLOCK_SIZE - scroll[1]))
+
+                mouse_coord = SCREEN.mouse_pos
+                mrect = pygame.Rect(mouse_coord[0], mouse_coord[1], 1, 1)
+                rect = pygame.Rect(tile_x * 32 - scroll[0], tile_y * 32 - scroll[1], 32, 32)
+                close = is_close(mouse_coord[0] + scroll[0], mouse_coord[1] + scroll[1], PLAYER.rect.x,
+                                 PLAYER.rect.y, 4)
+
+                if mrect.colliderect(rect) and close:
+                    pygame.draw.rect(screen, (232, 115, 104), rect, width=2)
+
                 if block_id not in NOT_COLLIDING_BLOCKS:
                     block_rect = pygame.Rect(tile_x * BLOCK_SIZE, tile_y * BLOCK_SIZE,
                                              BLOCK_SIZE,
                                              BLOCK_SIZE)
                     colliding_objects.append(block_rect)
+
+                if percentage:
+                    image = block_breaking.get(f"{percentage if percentage < 10 else 9}")
+                    image.set_colorkey((0, 0, 0), RLEACCEL)
+                    screen.blit(image, (tile_x * 32 - scroll[0], tile_y * 32 - scroll[1]))
 
     movement = [0, 0]
     if moving_right or moving_left:
@@ -508,10 +578,10 @@ while running:
     else:
         if PLAYER.condition != 'idle':
             PLAYER.change_condition()
-    if moving_right:
+    if moving_right and PLAYER.rect.x + PLAYER.rect.w < len(gm_map[0]) * BLOCK_SIZE:
         movement[0] += 2
         PLAYER.moving_direction = 'right'
-    if moving_left:
+    if moving_left and PLAYER.rect.x > 0:
         movement[0] -= 2
         PLAYER.moving_direction = 'left'
 
@@ -520,7 +590,7 @@ while running:
 
     PLAYER.rect, collisions = move(PLAYER.rect, movement, colliding_objects)
 
-    move_npc(get_npc(), colliding_objects, move)
+    move_npc(get_npc(), colliding_objects, move, PLAYER, SCREEN, BLOCK_SIZE)
     if not collisions['bottom']:
         PLAYER.air_timer += 1
     else:
@@ -544,7 +614,24 @@ while running:
 
     for npc in get_npc():
         if SCREEN.screen == npc.dimension:
-            npc.draw(screen, scroll)
+            if npc.rect.x // BLOCK_SIZE in possible_x and npc.rect.y // BLOCK_SIZE in possible_y:
+                npc.draw(screen, scroll)
+            else:
+                if npc.hide and npc.rect.y > 0:
+                    print(f"hide npc - {npc.name}")
+                    npc.rect.y = -300
+                    SCREEN.edit_characters(npc.name, "y", -300)
+
+    if SCREEN.hold_buttons["left"] and SCREEN.screen == 'abyss':
+        colliding_objects, gm_map, hold_start, _, _block_broken = on_left_click(SCREEN.mouse_pos, colliding_objects,
+                                                                                scroll,
+                                                                                gm_map, PLAYER, hold_start, blocks_data,
+                                                                                [],
+                                                                                session_stats, images)
+
+        if _block_broken:
+            client.send(
+                pickle.dumps(["block-break", [SCREEN.mouse_pos[0] // BLOCK_SIZE, SCREEN.mouse_pos[1] // BLOCK_SIZE]]))
 
     if SCREEN.show_dialog:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))
@@ -552,6 +639,9 @@ while running:
                     (screen.get_width() // 2 - img.get_width() // 2, screen.get_height() // 2 - img.get_height() // 2))
         draw_dialog_window(screen, SCREEN, fonts[24], PLAYER)
 
+    _npc, _field, _value = SCREEN.story(PLAYER)
+    if _npc is not None:
+        eval(f"""{_npc.upper()}.on_update("{_field}", "{_value}")""")
     pygame.display.flip()
 
     clock.tick(60)

@@ -1,8 +1,11 @@
+import datetime
+import json
 import math
 import random
 import noise
+import pygame
 
-from lib.functions.blocks import get_block_data_by_name
+from lib.functions.blocks import get_block_data_by_name, calculate_breaking_time
 
 
 def generate_chunks(blocks_data, y_max, quantity_of_chunks, seed, dimension):
@@ -142,3 +145,148 @@ def ore_generator(y, y_max, dimension='overworld') -> str:
     else:
         possible_blocks = [16]
     return str(random.choice(possible_blocks))
+
+
+def is_close(x, y, x0, y0, radius) -> bool:
+    return ((x - x0) ** 2 + (y - y0) ** 2) <= (radius * 32) ** 2
+
+
+def edit_by_coords(x, y, value):
+    with open("../storage/game_map.json", "r") as f:
+        data = json.load(f)
+
+    game_map = data.get("map")
+    game_map[y][x] = value
+
+    data.update({"map": game_map})
+
+    with open("../storage/game_map.json", "w") as f:
+        json.dump(data, f)
+
+
+# edit_by_coords(43, 71, {"block_id": "0"})
+
+
+def on_right_click(event, map_objects, scroll, game_map, player, screen,
+                   session_stats):
+    pos = event.pos
+    x = pos[0]
+    y = pos[1]
+    # максимальная дистанция 4 блока (сторона 32)
+    close = is_close(x + scroll[0], y + scroll[1], player.rect.x, player.rect.y, 4)
+    if close:
+        value_x = (x + scroll[0]) // 32
+        value_y = (y + scroll[1]) // 32
+        try:
+            tile = game_map[value_y][value_x].get("block_id")
+            # игрок кликнул по "воздуху" и рядом с "воздухом есть блок"
+            if tile in ["0", "9"]:
+                if game_map[value_y + 1][value_x].get("block_id") != "0" or game_map[value_y - 1][value_x].get(
+                        "block_id") != "0" \
+                        or game_map[value_y][value_x + 1].get("block_id") != "0" or game_map[value_y][value_x - 1].get(
+                    "block_id") != "0":
+                    selected = player.inventory[0][player.selected_inventory_slot]
+                    if selected is not None and selected['type'] == 'block':
+                        if game_map[value_y][value_x + 1].get("block_id") == "0" and selected["item_id"] == "bed":
+                            game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
+                            game_map[value_y][value_x + 1] = {"block_id": selected['numerical_id']}
+                        elif selected["item_id"] != "bed":
+                            game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
+
+                        map_objects.append(pygame.Rect(value_x * 32, value_y * 32, 32, 32))
+                        player.remove_from_inventory(player.selected_inventory_slot, 1)
+                        session_stats.update({"blocks_placed": session_stats.get('blocks_placed', 0) + 1})
+
+            elif tile == "58":
+                screen.toggle_inventory("crafting_table")
+        except IndexError:
+            print('доделать!!!!! (lib/models/map.py), line: 26')
+
+    return map_objects, game_map
+
+
+def on_left_click(pos, map_objects, scroll, game_map, player, hold_start, blocks_data,
+                  falling_items, session_stats: dict,
+                  images: dict[str, pygame.Surface]):
+    x = pos[0]
+    y = pos[1]
+    # максимальная дистанция 4 блока (сторона 32)
+    close = is_close(x + scroll[0], y + scroll[1], player.rect.x, player.rect.y, 4)
+    block_broken = False
+    if close:
+        value_x = (x + scroll[0]) // 32
+        value_y = (y + scroll[1]) // 32
+        try:
+            data = game_map[value_y][value_x]
+            tile = data.get("block_id", "0")
+            if tile != "0" and not tile.count(":"):
+
+                block_data = blocks_data[tile]
+                if type(block_data) == dict:
+                    if block_data.get('diggable', 0):
+                        breaking_time = calculate_breaking_time(block_data, player)
+                        now = datetime.datetime.now()
+                        if now - hold_start >= datetime.timedelta(seconds=breaking_time):
+                            game_map[value_y][value_x] = {"block_id": '0'}
+                            if tile != "58":
+                                map_objects.remove(pygame.Rect(value_x * 32, value_y * 32, 32, 32))
+                            hold_start = now
+
+                            num_id = tile
+                            if tile == "3":
+                                num_id = "4"
+                            elif tile == '16':
+                                num_id = '263'
+                            elif tile == "21":
+                                num_id = "351"
+                            elif tile == '56':
+                                num_id = "264"
+                            elif tile == "73":
+                                num_id = "331"
+                            elif tile == "129":
+                                num_id = "388"
+
+                            # block_image = images[block_data["item_id"]]
+                            # color = block_image.get_at((block_image.get_width() // 2, block_image.get_height() // 2))
+                            # position = (x * 32 // 32, y * 32 // 32)
+                            # for _ in range(10):
+                            #     velocity = [random.randint(0, 20) / 10 - 1, -1]
+                            #     timer = random.randint(2, 5)
+                            #
+                            #     screen.particles.add_particle(position, velocity, timer, color)
+
+                            x += scroll[0]
+                            y += scroll[1]
+                            x //= 32
+                            x *= 32
+                            x += 8
+                            y //= 32
+                            y *= 32
+
+                            falling_items.append({
+                                "direction": "down",
+                                "x": x,
+                                "y": y,
+                                "numerical_id": num_id
+                            })
+                            session_stats.update({"blocks_mined": session_stats.get('blocks_mined', 0) + 1})
+                            if tile in ["16", "21", "73", "129", "56"]:
+                                for _ in range(random.randint(0, 5)):
+                                    falling_items.append({
+                                        "direction": "down",
+                                        "x": x,
+                                        "y": y,
+                                        "numerical_id": "998"
+                                    })
+
+                            block_broken = True
+                        else:
+                            time_spent = now - hold_start
+                            percentage = (time_spent / datetime.timedelta(
+                                seconds=breaking_time)) * 100
+                            game_map[value_y][value_x] = {"block_id": f"{tile}", "percentage": percentage}
+
+        except IndexError:
+            print('доделать!!!!! (lib/models/map.py), line: 26')
+
+    return map_objects, game_map, hold_start, falling_items, block_broken

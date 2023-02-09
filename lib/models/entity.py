@@ -4,7 +4,7 @@ import pygame
 class Entity:
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int,
                  images_path: str = "",
-                 entity_type: str = "player", dimension='stormhold'):
+                 entity_type: str = "player", dimension='stormhold', speed=1.2, jump_height=2):
         self.rect: pygame.Rect = pygame.Rect(*pos, *size)
         self.hp = hp
         self.max_hp = max_hp
@@ -21,9 +21,16 @@ class Entity:
         self.dead = False
         self.vertical_momentum = 0
         self.air_timer = 0
+        self.destination = None
+        self.speed = speed
+        self.jump_height = jump_height
         self.dimension = dimension
+        self.is_dead = False
         if self.images_path != "":
             self.prepare_images()
+
+    def set_destination(self, pos):
+        self.destination = pos
 
     def cut_sheet(self, sheet, columns, rows, animation_type, frame_width, step):
         for j in range(rows):

@@ -18,4 +18,4 @@ def convert_txt_to_map(txt_file, json_file, map_height):
         json.dump(data, f)
 
 
-convert_txt_to_map("../storage/lobby_map.txt", "../storage/lobby_map.json", 35)
+convert_txt_to_map("../storage/lobby_map.txt", "../storage/lobby_map.json", 24)

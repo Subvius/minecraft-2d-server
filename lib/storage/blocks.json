@@ -131,7 +131,7 @@
   },
   "17": {
     "item_id": "oak_log",
-    "image_root": "oak_log.jpeg",
+    "image_root": "oak_log.png",
     "numerical_id": "17",
     "stackable": 1,
     "max_stack_size": 64,
@@ -139,6 +139,17 @@
     "diggable": 1,
     "material": "wood"
   },
+  "365": {
+    "item_id": "bed",
+    "image_root": "bed.png",
+    "numerical_id": "365",
+    "stackable": 0,
+    "max_stack_size": 1,
+    "hardness": 0.2,
+    "diggable": 1,
+    "material": "wood"
+  },
+
   "58": {
     "item_id": "crafting_table",
     "image_root": "crafting_table.png",

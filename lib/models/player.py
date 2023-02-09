@@ -1,3 +1,5 @@
+import pygame
+
 from lib.models.entity import Entity
 
 
@@ -10,7 +12,20 @@ class Player(Entity):
         self.moving_direction = moving_direction
         self.dimension = dimension
         self.condition = condition
+        self.inventory = [[{
+            "type": "block",
+            'item_id': "bed",
+            'numerical_id': "365",
+            'quantity': 1
+        } for _ in range(9)] for __ in range(4)]
+        self.selected_inventory_slot = 0
 
     def server_data(self):
         return Player(self.rect.size, (self.rect.x, self.rect.y), self.hp, self.max_hp, self.damage, self.nickname,
                       self.images_path, self.frame, self.condition, self.moving_direction, self.dimension)
+
+    def remove_from_inventory(self, slot: int, quantity: int, row: int = 0):
+        if not self.is_dead:
+            self.inventory[row][slot]["quantity"] -= quantity
+            if self.inventory[row][slot]["quantity"] <= 0:
+                self.inventory[row][slot] = None

@@ -1,5 +1,4 @@
 import pygame
-from lib.models.screen import Screen
 import lib.functions.ptext as ptext
 
 
@@ -7,18 +6,6 @@ def draw_rect_alpha(surface, color, rect):
     shape_surf = pygame.Surface(pygame.Rect(rect).size, pygame.SRCALPHA)
     pygame.draw.rect(shape_surf, color, shape_surf.get_rect())
     surface.blit(shape_surf, rect)
-
-
-def draw_black_screen(surface: pygame.Surface):
-    pygame.draw.rect(surface, "black", pygame.Rect(0, 0, surface.get_width(), surface.get_height()))
-
-
-def draw_title(surface: pygame.Surface, text, font: pygame.font.Font, black_screen=False):
-    if black_screen:
-        draw_black_screen(surface)
-    text_surf = font.render(text, False, "white")
-    surface.blit(text_surf, (
-        surface.get_width() // 2 - text_surf.get_width() // 2, surface.get_height() // 2 - text_surf.get_height() // 2))
 
 
 def text_placeholders(text: str, player) -> str:
@@ -48,7 +35,7 @@ def draw_text(text: str, pos, surf: pygame.Surface, player, **kwargs):
     ptext.draw(text_placeholders(text, player), pos, surf=surf, **kwargs)
 
 
-def draw_dialog_window(surface: pygame.Surface, screen: Screen, font: pygame.font.Font, player):
+def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, player):
     dialog = screen.current_dialog
     ptext.DEFAULT_COLOR_TAG = {
         "&0": "black",
@@ -74,12 +61,12 @@ def draw_dialog_window(surface: pygame.Surface, screen: Screen, font: pygame.fon
         choice = dialog['choices'][key]
         text = text_placeholders(choice["answer"], player)
         choice_s = font.render("> " + text, False, "black")
-        draw_text("> " + text, (430, 450 + i * (font.get_height() * 2)), surf=surface, player=player, color='black',
+        draw_text("> " + text, (330, 350 + i * (font.get_height() * 1.5)), surf=surface, player=player, color='black',
                   underline=screen.high_lighted_choice is not None and screen.high_lighted_choice == i, fontsize=30,
-                  width=800)
+                  width=600)
         if not has_rects:
-            rect = pygame.Rect(*(430, 450 + i * (font.get_height() * 2)), choice_s.get_width(), choice_s.get_height())
+            rect = pygame.Rect(*(330, 350 + i * (font.get_height() * 1.5)), choice_s.get_width(), choice_s.get_height())
             screen.add_dialog_rect(rect)
 
-    draw_text(text_placeholders(dialog["text"], player), (430, 275), surf=surface, player=player, color='black',
-              fontsize=35, width=740)
+    draw_text(text_placeholders(dialog["text"], player), (330, 200), surf=surface, player=player, color='black',
+              fontsize=30, width=495)
