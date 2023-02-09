@@ -410,8 +410,8 @@ while running:
                 _value = event[2]
                 gm_map[pos[1]][pos[0]] = {"block_id": _value}
 
-        except pickle.UnpicklingError:
-            print("[CLIENT] неверные данные")
+        except pickle.UnpicklingError as e:
+            print("[CLIENT] неверные данные", e)
 
     if random.randint(0, 100) == 9:
         update_data = ["number!", 9]
@@ -623,16 +623,17 @@ while running:
                     SCREEN.edit_characters(npc.name, "y", -300)
 
     if SCREEN.hold_buttons["left"] and SCREEN.screen == 'abyss':
-        colliding_objects, gm_map, hold_start, _, _block_broken = on_left_click(SCREEN.mouse_pos, colliding_objects,
-                                                                                scroll,
-                                                                                gm_map, PLAYER, hold_start, blocks_data,
-                                                                                [],
-                                                                                session_stats, images)
+        colliding_objects, gm_map, hold_start, _, _block_broken, pos = on_left_click(SCREEN.mouse_pos,
+                                                                                     colliding_objects,
+                                                                                     scroll,
+                                                                                     gm_map, PLAYER, hold_start,
+                                                                                     blocks_data,
+                                                                                     [],
+                                                                                     session_stats, images)
 
         if _block_broken:
             client.send(
-                pickle.dumps(["block-break", [(SCREEN.mouse_pos[0] + scroll[0]) // BLOCK_SIZE,
-                                              (SCREEN.mouse_pos[1] + scroll[1]) // BLOCK_SIZE]]))
+                pickle.dumps(["block-break", [*pos]]))
 
     if SCREEN.show_dialog:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))

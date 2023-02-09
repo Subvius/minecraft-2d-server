@@ -213,9 +213,9 @@ def on_left_click(pos, map_objects, scroll, game_map, player, hold_start, blocks
     # максимальная дистанция 4 блока (сторона 32)
     close = is_close(x + scroll[0], y + scroll[1], player.rect.x, player.rect.y, 4)
     block_broken = False
+    value_x = (x + scroll[0]) // 32
+    value_y = (y + scroll[1]) // 32
     if close:
-        value_x = (x + scroll[0]) // 32
-        value_y = (y + scroll[1]) // 32
         try:
             data = game_map[value_y][value_x]
             tile = data.get("block_id", "0")
@@ -288,5 +288,4 @@ def on_left_click(pos, map_objects, scroll, game_map, player, hold_start, blocks
 
         except IndexError:
             print('доделать!!!!! (lib/models/map.py), line: 26')
-
-    return map_objects, game_map, hold_start, falling_items, block_broken
+    return map_objects, game_map, hold_start, falling_items, block_broken, (value_x, value_y)

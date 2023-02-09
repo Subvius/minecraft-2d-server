@@ -73,6 +73,7 @@ def handle_client(conn, addr):
             elif msg[0] == 'block-break':
                 print("block break")
                 position = msg[1]
+                print(position)
                 game_map[position[1]][position[0]] = {"block_id": "0"}
 
                 map_update(position, "0")
@@ -87,32 +88,24 @@ def handle_client(conn, addr):
             print("run out of time")
             connected = False
 
+        except TypeError:
+            print("Type error", addr)
+
         except OSError:
             print("OSError")
             connected = False
     connections = {key: val for key, val in connections.items() if val != conn}
     players.pop(PLAYER_ID)
     conn.close()
-    disconnect(PLAYER_ID)
+    try:
+        disconnect(PLAYER_ID)
+    except BrokenPipeError:
+        pass
     print(f"[DISCONNECT] {addr} disconnected.")
     print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 2}")
 
 
 async def save_world():
-    global game_map
-    print("[SAVE] saving world data...")
-    with open("lib/storage/game_map.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    data.update({"map": game_map})
-
-    with open("lib/storage/game_map.json", "w") as f:
-        json.dump(data, f)
-
-    print("[SAVE] world data has been saved.")
-
-
-def save_world1():
     global game_map
     print("[SAVE] saving world data...")
     with open("lib/storage/game_map.json", "r", encoding="utf-8") as f:
@@ -149,6 +142,5 @@ def start():
 print("[STARTING] server is starting...")
 start()
 print("[SHUTDOWN] server is shutting down...")
-# asyncio.run(on_shutdown())
-save_world1()
+asyncio.run(on_shutdown())
 print("[SHUTDOWN] server has shut down.")
