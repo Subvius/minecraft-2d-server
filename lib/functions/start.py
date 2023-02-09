@@ -16,6 +16,7 @@ def get_maps():
     with open("lib/storage/game_map.json", "r") as gmf:
         game_map = json.load(gmf)
         if game_map == {} or game_map.get("map", None) is None:
+            print("generate story map")
             game_map.update({"map": generate_chunks(blocks, 128, 125, 355, "overworld")})
 
             gmf.close()

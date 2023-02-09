@@ -405,10 +405,10 @@ while running:
             elif event[0] == 'player-disconnect':
                 players = {key: val for key, val in players.items() if key != event[1]}
 
-            elif event[0] == "block-update":
+            elif event[0] == "block-id-update":
                 pos = event[1]
                 _value = event[2]
-                gm_map[pos[1]][pos[0]] = _value
+                gm_map[pos[1]][pos[0]] = {"block_id": _value}
 
         except pickle.UnpicklingError:
             print("[CLIENT] неверные данные")
@@ -631,7 +631,8 @@ while running:
 
         if _block_broken:
             client.send(
-                pickle.dumps(["block-break", [SCREEN.mouse_pos[0] // BLOCK_SIZE, SCREEN.mouse_pos[1] // BLOCK_SIZE]]))
+                pickle.dumps(["block-break", [(SCREEN.mouse_pos[0] + scroll[0]) // BLOCK_SIZE,
+                                              (SCREEN.mouse_pos[1] + scroll[1]) // BLOCK_SIZE]]))
 
     if SCREEN.show_dialog:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))
