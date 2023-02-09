@@ -29,6 +29,16 @@
     "diggable": 1,
     "material": "rock"
   },
+  "98": {
+    "item_id": "stone_bricks",
+    "image_root": "stone_bricks.png",
+    "numerical_id": "98",
+    "stackable": 1,
+    "max_stack_size": 64,
+    "hardness": 1.5,
+    "diggable": 1,
+    "material": "rock"
+  },
   "4": {
     "item_id": "cobblestone",
     "image_root": "cobblestone.png",
@@ -100,12 +110,12 @@
     "material": "rock"
   },
   "21": {
-    "item_id": "lapis_lazuli_ore",
-    "image_root": "lapis_lazuli_ore.jpeg",
+    "item_id": "loran_ore",
+    "image_root": "loran_ore.png",
     "numerical_id": "21",
     "stackable": 1,
     "max_stack_size": 64,
-    "hardness": 3.0,
+    "hardness": 3.5,
     "diggable": 1,
     "material": "rock"
   },
@@ -149,7 +159,6 @@
     "diggable": 1,
     "material": "wood"
   },
-
   "58": {
     "item_id": "crafting_table",
     "image_root": "crafting_table.png",
@@ -378,9 +387,16 @@
     "max_stack_size": 64
   },
   "351": {
-    "item_id": "lapis_lazuli",
-    "image_root": "items/lapis_lazuli.png",
+    "item_id": "loran_gem",
+    "image_root": "items/loran_gem.png",
     "numerical_id": "351",
+    "stackable": 1,
+    "max_stack_size": 64
+  },
+  "352": {
+    "item_id": "loran_ingot",
+    "image_root": "items/loran_ingot.png",
+    "numerical_id": "352",
     "stackable": 1,
     "max_stack_size": 64
   },

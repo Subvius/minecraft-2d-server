@@ -12,17 +12,25 @@ class Player(Entity):
         self.moving_direction = moving_direction
         self.dimension = dimension
         self.condition = condition
+        blocks = [["stone", "3"], ["stone_bricks", "98"],["stone_bricks", "98"],["stone_bricks", "98"],
+                  ["stone_bricks", "98"], ["cobblestone", "4"], ["grass_block", "1"], ["oak_planks", "5"]]
         self.inventory = [[{
             "type": "block",
-            'item_id': "bed",
-            'numerical_id': "365",
-            'quantity': 1
-        } for _ in range(9)] for __ in range(4)]
+            'item_id': "bed" if i + 1 > len(blocks) else blocks[i][0],
+            'numerical_id': "365" if i + 1 > len(blocks) else blocks[i][1],
+            'quantity': 64
+        } for i in range(9)] for __ in range(4)]
         self.selected_inventory_slot = 0
 
     def server_data(self):
         return Player(self.rect.size, (self.rect.x, self.rect.y), self.hp, self.max_hp, self.damage, self.nickname,
                       self.images_path, self.frame, self.condition, self.moving_direction, self.dimension)
+
+    def set_selected_slot(self, slot: int):
+        if not self.is_dead:
+            self.selected_inventory_slot = slot
+            if not 0 <= self.selected_inventory_slot <= 8:
+                self.selected_inventory_slot = 8 if self.selected_inventory_slot < 0 else 0
 
     def remove_from_inventory(self, slot: int, quantity: int, row: int = 0):
         if not self.is_dead:

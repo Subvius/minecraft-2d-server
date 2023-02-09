@@ -73,10 +73,21 @@ def handle_client(conn, addr):
             elif msg[0] == 'block-break':
                 print("block break")
                 position = msg[1]
-                print(position)
                 game_map[position[1]][position[0]] = {"block_id": "0"}
 
                 map_update(position, "0")
+
+            elif msg[0] == 'block-placed':
+                position = msg[1]
+                block = msg[2]
+                game_map[position[1]][position[0]].update({"block_id": block.__str__()})
+                map_update(position, block.__str__())
+
+            elif msg[0] == 'block-placed-background':
+                position = msg[1]
+                block = msg[2]
+                game_map[position[1]][position[0]] = {"background_block_id": block.__str__(), "background": True}
+                # map_update(position, block.__str__())
 
         except pickle.UnpicklingError:
             print("неверные данные")

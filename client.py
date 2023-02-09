@@ -26,7 +26,7 @@ from lib.models.buttons import Button
 import lib.functions.api as api
 from lib.functions.telegram import get_recent_posts
 from lib.models.screen import *
-from lib.functions.drawing import draw_rect_alpha, draw_dialog_window
+from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory
 from lib.models.npc import Npc
 
 pygame.init()
@@ -390,6 +390,7 @@ hold_start = datetime.datetime.now()
 scroll = [0, 0]
 SCREEN.set_story_world_pos(STORY_WORLD_COORD)
 gm_map = []
+add_to_background = False
 
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
@@ -426,16 +427,18 @@ while running:
             exit(0)
         if not SCREEN.paused:
             if event.type == KEYDOWN:
-                if event.key == K_LEFT:
+                if event.key == K_LEFT or event.key == K_a:
                     moving_left = True
-                elif event.key == K_RIGHT:
+                elif event.key == K_RIGHT or event.key == K_d:
                     moving_right = True
-                elif event.key == K_UP:
+                elif event.key == K_UP or event.key == K_SPACE:
                     if PLAYER.air_timer < 6:
                         PLAYER.vertical_momentum -= 10
                 elif event.key == K_c:
                     print(PLAYER.rect)
-                    print(MIRA.rect)
+                elif event.key == K_g:
+                    add_to_background = not add_to_background
+                    print(add_to_background)
             if event.type == KEYUP:
                 if event.key == K_LEFT:
                     moving_left = False
@@ -466,12 +469,24 @@ while running:
 
             if SCREEN.screen == 'abyss':
                 if event.button == 3:
-                    colliding_objects, gm_map = on_right_click(event, colliding_objects, scroll, gm_map, PLAYER, SCREEN,
-                                                               session_stats)
+                    colliding_objects, gm_map, placed, placed_id = on_right_click(event, colliding_objects, scroll,
+                                                                                  gm_map,
+                                                                                  PLAYER,
+                                                                                  SCREEN,
+                                                                                  session_stats)
+                    if placed:
+                        client.send(
+                            pickle.dumps(
+                                ["block-placed" if not add_to_background else "block-placed-background",
+                                 [(event.pos[0] + scroll[0]) // 32, (event.pos[1] + scroll[1]) // 32],
+                                 placed_id]))
 
         if event.type == MOUSEBUTTONUP:
             SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle",
                                    False, PLAYER)
+        if event.type == MOUSEWHEEL:
+            if not SCREEN.paused:
+                PLAYER.set_selected_slot(PLAYER.selected_inventory_slot - event.y)
 
     current_time = pygame.time.get_ticks()
     if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
@@ -516,6 +531,8 @@ while running:
         for tile_x in possible_x:
             block: dict = gm_map[tile_y][tile_x]
             block_id = block.get("block_id", "0")
+            if block.get("background_block_id", None) is not None and block_id == "0":
+                block_id = block.get("background_block_id", "3")
             percentage = 0
             if block.get("percentage", 0.0) > 0:
                 percentage = math.floor(float(block.get("percentage", 0.0)) / 10)
@@ -532,6 +549,8 @@ while running:
                     if random.randint(0, 5000) == 4:
                         gm_map[tile_y][tile_x] = {"block_id": "1"}
                         block_id = "1"
+                        # Send data to server
+                        client.send(pickle.dumps(["block-placed", [tile_x, tile_y], "1"]))
 
                 block_data = blocks_data[block_id]
                 search = block_data["item_id"] if SCREEN.screen == 'lobby' else "abyss-" + block_data[
@@ -547,6 +566,12 @@ while running:
 
                 else:
                     image = images.get(search, images.get(block_data['item_id']))
+                image = image.convert_alpha()
+                if block.get("background", False):
+                    darken_percent = .45
+                    dark = pygame.Surface(image.get_size()).convert_alpha()
+                    dark.fill((0, 0, 0, darken_percent * 255))
+                    image.blit(dark, (0, 0))
 
                 screen.blit(pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE)),
                             (tile_x * BLOCK_SIZE - scroll[0], tile_y * BLOCK_SIZE - scroll[1]))
@@ -560,7 +585,8 @@ while running:
                 if mrect.colliderect(rect) and close:
                     pygame.draw.rect(screen, (232, 115, 104), rect, width=2)
 
-                if block_id not in NOT_COLLIDING_BLOCKS:
+                if block_id not in NOT_COLLIDING_BLOCKS and not (
+                        block.get("background_block_id", None) is not None and block.get("block_id", "0") == "0"):
                     block_rect = pygame.Rect(tile_x * BLOCK_SIZE, tile_y * BLOCK_SIZE,
                                              BLOCK_SIZE,
                                              BLOCK_SIZE)
@@ -634,6 +660,8 @@ while running:
         if _block_broken:
             client.send(
                 pickle.dumps(["block-break", [*pos]]))
+    if SCREEN.screen == 'abyss':
+        draw_inventory(screen, PLAYER, images, blocks_data, SCREEN)
 
     if SCREEN.show_dialog:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))

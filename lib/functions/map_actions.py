@@ -174,11 +174,13 @@ def on_right_click(event, map_objects, scroll, game_map, player, screen,
     y = pos[1]
     # максимальная дистанция 4 блока (сторона 32)
     close = is_close(x + scroll[0], y + scroll[1], player.rect.x, player.rect.y, 4)
+    block_placed = False
+    placed_id = ""
     if close:
         value_x = (x + scroll[0]) // 32
         value_y = (y + scroll[1]) // 32
         try:
-            tile = game_map[value_y][value_x].get("block_id")
+            tile = game_map[value_y][value_x].get("block_id", "0")
             # игрок кликнул по "воздуху" и рядом с "воздухом есть блок"
             if tile in ["0", "9"]:
                 if game_map[value_y + 1][value_x].get("block_id") != "0" or game_map[value_y - 1][value_x].get(
@@ -193,16 +195,19 @@ def on_right_click(event, map_objects, scroll, game_map, player, screen,
                         elif selected["item_id"] != "bed":
                             game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
 
+                        placed_id = selected['numerical_id']
+
                         map_objects.append(pygame.Rect(value_x * 32, value_y * 32, 32, 32))
                         player.remove_from_inventory(player.selected_inventory_slot, 1)
                         session_stats.update({"blocks_placed": session_stats.get('blocks_placed', 0) + 1})
+                        block_placed = True
 
             elif tile == "58":
                 screen.toggle_inventory("crafting_table")
         except IndexError:
             print('доделать!!!!! (lib/models/map.py), line: 26')
 
-    return map_objects, game_map
+    return map_objects, game_map, block_placed, placed_id
 
 
 def on_left_click(pos, map_objects, scroll, game_map, player, hold_start, blocks_data,

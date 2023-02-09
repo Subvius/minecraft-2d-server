@@ -70,3 +70,34 @@ def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, 
 
     draw_text(text_placeholders(dialog["text"], player), (330, 200), surf=surface, player=player, color='black',
               fontsize=30, width=495)
+
+
+def draw_inventory(surface: pygame.Surface, player, images, blocks_data, screen):
+    width, height = surface.get_size()
+    selected_slot = player.selected_inventory_slot
+    inventory = player.inventory
+    color = (0, 10, 0)
+    # selected_color = (145, 145, 145)
+    selected_color = "white"
+    draw_rect_alpha(surface, (0, 0, 0, 127), (width // 2 - 32 * 4.5, height - 32, 32 * 9, 32))
+    for i in range(9):
+        rect = pygame.Rect(width // 2 - 32 * 4.5 + i * 32, height - 32, 32, 32)
+        pygame.draw.rect(surface, selected_color if i == selected_slot else color,
+                         rect, width=2)
+        if inventory[0][i]:
+            block_data = blocks_data[inventory[0][i]['numerical_id']]
+
+            search = block_data["item_id"] if screen.screen == 'lobby' else "abyss-" + block_data[
+                "item_id"] if screen.screen == "abyss" else "stone"
+            image = images.get(search, images.get(block_data['item_id']))
+
+            surface.blit(pygame.transform.scale(image, (16, 16)), (rect.x + 8, rect.y + 8))
+            count = inventory[0][i]['quantity']
+            if count > 1:
+                draw_text(f"{inventory[0][i]['quantity']}", (rect.x + 18, rect.y + 18), surface, player=player,
+                          color="white", shadow=(1.0, 1.0), scolor="#404040", align="right", fontsize=17)
+
+                # text_surface = font.render(f"{inventory[0][i]['quantity']}", False,
+                #                            "white")
+                #
+                # screen.blit(text_surface, (rect.x + 16, rect.y + 16))
