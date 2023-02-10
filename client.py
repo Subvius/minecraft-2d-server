@@ -301,7 +301,7 @@ players.update({player_id: PLAYER})
 api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
               {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
 
-ENTITIES_UPDATE_DELAY = 300
+ENTITIES_UPDATE_DELAY = 150
 last_entities_update = pygame.time.get_ticks()
 
 
@@ -371,11 +371,11 @@ PLAYER_IMAGES = load_player_images(sheet_path)
 
 
 def get_npc():
-    return [MIRA, GREETER]
+    return [CEBK, GREETER]
 
 
-MIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
-           "mira", speed=1.75, jump_height=1.5)
+CEBK = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+           "cebk", speed=1.75, jump_height=1.5)
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
 
@@ -511,8 +511,8 @@ while running:
         scroll = [0, 0]
     elif SCREEN.screen == 'abyss':
         PLAYER.dimension = "abyss"
-        true_scroll[0] += (PLAYER.rect.x - true_scroll[0] - WIDTH // 2 - PLAYER.image.get_width() // 2) / 20
-        true_scroll[1] += (PLAYER.rect.y - true_scroll[1] - HEIGHT // 2 - PLAYER.image.get_height() // 2) / 20
+        true_scroll[0] += (PLAYER.rect.x - true_scroll[0] - WIDTH // 2 - PLAYER.rect.w // 2) / 20
+        true_scroll[1] += (PLAYER.rect.y - true_scroll[1] - HEIGHT // 2 - PLAYER.rect.h // 2) / 20
         scroll = true_scroll.copy()
 
         scroll[0] = int(scroll[0])
@@ -599,8 +599,8 @@ while running:
 
     movement = [0, 0]
     if moving_right or moving_left:
-        if PLAYER.condition != 'walk':
-            PLAYER.change_condition('walk')
+        if PLAYER.condition != 'run':
+            PLAYER.change_condition('run')
     else:
         if PLAYER.condition != 'idle':
             PLAYER.change_condition()
@@ -667,7 +667,7 @@ while running:
         img = pygame.transform.scale(images['dialog_window'], (WIDTH * 0.675, HEIGHT * 0.75))
         screen.blit(img,
                     (screen.get_width() // 2 - img.get_width() // 2, screen.get_height() // 2 - img.get_height() // 2))
-        draw_dialog_window(screen, SCREEN, fonts[24], PLAYER)
+        draw_dialog_window(screen, SCREEN, fonts[24], PLAYER, get_npc())
 
     _npc, _field, _value = SCREEN.story(PLAYER)
     if _npc is not None:

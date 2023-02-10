@@ -93,7 +93,9 @@ class Entity:
             image = pygame.Surface((self.rect.w, self.rect.h))
             pygame.draw.rect(image, "white", self.rect)
         surface.blit(
-            pygame.transform.flip(pygame.transform.scale(image, self.rect.size), self.moving_direction == 'left',
+            pygame.transform.flip(pygame.transform.scale(image, (
+                self.rect.width if self.condition != "idle" else self.rect.width - 5, self.rect.height)),
+                                  self.moving_direction != 'left',
                                   False),
             (self.rect.x - scroll[0], self.rect.y - scroll[1]))
 

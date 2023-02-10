@@ -15,5 +15,5 @@ def cut_sheet(sheet, columns, rows, animation_type, frame_width, step, path):
         pygame.image.save(image, f"{path}/{animation_type}-{i}.jpg")
 
 
-cut_sheet(pygame.image.load("../assets/animations/Entities/npc/mira/punch.jpg"), 6, 1, "punch", 90, 72,
-          '../assets/animations/Entities/npc/mira')
+cut_sheet(pygame.image.load("../assets/animations/Entities/npc/cebk/punch.jpg"), 6, 1, "punch", 90, 72,
+          '../assets/animations/Entities/npc/cebk')

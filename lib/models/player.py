@@ -12,7 +12,7 @@ class Player(Entity):
         self.moving_direction = moving_direction
         self.dimension = dimension
         self.condition = condition
-        blocks = [["stone", "3"], ["stone_bricks", "98"],["stone_bricks", "98"],["stone_bricks", "98"],
+        blocks = [["stone", "3"], ["stone_bricks", "98"], ["stone_bricks", "98"], ["stone_bricks", "98"],
                   ["stone_bricks", "98"], ["cobblestone", "4"], ["grass_block", "1"], ["oak_planks", "5"]]
         self.inventory = [[{
             "type": "block",
@@ -37,3 +37,19 @@ class Player(Entity):
             self.inventory[row][slot]["quantity"] -= quantity
             if self.inventory[row][slot]["quantity"] <= 0:
                 self.inventory[row][slot] = None
+
+    def draw(self, surface: pygame.Surface, scroll: list[int, int], images=None):
+        if images is None:
+            images = self.images
+        try:
+            image = images[self.condition][self.frame]
+        except KeyError:
+
+            image = pygame.Surface((self.rect.w, self.rect.h))
+            pygame.draw.rect(image, "white", self.rect)
+        surface.blit(
+            pygame.transform.flip(pygame.transform.scale(image, (
+                self.rect.width if self.condition != "idle" else self.rect.width - 5, self.rect.height)),
+                                  self.moving_direction != 'left',
+                                  False),
+            (self.rect.x - scroll[0], self.rect.y - scroll[1]))

@@ -11,21 +11,21 @@
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "x",
           "value": 1272
         }
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "y",
           "value": 2300
         }
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "interact",
           "value": {
             "can": true,
@@ -92,7 +92,7 @@
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "interact",
           "value": {
             "can": false
@@ -101,7 +101,7 @@
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "destination",
           "value": [
             8000,
@@ -111,7 +111,7 @@
       },
       {
         "edit": {
-          "key": "mira",
+          "key": "cebk",
           "field": "hide",
           "value": true
         }

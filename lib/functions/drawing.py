@@ -1,5 +1,6 @@
 import pygame
 import lib.functions.ptext as ptext
+from lib.models.npc import Npc
 
 
 def draw_rect_alpha(surface, color, rect):
@@ -35,7 +36,41 @@ def draw_text(text: str, pos, surf: pygame.Surface, player, **kwargs):
     ptext.draw(text_placeholders(text, player), pos, surf=surf, **kwargs)
 
 
-def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, player):
+def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, player, _npc: list[Npc]):
+    npc = list(filter(lambda x: x.name.lower() == screen.dialog_interlocutor.lower(), _npc))[0]
+    window_size = (130, 115)
+    window_pos = (965, 148)
+    window_surf = pygame.Surface(window_size)
+    mx = screen.mouse_pos[0]
+    center_x = window_pos[0] + window_size[0] // 2
+    if mx < center_x:
+        diff = center_x - mx
+        diff //= 10
+
+        if diff > 15:
+            diff = 15
+        image_index = 15 - diff
+    elif mx > center_x:
+        diff = mx - center_x
+        diff //= 10
+
+        if diff > 15:
+            diff = 15
+        image_index = 15 + diff
+    else:
+        image_index = 15
+
+    image_before = npc.images["dialog"][image_index]
+    window_surf.blit(pygame.transform.scale(image_before, (window_size[0], window_size[1])), (0, 0))
+
+    rect_image = pygame.Surface(window_size, pygame.SRCALPHA)
+    pygame.draw.rect(rect_image, (255, 255, 255), (0, 0, *window_size), border_radius=47)
+
+    image: pygame.Surface = window_surf.copy().convert_alpha()
+    image.blit(rect_image, (0, 0), None, pygame.BLEND_RGBA_MIN)
+
+    surface.blit(pygame.transform.scale(image, window_size), window_pos)
+
     dialog = screen.current_dialog
     ptext.DEFAULT_COLOR_TAG = {
         "&0": "black",
