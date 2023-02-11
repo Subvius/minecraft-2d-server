@@ -4,9 +4,10 @@ from lib.models.npc import Npc
 from copy import deepcopy
 
 
-def move_npc(npcs: list[Npc], colliding_objects, move, player, screen, block_size):
+def move_npc(npcs: list[Npc], colliding_objects, move, player, screen, block_size, possible_x, possible_y):
     for npc in npcs:
-        if player.dimension == npc.dimension:
+        if player.dimension == npc.dimension and npc.rect.x // block_size in possible_x and \
+                npc.rect.y // block_size in possible_y:
             movement = [0, 0]
             destination = npc.destination
             rect_before = deepcopy(npc.rect)

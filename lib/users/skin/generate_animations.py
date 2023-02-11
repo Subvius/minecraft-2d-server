@@ -76,19 +76,24 @@ async def generate_animations(sheet_path: str, save_directory: str = './'):
             cropped = img.crop((0, 0, img.width, 158))
             cropped.save(os.path.join(save_directory, f"dialog-{15 + i}.png"))
 
-    tasks = [
-        asyncio.create_task(idle()),
-        asyncio.create_task(sit()),
-        asyncio.create_task(run()),
-        asyncio.create_task(dialog())
-    ]
+    # tasks = [
+    #     asyncio.create_task(idle()),
+    #     asyncio.create_task(sit()),
+    #     asyncio.create_task(run()),
+    #     asyncio.create_task(dialog())
+    # ]
+    #
+    # await asyncio.gather(*tasks)
+    await idle()
+    await sit()
+    await run()
+    await dialog()
 
-    await asyncio.gather(*tasks)
-    # await idle()
-    # await sit()
-    # await run()
-    # await dialog()
 
 #
-# asyncio.run(generate_animations("../../assets/animations/Entities/npc/cebk/cebk-0.png",
-#                                 "../../assets/animations/Entities/npc/cebk/"))
+for file in os.listdir("../../assets/animations/Entities/npc/"):
+    if file.endswith(".png"):
+        name = file.split(".png")[0]
+        os.mkdir(f"../../assets/animations/Entities/npc/{name}/")
+        asyncio.run(generate_animations(f"../../assets/animations/Entities/npc/{file}",
+                                        f"../../assets/animations/Entities/npc/{name}/"))

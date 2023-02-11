@@ -616,7 +616,7 @@ while running:
 
     PLAYER.rect, collisions = move(PLAYER.rect, movement, colliding_objects)
 
-    move_npc(get_npc(), colliding_objects, move, PLAYER, SCREEN, BLOCK_SIZE)
+    move_npc(get_npc(), colliding_objects, move, PLAYER, SCREEN, BLOCK_SIZE, possible_x, possible_y)
     if not collisions['bottom']:
         PLAYER.air_timer += 1
     else:

@@ -13,7 +13,8 @@ class Player(Entity):
         self.dimension = dimension
         self.condition = condition
         blocks = [["stone", "3"], ["stone_bricks", "98"], ["stone_bricks", "98"], ["stone_bricks", "98"],
-                  ["stone_bricks", "98"], ["cobblestone", "4"], ["grass_block", "1"], ["oak_planks", "5"]]
+                  ["stone_bricks", "98"], ["cobblestone", "4"], ["grass_block", "1"], ["oak_planks", "5"],
+                  ["cracked_stone_bricks", "982"], ]
         self.inventory = [[{
             "type": "block",
             'item_id': "bed" if i + 1 > len(blocks) else blocks[i][0],

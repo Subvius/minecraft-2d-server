@@ -39,6 +39,16 @@
     "diggable": 1,
     "material": "rock"
   },
+  "982": {
+    "item_id": "cracked_stone_bricks",
+    "image_root": "cracked_stone_bricks.png",
+    "numerical_id": "982",
+    "stackable": 1,
+    "max_stack_size": 64,
+    "hardness": 1.5,
+    "diggable": 1,
+    "material": "rock"
+  },
   "4": {
     "item_id": "cobblestone",
     "image_root": "cobblestone.png",
