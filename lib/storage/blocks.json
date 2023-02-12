@@ -191,7 +191,7 @@
   },
   "5": {
     "item_id": "oak_planks",
-    "image_root": "oak_planks.jpeg",
+    "image_root": "oak_planks.png",
     "numerical_id": "5",
     "stackable": 1,
     "max_stack_size": 64,
@@ -290,7 +290,7 @@
   },
   "324": {
     "item_id": "oak_door",
-    "image_root": "oak_door.jpeg",
+    "image_root": "oak_door.png",
     "numerical_id": "324",
     "stackable": 1,
     "max_stack_size": 64,

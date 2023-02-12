@@ -3,6 +3,8 @@ import json
 import pickle
 import socket
 import threading
+from copy import deepcopy
+
 from lib.models.player import Player
 
 HEADER = 64
@@ -25,8 +27,10 @@ with open("lib/storage/game_map.json", "r", encoding='utf-8') as f:
 def players_update():
     for el in connections:
         player_id, con = el, connections.get(el)
-        for key in players:
-            player = players[key]
+        players_copy = deepcopy(players)
+
+        for key in players_copy:
+            player = players_copy[key]
             if key != player_id:
                 update_data = ["players-update", key, player]
                 con.send(pickle.dumps(update_data))
@@ -39,10 +43,17 @@ def disconnect(player_id):
         con.send(pickle.dumps(update_data))
 
 
-def map_update(pos, value):
+def block_id_update(pos, value):
     for el in connections:
         _, con = el, connections.get(el)
         update_data = ["block-id-update", pos, value]
+        con.send(pickle.dumps(update_data))
+
+
+def block_state_update(pos, field, value):
+    for el in connections:
+        _, con = el, connections.get(el)
+        update_data = ["block-state-update", pos, field, value]
         con.send(pickle.dumps(update_data))
 
 
@@ -75,13 +86,13 @@ def handle_client(conn, addr):
                 position = msg[1]
                 game_map[position[1]][position[0]] = {"block_id": "0"}
 
-                map_update(position, "0")
+                block_id_update(position, "0")
 
             elif msg[0] == 'block-placed':
                 position = msg[1]
                 block = msg[2]
                 game_map[position[1]][position[0]].update({"block_id": block.__str__()})
-                map_update(position, block.__str__())
+                block_id_update(position, block.__str__())
 
             elif msg[0] == 'block-placed-background':
                 position = msg[1]
@@ -105,6 +116,9 @@ def handle_client(conn, addr):
         except OSError:
             print("OSError")
             connected = False
+
+        except Exception as e:
+            print(f"RAISED EXCEPTION - {e}")
     connections = {key: val for key, val in connections.items() if val != conn}
     players.pop(PLAYER_ID)
     conn.close()
@@ -118,16 +132,18 @@ def handle_client(conn, addr):
 
 async def save_world():
     global game_map
-    print("[SAVE] saving world data...")
-    with open("lib/storage/game_map.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
+    save = input("Save world data? Y/n\n")
+    if save.lower() == "y":
+        print("[SAVE] saving world data...")
+        with open("lib/storage/game_map.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
 
-    data.update({"map": game_map})
+        data.update({"map": game_map})
 
-    with open("lib/storage/game_map.json", "w") as f:
-        json.dump(data, f)
+        with open("lib/storage/game_map.json", "w") as f:
+            json.dump(data, f)
 
-    print("[SAVE] world data has been saved.")
+        print("[SAVE] world data has been saved.")
 
 
 async def on_shutdown():

@@ -6,6 +6,7 @@ import random
 import select
 import socket
 import sqlite3
+import sys
 import webbrowser
 
 import pygame
@@ -291,6 +292,10 @@ def start_screen():
 start_screen()
 
 client.connect(ADDR)
+print(sys.argv)
+if len(sys.argv) >= 2:
+    PLAYER.nickname = sys.argv[1]
+print(PLAYER.nickname)
 client.send(pickle.dumps(["id-update", PLAYER]))
 
 running = True
@@ -409,14 +414,15 @@ while running:
             elif event[0] == "block-id-update":
                 pos = event[1]
                 _value = event[2]
-                gm_map[pos[1]][pos[0]] = {"block_id": _value}
+                if SCREEN.screen != "abyss":
+                    game_map["map"][pos[1]][pos[0]] = {"block_id": _value}
+                else:
+                    gm_map[pos[1]][pos[0]] = {"block_id": _value}
 
         except pickle.UnpicklingError as e:
-            print("[CLIENT] неверные данные", e)
-
-    if random.randint(0, 100) == 9:
-        update_data = ["number!", 9]
-        client.send(pickle.dumps(update_data))
+            pass
+        except Exception as e:
+            print(f"RAISED EXCEPTION - {e}")
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -486,7 +492,7 @@ while running:
                                    False, PLAYER)
         if event.type == MOUSEWHEEL:
             if not SCREEN.paused:
-                PLAYER.set_selected_slot(PLAYER.selected_inventory_slot - event.y)
+                PLAYER.set_selected_slot(PLAYER.selected_inventory_slot - (-1 if event.y < 0 else 1))
 
     current_time = pygame.time.get_ticks()
     if current_time - ENTITIES_UPDATE_DELAY > last_entities_update:
@@ -531,6 +537,8 @@ while running:
         for tile_x in possible_x:
             block: dict = gm_map[tile_y][tile_x]
             block_id = block.get("block_id", "0")
+            if block_id.count(":"):
+                block_id, state = block_id.split(":")
             if block.get("background_block_id", None) is not None and block_id == "0":
                 block_id = block.get("background_block_id", "3")
             percentage = 0
@@ -553,6 +561,7 @@ while running:
                         client.send(pickle.dumps(["block-placed", [tile_x, tile_y], "1"]))
 
                 block_data = blocks_data[block_id]
+
                 search = block_data["item_id"] if SCREEN.screen == 'lobby' else "abyss-" + block_data[
                     "item_id"] if SCREEN.screen == "abyss" else "stone"
                 if block_data['item_id'] == "bed":
@@ -561,8 +570,31 @@ while running:
                     elif gm_map[tile_y][tile_x + 1].get("block_id") == "365":
                         image = images.get("bed_top")
                     else:
-                        image = pygame.Surface((32, 32), SRCALPHA).convert()
+                        image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE), SRCALPHA).convert()
                         gm_map[tile_y][tile_x] = {"block_id": "0"}
+                elif block_data['item_id'].count("door"):
+                    color = images.get(block_data['item_id'] + "_top").get_at((0, 0))
+                    if state == "1":
+                        if gm_map[tile_y][tile_x].get("open", False):
+                            image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE), SRCALPHA)
+                            pygame.draw.line(image, color, (0, 0), (0, BLOCK_SIZE), width=2)
+                        else:
+                            if gm_map[tile_y + 1][tile_x].get("block_id").count(block_id):
+                                image = images.get(block_data['item_id'] + "_top")
+                            else:
+                                image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE), SRCALPHA).convert()
+                                gm_map[tile_y][tile_x] = {"block_id": "0"}
+
+                    elif state == "2":
+                        if gm_map[tile_y - 1][tile_x].get("open", False):
+                            image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE), SRCALPHA)
+                            pygame.draw.line(image, color, (0, 0), (0, BLOCK_SIZE), width=2)
+                        else:
+                            if gm_map[tile_y - 1][tile_x].get("block_id").count(block_id):
+                                image = images.get(block_data['item_id'] + "_bottom")
+                            else:
+                                image = pygame.Surface((BLOCK_SIZE, BLOCK_SIZE), SRCALPHA).convert()
+                                gm_map[tile_y][tile_x] = {"block_id": "0"}
 
                 else:
                     image = images.get(search, images.get(block_data['item_id']))
@@ -586,7 +618,10 @@ while running:
                     pygame.draw.rect(screen, (232, 115, 104), rect, width=2)
 
                 if block_id not in NOT_COLLIDING_BLOCKS and not (
-                        block.get("background_block_id", None) is not None and block.get("block_id", "0") == "0"):
+                        block.get("background_block_id", None) is not None and block.get("block_id",
+                                                                                         "0") == "0") and not \
+                        gm_map[tile_y - 1 if block_id in ["324"] and state == "2" else tile_y][tile_x].get("open",
+                                                                                                           False):
                     block_rect = pygame.Rect(tile_x * BLOCK_SIZE, tile_y * BLOCK_SIZE,
                                              BLOCK_SIZE,
                                              BLOCK_SIZE)

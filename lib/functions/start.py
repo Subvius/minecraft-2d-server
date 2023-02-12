@@ -49,7 +49,8 @@ def get_images(blocks_data: dict):
     images.update({"overworld_background": pygame.image.load("lib/assets/overworld_background.png")})
     images.update({"no_textures": pygame.image.load("lib/assets/no_textures.webp")})
     images.update({"bed_top": pygame.image.load("lib/assets/bed-top.png")})
-    images.update({"bed_bottom": pygame.image.load("lib/assets/bed-bottom.png")})
+    images.update({"oak_door_bottom": pygame.image.load("lib/assets/oak_door_bottom.png")})
+    images.update({"oak_door_top": pygame.image.load("lib/assets/oak_door_top.png")})
 
     for file in os.listdir("lib/assets/items"):
         if file.endswith(".png"):

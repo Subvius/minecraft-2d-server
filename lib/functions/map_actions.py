@@ -181,6 +181,8 @@ def on_right_click(event, map_objects, scroll, game_map, player, screen,
         value_y = (y + scroll[1]) // 32
         try:
             tile = game_map[value_y][value_x].get("block_id", "0")
+            if tile.count(":"):
+                tile, state = tile.split(":")
             # игрок кликнул по "воздуху" и рядом с "воздухом есть блок"
             if tile in ["0", "9"]:
                 if game_map[value_y + 1][value_x].get("block_id") != "0" or game_map[value_y - 1][value_x].get(
@@ -189,13 +191,31 @@ def on_right_click(event, map_objects, scroll, game_map, player, screen,
                     "block_id") != "0":
                     selected = player.inventory[0][player.selected_inventory_slot]
                     if selected is not None and selected['type'] == 'block':
-                        if game_map[value_y][value_x + 1].get("block_id") == "0" and selected["item_id"] == "bed":
-                            game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
-                            game_map[value_y][value_x + 1] = {"block_id": selected['numerical_id']}
-                        elif selected["item_id"] != "bed":
-                            game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
+                        if selected['item_id'].count('bed') or selected['item_id'].count('door'):
+                            if game_map[value_y][value_x + 1].get("block_id") == "0" and selected["item_id"] == "bed":
+                                game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
+                                placed_id = selected['numerical_id']
 
-                        placed_id = selected['numerical_id']
+                                game_map[value_y][value_x + 1] = {"block_id": selected['numerical_id']}
+
+                            if game_map[value_y + 1][value_x].get("block_id") == "0" and selected['item_id'].count(
+                                    "door"):
+                                game_map[value_y][value_x] = {"block_id": selected['numerical_id'] + ":1"}
+                                game_map[value_y + 1][value_x] = {"block_id": selected['numerical_id'] + ":2"}
+
+                                placed_id = selected['numerical_id'] + ":1"
+
+                            elif game_map[value_y - 1][value_x].get("block_id") == "0" and selected['item_id'].count(
+                                    "door"):
+                                game_map[value_y][value_x] = {"block_id": selected['numerical_id'] + ":2"}
+                                game_map[value_y - 1][value_x] = {"block_id": selected['numerical_id'] + ":1"}
+
+                                placed_id = selected['numerical_id'] + ":2"
+
+                        else:
+                            placed_id = selected['numerical_id']
+
+                            game_map[value_y][value_x] = {"block_id": selected['numerical_id']}
 
                         map_objects.append(pygame.Rect(value_x * 32, value_y * 32, 32, 32))
                         player.remove_from_inventory(player.selected_inventory_slot, 1)
@@ -204,6 +224,13 @@ def on_right_click(event, map_objects, scroll, game_map, player, screen,
 
             elif tile == "58":
                 screen.toggle_inventory("crafting_table")
+            elif tile in ["324"]:
+                value_y = value_y - 1 if state == "2" else value_y
+                if game_map[value_y][value_x].get("open", False):
+                    game_map[value_y][value_x].update({"open": False})
+                else:
+                    game_map[value_y][value_x].update({"open": True})
+
         except IndexError:
             print('доделать!!!!! (lib/models/map.py), line: 26')
 
@@ -224,8 +251,9 @@ def on_left_click(pos, map_objects, scroll, game_map, player, hold_start, blocks
         try:
             data = game_map[value_y][value_x]
             tile = data.get("block_id", "0")
-            if tile != "0" and not tile.count(":"):
-
+            if tile != "0":
+                if tile.count(":"):
+                    tile, state = tile.split(":")
                 block_data = blocks_data[tile]
                 if type(block_data) == dict:
                     if block_data.get('diggable', 0):
