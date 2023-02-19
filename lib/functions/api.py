@@ -3,10 +3,12 @@ import json
 import requests
 
 
-def get_data(url) -> dict:
+def get_data(url, json_res=True) -> dict:
     res = requests.get(url)
-
-    return res.json()
+    if json_res:
+        return res.json()
+    else:
+        return res
 
 
 def post_data(url, data: dict) -> dict:

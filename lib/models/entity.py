@@ -4,7 +4,7 @@ import pygame
 class Entity:
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int,
                  images_path: str = "",
-                 entity_type: str = "player", dimension='stormhold', speed=1.2, jump_height=2):
+                 entity_type: str = "player", dimension='stormhold', speed=1.2, jump_height=2, has_cape=False, cape=None):
         self.rect: pygame.Rect = pygame.Rect(*pos, *size)
         self.hp = hp
         self.max_hp = max_hp
@@ -26,11 +26,20 @@ class Entity:
         self.jump_height = jump_height
         self.dimension = dimension
         self.is_dead = False
+        self.last_landing_time = pygame.time.get_ticks()
+        self.has_cape = has_cape
+        self.cape = cape
         if self.images_path != "":
             self.prepare_images()
 
     def set_destination(self, pos):
         self.destination = pos
+
+    def set_landing_time(self, time=None):
+        if time is None:
+            time = pygame.time.get_ticks()
+
+        self.last_landing_time = time
 
     def cut_sheet(self, sheet, columns, rows, animation_type, frame_width, step):
         for j in range(rows):
@@ -94,7 +103,8 @@ class Entity:
             pygame.draw.rect(image, "white", self.rect)
         surface.blit(
             pygame.transform.flip(pygame.transform.scale(image, (
-                self.rect.width if self.condition != "idle" else self.rect.width - 5, self.rect.height)),
+                self.rect.width if self.condition != "idle" or self.has_cape else self.rect.width - 5,
+                self.rect.height)),
                                   self.moving_direction != 'left',
                                   False),
             (self.rect.x - scroll[0], self.rect.y - scroll[1]))

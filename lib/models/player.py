@@ -5,8 +5,9 @@ from lib.models.entity import Entity
 
 class Player(Entity):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int, nickname: str,
-                 images_path: str = "", frame=0, condition='idle', moving_direction='right', dimension='lobby'):
-        super().__init__(size, pos, hp, max_hp, damage, images_path, "player")
+                 images_path: str = "", frame=0, condition='idle', moving_direction='right', dimension='lobby',
+                 cape=None):
+        super().__init__(size, pos, hp, max_hp, damage, images_path, "player", has_cape=cape is None, cape=cape)
         self.nickname = self.id = nickname
         self.frame = frame
         self.moving_direction = moving_direction
@@ -25,7 +26,8 @@ class Player(Entity):
 
     def server_data(self):
         return Player(self.rect.size, (self.rect.x, self.rect.y), self.hp, self.max_hp, self.damage, self.nickname,
-                      self.images_path, self.frame, self.condition, self.moving_direction, self.dimension)
+                      self.images_path, self.frame, self.condition, self.moving_direction, self.dimension,
+                      cape=self.cape)
 
     def set_selected_slot(self, slot: int):
         if not self.is_dead:
@@ -50,7 +52,8 @@ class Player(Entity):
             pygame.draw.rect(image, "white", self.rect)
         surface.blit(
             pygame.transform.flip(pygame.transform.scale(image, (
-                self.rect.width if self.condition != "idle" else self.rect.width - 5, self.rect.height)),
+                32 if self.condition != "idle" or self.has_cape else self.rect.width - 5,
+                self.rect.height)),
                                   self.moving_direction != 'left',
                                   False),
             (self.rect.x - scroll[0], self.rect.y - scroll[1]))

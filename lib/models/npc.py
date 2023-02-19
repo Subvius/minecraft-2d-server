@@ -10,7 +10,7 @@ from lib.models.entity import Entity
 
 class Npc(Entity):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int, name: str,
-                 images_path: str = "", speed=1, jump_height=1.75):
+                 images_path: str = "", speed=1, jump_height=1.75, space_filler=False, dimension="abyss"):
         super().__init__(size, pos, hp, max_hp, damage, images_path, f"npc-{name}", speed=speed,
                          jump_height=jump_height)
         self.name = name
@@ -19,6 +19,9 @@ class Npc(Entity):
         self.skin_name = name
         self._init_images()
         self.hide = False
+        self.space_filler = space_filler
+        self.arrived_at = pygame.time.get_ticks()
+        self.set_dimension(dimension)
 
     def _init_images(self):
         files = list(filter(lambda x: x.endswith(".png"), os.listdir(self.images_path)))

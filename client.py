@@ -1,13 +1,17 @@
+import asyncio
 import datetime
 import json
 import math
+import os
 import pickle
 import random
 import select
+import shutil
 import socket
 import sqlite3
 import sys
 import webbrowser
+from copy import deepcopy
 
 import pygame
 from pygame.event import Event
@@ -17,6 +21,7 @@ from lib.functions.blocks import get_block_from_coords
 from lib.functions.map_actions import is_close, on_left_click, on_right_click
 from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
+from lib.functions.run_multiple_tasks import run_multiple_tasks
 from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
 from lib.models.player import Player
 from lib.functions.movement import move
@@ -29,6 +34,7 @@ from lib.functions.telegram import get_recent_posts
 from lib.models.screen import *
 from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory
 from lib.models.npc import Npc
+from lib.users.skin.generate_animations import generate_animations
 
 pygame.init()
 pygame.font.init()
@@ -49,6 +55,8 @@ DISCONNECT_MESSAGE = "!DISCONNECT"
 SERVER = '192.168.1.64'  # server address to connect
 BLOCK_SIZE = 32  # 42.5 blocks in width, 24 blocks in height
 NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
+FRACTIONS = ["killer", "magician", "smuggler"]  # Story fractions of npcs and da player
+CASTLE_AREA = ((7744, 1952), (10272, 1952))
 
 ADDR = (SERVER, PORT)  # server address
 
@@ -76,12 +84,13 @@ SCREEN = Screen()
 CONSTANTS = Constants()
 clock = pygame.time.Clock()
 
-moving_left = moving_right = False
+moving_left = moving_right = jumping = False
 
 lobby_map, game_map, blocks_data = get_maps()
 images, icons, mobs_images, block_breaking = get_images(blocks_data)
 session_stats = {}
 PLAYER: Player = None
+PLAYER_DATA = {}
 STORY_WORLD_COORD = (0, 0)
 
 
@@ -142,7 +151,9 @@ def log_in_screen():
                             api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
                                                     f"password={password_input.text}")
-                            global STORY_WORLD_COORD
+
+                            global STORY_WORLD_COORD, PLAYER_DATA
+                            PLAYER_DATA = api_data
                             if api_data.get("story_world_coord", None) is None:
                                 STORY_WORLD_COORD = (1240, 2340)
                             else:
@@ -239,7 +250,8 @@ def start_screen():
                             api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
                                                     f"password={db_user[2]}")
-                            global STORY_WORLD_COORD
+                            global STORY_WORLD_COORD, PLAYER_DATA
+                            PLAYER_DATA = api_data
                             if api_data.get("story_world_coord", None) is None:
                                 STORY_WORLD_COORD = (1240, 2340)
                             else:
@@ -291,6 +303,12 @@ def start_screen():
 
 start_screen()
 
+sheet_path = "lib/assets/animations/Entities/player/"
+if PLAYER_DATA.get("cape", "8bitbee") is not None:
+    PLAYER.has_cape = True
+    PLAYER.cape = PLAYER_DATA.get("cape", "8bitbee")
+
+
 client.connect(ADDR)
 print(sys.argv)
 if len(sys.argv) >= 2:
@@ -301,6 +319,7 @@ client.send(pickle.dumps(["id-update", PLAYER]))
 running = True
 player_id = PLAYER.nickname
 players: dict[str, Player] = {}
+players_images: dict[str, list[pygame.Surface]] = {}
 players.update({player_id: PLAYER})
 
 api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
@@ -310,7 +329,7 @@ ENTITIES_UPDATE_DELAY = 150
 last_entities_update = pygame.time.get_ticks()
 
 
-def main_screen():
+async def main_screen():
     on_screen = True
     pygame.display.set_caption("Minecraft 2D")
 
@@ -365,24 +384,36 @@ def main_screen():
         pygame.display.flip()
         clock.tick(60)
 
+async def load_skin(skin_name, nickname: str, save_directory: str, cape):
+    res = api.get_data(f"https://mineskin.eu/skin/{skin_name}", json_res=False)
+    shutil.copyfile(f"lib/users/skin/raw_steve.png", f"lib/temp/raw_skins/{nickname}.png")
+    with open(f"lib/temp/raw_skins/{nickname}.png", "wb") as f:
+        f.write(res.content)
+    await generate_animations(f"lib/temp/raw_skins/{nickname}.png", save_directory,
+                              cape)
 
-main_screen()
+
+asyncio.run(run_multiple_tasks([main_screen(), load_skin(PLAYER.nickname, PLAYER.nickname, sheet_path, "8bitbee")]))
 
 print(PLAYER.nickname)
-sheet_path = "lib/assets/animations/Entities/player/"
 # PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
 # PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
 PLAYER_IMAGES = load_player_images(sheet_path)
+players_images.update({PLAYER.nickname: PLAYER_IMAGES})
 
 
 def get_npc():
-    return [CEBK, GREETER]
+    return [CEBK, GREETER, *NPC_FILLERS]
 
 
 CEBK = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
            "cebk", speed=1.75, jump_height=1.5)
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
+
+NPC_FILLERS = [Npc((28, 60), (random.randint(CASTLE_AREA[0][0], CASTLE_AREA[1][0]), CASTLE_AREA[0][1]), 20, 20, 1,
+                   FRACTIONS[i % len(FRACTIONS)], space_filler=True, dimension="abyss") for i in
+               range(len(FRACTIONS) * 2)]
 
 with open("lib/storage/story_characters.json", "r", encoding="utf-8") as f:
     data: dict = json.load(f)
@@ -396,6 +427,7 @@ scroll = [0, 0]
 SCREEN.set_story_world_pos(STORY_WORLD_COORD)
 gm_map = []
 add_to_background = False
+collisions_before = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
@@ -407,6 +439,14 @@ while running:
                 player_id = event[1]
 
             elif event[0] == 'players-update' and event[1] != player_id:
+                if event[1] not in list(players.keys()):
+                    dir_path = f"lib/users/{event[1]}/"
+                    if not os.path.exists(dir_path):
+                        os.mkdir(dir_path)
+                    asyncio.run(load_skin(event[1], event[1], dir_path, event[2].cape))
+                    imgs = load_player_images(dir_path)
+                    players_images.update({event[1]: imgs})
+
                 players.update({event[1]: event[2]})
             elif event[0] == 'player-disconnect':
                 players = {key: val for key, val in players.items() if key != event[1]}
@@ -437,9 +477,12 @@ while running:
                     moving_left = True
                 elif event.key == K_RIGHT or event.key == K_d:
                     moving_right = True
-                elif event.key == K_UP or event.key == K_SPACE:
-                    if PLAYER.air_timer < 6:
-                        PLAYER.vertical_momentum -= 10
+                elif event.key == K_UP:
+                    jumping = True
+                elif event.key == K_SPACE:
+                    PLAYER.vertical_momentum -= 10
+                    jumping = True
+
                 elif event.key == K_c:
                     print(PLAYER.rect)
                 elif event.key == K_g:
@@ -450,6 +493,8 @@ while running:
                     moving_left = False
                 elif event.key == K_RIGHT:
                     moving_right = False
+                elif event.key == K_UP:
+                    jumping = False
 
         if event.type == KEYDOWN:
             if event.key == K_e:
@@ -465,13 +510,12 @@ while running:
             SCREEN.set_mouse_pos(event.pos)
         if event.type == MOUSEBUTTONDOWN:
             hold_start = datetime.datetime.now()
-            print(event.pos[0] + scroll[0], event.pos[1] + scroll[1])
             SCREEN.set_hold_button("left" if event.button == 1 else "right" if event.button == 3 else "middle", True,
                                    PLAYER)
             for npc in get_npc():
                 stop = npc.on_click(event.pos, event.button, SCREEN, PLAYER, scroll)
                 if stop:
-                    moving_left = moving_right = False
+                    moving_left = moving_right = jumping = False
 
             if SCREEN.screen == 'abyss':
                 if event.button == 3:
@@ -646,22 +690,31 @@ while running:
         movement[0] -= 2
         PLAYER.moving_direction = 'left'
 
+    if jumping and PLAYER.air_timer < 6 and collisions_before[
+        "bottom"] and pygame.time.get_ticks() - PLAYER.last_landing_time > 75:
+        PLAYER.vertical_momentum -= 9
+
     movement[1] += PLAYER.vertical_momentum
     PLAYER.vertical_momentum = PLAYER.vertical_momentum + 0.5 if PLAYER.vertical_momentum + 0.5 <= 3 else 3
 
     PLAYER.rect, collisions = move(PLAYER.rect, movement, colliding_objects)
 
-    move_npc(get_npc(), colliding_objects, move, PLAYER, SCREEN, BLOCK_SIZE, possible_x, possible_y)
+    move_npc(get_npc(), colliding_objects, move, PLAYER, SCREEN, BLOCK_SIZE, possible_x, possible_y, CASTLE_AREA)
     if not collisions['bottom']:
         PLAYER.air_timer += 1
     else:
         PLAYER.air_timer = 0
 
+        if not collisions_before['bottom']:
+            PLAYER.last_landing_time = pygame.time.get_ticks()
+
+    collisions_before = deepcopy(collisions)
+
     for key in players:
         player = players[key]
         # pygame.draw.rect(screen, "white", player.rect)
         if player.dimension == PLAYER.dimension:
-            player.draw(screen, scroll, PLAYER_IMAGES)
+            player.draw(screen, scroll, players_images.get(player.nickname, {}))
             nick_surf = fonts[12].render(player.nickname, False,
                                          "gray" if player.nickname != PLAYER.nickname else "white")
             nick_rect = pygame.Rect(player.rect.x - player.rect.w // 4 - nick_surf.get_width() // 4 - scroll[0],
