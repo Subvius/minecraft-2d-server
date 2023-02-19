@@ -69,7 +69,7 @@ class Screen:
             self.story_data, self.phase = self.get_story()
         self.update_phase()
 
-    def story(self, player):
+    def story(self, player, npcs: list):
         if self.screen == "abyss" and self.phase is not None:
             current_stage = self.phase
             actions = current_stage.get("actions", [{}])
@@ -109,6 +109,19 @@ class Screen:
                 elif now - self.timer_start >= datetime.timedelta(seconds=wait.get("time")):
                     self.next_stage(actions)
                     self.timer_start = None
+            elif current_action.get("wait_for", None) is not None:
+                wait_for = current_action.get("wait_for")
+                key = wait_for.get("key")
+                field = wait_for.get("field")
+                event = wait_for.get("event")
+                if event.get("type") == "equal-to":
+                    for npc in npcs:
+                        if npc.name.lower() == key.lower():
+                            fields = []
+                            for el in event.get("fields"):
+                                fields.append(eval(f"npc.{el}"))
+                            if fields == eval(f"npc.{field}") or (field == "destination" and npc.destination is None):
+                                self.next_stage(actions)
         return None, None, None
 
     def add_dialog_rect(self, rect: pygame.Rect):

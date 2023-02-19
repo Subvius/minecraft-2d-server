@@ -91,10 +91,10 @@ async def generate_animations(sheet_path: str, save_directory: str = './', cape_
     await dialog()
 
 
-#
 # for file in os.listdir("../../assets/animations/Entities/npc/"):
 #     if file.endswith(".png"):
 #         name = file.split(".png")[0]
-#         os.mkdir(f"../../assets/animations/Entities/npc/{name}/")
+#         if not os.path.exists(f"../../assets/animations/Entities/npc/{name}/"):
+#             os.mkdir(f"../../assets/animations/Entities/npc/{name}/")
 #         asyncio.run(generate_animations(f"../../assets/animations/Entities/npc/{file}",
 #                                         f"../../assets/animations/Entities/npc/{name}/"))

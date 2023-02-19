@@ -56,7 +56,7 @@ SERVER = '192.168.1.64'  # server address to connect
 BLOCK_SIZE = 32  # 42.5 blocks in width, 24 blocks in height
 NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
 FRACTIONS = ["killer", "magician", "smuggler"]  # Story fractions of npcs and da player
-CASTLE_AREA = ((7744, 1952), (10272, 1952))
+CASTLE_AREA = ((7744, 1952), (9856, 1952))
 
 ADDR = (SERVER, PORT)  # server address
 
@@ -308,7 +308,6 @@ if PLAYER_DATA.get("cape", "8bitbee") is not None:
     PLAYER.has_cape = True
     PLAYER.cape = PLAYER_DATA.get("cape", "8bitbee")
 
-
 client.connect(ADDR)
 print(sys.argv)
 if len(sys.argv) >= 2:
@@ -384,6 +383,7 @@ async def main_screen():
         pygame.display.flip()
         clock.tick(60)
 
+
 async def load_skin(skin_name, nickname: str, save_directory: str, cape):
     res = api.get_data(f"https://mineskin.eu/skin/{skin_name}", json_res=False)
     shutil.copyfile(f"lib/users/skin/raw_steve.png", f"lib/temp/raw_skins/{nickname}.png")
@@ -403,13 +403,17 @@ players_images.update({PLAYER.nickname: PLAYER_IMAGES})
 
 
 def get_npc():
-    return [CEBK, GREETER, *NPC_FILLERS]
+    return [CEBK, GREETER, KIRA, *NPC_FILLERS]
 
 
 CEBK = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
            "cebk", speed=1.75, jump_height=1.5)
+KIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
+           "kira", speed=1.75, jump_height=1.5)
+
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
+
 
 NPC_FILLERS = [Npc((28, 60), (random.randint(CASTLE_AREA[0][0], CASTLE_AREA[1][0]), CASTLE_AREA[0][1]), 20, 20, 1,
                    FRACTIONS[i % len(FRACTIONS)], space_filler=True, dimension="abyss") for i in
@@ -690,7 +694,7 @@ while running:
         movement[0] -= 2
         PLAYER.moving_direction = 'left'
 
-    if jumping and PLAYER.air_timer < 6 and collisions_before[
+    if jumping and PLAYER.air_timer < 10 and collisions_before[
         "bottom"] and pygame.time.get_ticks() - PLAYER.last_landing_time > 75:
         PLAYER.vertical_momentum -= 9
 
@@ -757,7 +761,7 @@ while running:
                     (screen.get_width() // 2 - img.get_width() // 2, screen.get_height() // 2 - img.get_height() // 2))
         draw_dialog_window(screen, SCREEN, fonts[24], PLAYER, get_npc())
 
-    _npc, _field, _value = SCREEN.story(PLAYER)
+    _npc, _field, _value = SCREEN.story(PLAYER, get_npc())
     if _npc is not None:
         eval(f"""{_npc.upper()}.on_update("{_field}", "{_value}")""")
     pygame.display.flip()

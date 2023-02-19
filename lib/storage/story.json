@@ -118,7 +118,131 @@
       },
       {
         "wait": {
-          "time": 300
+          "time": 30
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "hide",
+          "value": false
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "x",
+          "value": 1700
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "y",
+          "value": 1764
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "destination",
+          "value": [
+            1152,
+            1860
+          ]
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "interact",
+          "value": {
+            "can": true,
+            "actions": [
+              {
+                "text": "Здравствуйте, Вы случаем не видели тут неподалёку аборанис?",
+                "choices": {
+                  "1": {
+                    "answer": "Не видел что?",
+                    "next": {
+                      "text": "Аборанис - руда. Как это можно не знать. Погоди-ка...",
+                      "choices": {
+                        "1": {
+                          "answer": "Что такое.",
+                          "next": {
+                            "text": "Так ты нежить. Как я сразу не догадалась. Ни шагу дальше, а то зарежу."
+                          }
+                        }
+                      },
+                      "end": true
+                    }
+                  },
+                  "2": {
+                    "answer": "Да, тут в 4 блоках от кошюшни к северо-западу."
+                  },
+                  "3": {
+                    "answer": "Вы собственно кто?"
+                  }
+                }
+              },
+              {
+                "text": "Погоди-ка. Ты не контр. А значит..",
+                "choices": {
+                  "1": {
+                    "answer": "Значит, что?",
+                    "next": {
+                      "text": "Ты нежить. Отойди от меня и не вздумай даже идти за мной!",
+                      "choices": {
+                        "1": {
+                          "answer": "Так я и не собирался.."
+                        }
+                      },
+                      "end": true
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "interact",
+          "value": {
+            "can": false
+          }
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "destination",
+          "value": [
+            8222,
+            1952
+          ]
+        }
+      },
+      {
+        "wait_for": {
+          "key": "kira",
+          "field": "destination",
+          "event": {
+            "type": "equal-to",
+            "fields": [
+              "rect.x",
+              "rect.y"
+            ]
+          }
+        }
+      },
+      {
+        "edit": {
+          "key": "kira",
+          "field": "hide",
+          "value": true
         }
       }
     ]
