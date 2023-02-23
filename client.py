@@ -89,6 +89,7 @@ moving_left = moving_right = jumping = False
 lobby_map, game_map, blocks_data = get_maps()
 images, icons, mobs_images, block_breaking = get_images(blocks_data)
 session_stats = {}
+player_stats = {}
 PLAYER: Player = None
 PLAYER_DATA = {}
 STORY_WORLD_COORD = (0, 0)
@@ -145,12 +146,12 @@ def log_in_screen():
 
                             continue
                         else:
-                            global PLAYER, session_stats, db_user, db_cur, db_connection
+                            global PLAYER, session_stats, db_user, db_cur, db_connection, player_stats
                             PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
                                             username_input.text.strip())
                             api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
-                                                    f"password={password_input.text}")
+                                                    f"password={password_input.text}").get("player")
 
                             global STORY_WORLD_COORD, PLAYER_DATA
                             PLAYER_DATA = api_data
@@ -158,7 +159,7 @@ def log_in_screen():
                                 STORY_WORLD_COORD = (1240, 2340)
                             else:
                                 STORY_WORLD_COORD = api_data.get("story_world_coord")
-                            session_stats = api_data.get(
+                            player_stats = api_data.get(
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
                             if db_user is None:
@@ -244,19 +245,19 @@ def start_screen():
                         if db_user is None or not db_user[3]:
                             return log_in_screen()
                         else:
-                            global PLAYER, session_stats
+                            global PLAYER, session_stats, player_stats
                             PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
                                             db_user[1])
                             api_data = api.get_data(
                                 CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
-                                                    f"password={db_user[2]}")
+                                                    f"password={db_user[2]}").get("player")
                             global STORY_WORLD_COORD, PLAYER_DATA
                             PLAYER_DATA = api_data
                             if api_data.get("story_world_coord", None) is None:
                                 STORY_WORLD_COORD = (1240, 2340)
                             else:
                                 STORY_WORLD_COORD = api_data.get("story_world_coord")
-                            session_stats = api_data.get(
+                            player_stats = api_data.get(
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
                         on_screen = False
@@ -304,9 +305,12 @@ def start_screen():
 start_screen()
 
 sheet_path = "lib/assets/animations/Entities/player/"
-if PLAYER_DATA.get("cape", "8bitbee") is not None:
+if PLAYER_DATA.get("cloak", None) is not None:
+    print("has cloak")
     PLAYER.has_cape = True
-    PLAYER.cape = PLAYER_DATA.get("cape", "8bitbee")
+    PLAYER.cape = PLAYER_DATA.get("cloak", None)
+else:
+    print(PLAYER_DATA)
 
 client.connect(ADDR)
 print(sys.argv)
@@ -393,7 +397,7 @@ async def load_skin(skin_name, nickname: str, save_directory: str, cape):
                               cape)
 
 
-asyncio.run(run_multiple_tasks([main_screen(), load_skin(PLAYER.nickname, PLAYER.nickname, sheet_path, "8bitbee")]))
+asyncio.run(run_multiple_tasks([main_screen(), load_skin(PLAYER.nickname, PLAYER.nickname, sheet_path, PLAYER.cape)]))
 
 print(PLAYER.nickname)
 # PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
@@ -413,7 +417,6 @@ KIRA = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
 
 GREETER = Npc((28, 60), (100, 23 * BLOCK_SIZE), 20, 20, 1,
               "greeter")
-
 
 NPC_FILLERS = [Npc((28, 60), (random.randint(CASTLE_AREA[0][0], CASTLE_AREA[1][0]), CASTLE_AREA[0][1]), 20, 20, 1,
                    FRACTIONS[i % len(FRACTIONS)], space_filler=True, dimension="abyss") for i in
@@ -448,6 +451,7 @@ while running:
                     if not os.path.exists(dir_path):
                         os.mkdir(dir_path)
                     asyncio.run(load_skin(event[1], event[1], dir_path, event[2].cape))
+                    print(event[2].cape)
                     imgs = load_player_images(dir_path)
                     players_images.update({event[1]: imgs})
 
@@ -473,7 +477,7 @@ while running:
             running = False
             pygame.quit()
             session_stats.update({"play_time": (datetime.datetime.now() - session_stats.get("play_time")).seconds})
-            save_stats(PLAYER.nickname, session_stats, CONSTANTS)
+            save_stats(PLAYER.nickname, session_stats, CONSTANTS, player_stats)
             exit(0)
         if not SCREEN.paused:
             if event.type == KEYDOWN:

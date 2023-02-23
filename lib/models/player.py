@@ -7,7 +7,7 @@ class Player(Entity):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int, nickname: str,
                  images_path: str = "", frame=0, condition='idle', moving_direction='right', dimension='lobby',
                  cape=None):
-        super().__init__(size, pos, hp, max_hp, damage, images_path, "player", has_cape=cape is None, cape=cape)
+        super().__init__(size, pos, hp, max_hp, damage, images_path, "player", has_cape=cape is not None, cape=cape)
         self.nickname = self.id = nickname
         self.frame = frame
         self.moving_direction = moving_direction

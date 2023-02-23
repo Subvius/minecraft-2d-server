@@ -113,9 +113,9 @@ def get_posts_surface(fonts, icons):
 
         if image_path is not None:
             image = pygame.image.load(image_path)
-            x, y = image.get_rect().center
-            img_width, img_height = image.get_size()
-            surface.blit(image, (0, 0), (x - img_width // 4, y - img_height // 4, 390, 166))
+            # x, y = image.get_rect().center
+            # img_width, img_height = image.get_size()
+            surface.blit(image, (0, 0), (20, 0, 390, 166))
         temp_surf.set_colorkey((0, 0, 0))
         author_surf = fonts[14].render(f"Posted by", False, text_color)
         surface.blit(author_surf, (4, 170 + fonts[14].get_height() * 2 + 25))

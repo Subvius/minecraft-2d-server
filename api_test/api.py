@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from flask import *
 import os
@@ -34,7 +35,8 @@ def get_player_data():
                         'nickname': player,
                         "first_login": datetime.datetime.now().timestamp(),
                         "last_logout": datetime.datetime.now().timestamp(),
-                        "stats": {}
+                        "stats": {},
+                        "cosmetics": []
                     }
                     data.update({player: player_data})
                     with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
@@ -70,4 +72,53 @@ def get_player_data():
                 response.update({"E": e.__str__()})
                 return response
 
+    return response
+
+
+@app.route("/game/", methods=["GET", "POST"])
+def get_game_data():
+    dir_path = os.path.dirname(__file__)
+    method = request.method
+    update = request.args.get("update")
+
+    response = {
+        "success": False
+    }
+    try:
+        with open(os.path.join(dir_path, "manifest.json"), "r") as f:
+            manifest: dict = json.load(f)
+
+        if method == "GET":
+            response.update({
+                "game": manifest,
+                "success": True
+            })
+            return response
+
+        elif method == "POST":
+            update_data = request.get_json(force=True)
+            if update is not None:
+
+                for key, value in list(update_data.items()):
+                    if key not in ["version", "build_number"]:
+                        manifest.update({
+                            key: value
+                        })
+                    else:
+                        manifest.update({
+                            key: manifest.get(key) + value
+                        })
+
+                with open(os.path.join(dir_path, "manifest.json"), "w") as f:
+                    json.dump(manifest, f)
+
+                response.update({
+                    "success": True
+                })
+
+            return response
+
+    except Exception as e:
+        response.update({"E": e.__str__()})
+        return response
     return response

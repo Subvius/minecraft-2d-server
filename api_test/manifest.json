@@ -1,0 +1,18 @@
+{
+  "name": "minecraft2d",
+  "short_name": "mc2d",
+  "version": 1,
+  "build_number": 1,
+  "author": "@Subvius",
+  "main": "../client.py",
+  "description": "Insane Minecraft 2D multiplayer project",
+  "git_url": "https://github.com/Subvius/minecraft-2d-server",
+  "download_url": "https://github.com/Subvius/minecraft-2d-server/archive/refs/heads/main.zip",
+  "icons": [
+    {
+      "src": "lib/assets/icons/logo.png",
+      "sizes": "157x151",
+      "type": "image/png"
+    }
+  ]
+}
