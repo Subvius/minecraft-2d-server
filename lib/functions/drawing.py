@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 import lib.functions.ptext as ptext
 from lib.models.npc import Npc
 
@@ -10,7 +11,8 @@ def draw_rect_alpha(surface, color, rect):
 
 
 def text_placeholders(text: str, player) -> str:
-    text = text.replace("<username>", player.nickname)
+    if player is not None:
+        text = text.replace("<username>", player.nickname)
     return text
 
 
@@ -34,6 +36,7 @@ def draw_text(text: str, pos, surf: pygame.Surface, player, **kwargs):
         "&f": "white",
     }
     ptext.draw(text_placeholders(text, player), pos, surf=surf, **kwargs)
+    ptext.clean()
 
 
 def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, player, _npc: list[Npc]):
@@ -105,6 +108,90 @@ def draw_dialog_window(surface: pygame.Surface, screen, font: pygame.font.Font, 
 
     draw_text(text_placeholders(dialog["text"], player), (330, 200), surf=surface, player=player, color='black',
               fontsize=30, width=495)
+
+
+def draw_rep(surface: pygame.Surface, reputation: dict, images: dict, icons: dict, size):
+    WIDTH, HEIGHT = size
+    mouse_pos = pygame.mouse.get_pos()
+    sorted_rep = {"magician": 0, "killer": 0, "robber": 0, "smuggler": 0, "spice": 0}
+    possible_colliders = []
+    center_x, center_y = surface.get_width() // 2, surface.get_height() // 2
+
+    for key in list(sorted_rep.keys()):
+        sorted_rep.update({
+            key: reputation.get(key, 0)
+        })
+
+    image = images['reputation']
+
+    for index, item in enumerate(list(sorted_rep.items())):
+        key, value = item
+        top = 187
+        left = 192
+        line_height = 52
+        space = 50
+
+        possible_colliders.append(
+            pygame.Rect(
+                322, 238 + 78 * index, 717, 38
+            )
+        )
+
+        y = top + (line_height + space) * index
+        x = left
+        empty_bar = icons.get("empty_bar")
+        empty_divider = icons.get("empty_divider")
+
+        bar = icons.get(f"{key}_bar")
+        divider = icons.get(f"{key}_divider")
+
+        for i in range(5):
+            if (value <= 100 or (value - i * 100) <= 100) and ((value - i * 100) * bar.get_width() // 100) >= 0:
+                bar = bar.subsurface((0, 0, (value - i * 100) * bar.get_width() // 100, bar.get_height()))
+
+            if i <= value // 100:
+                image.blit(bar, (x + (empty_bar.get_width() + empty_divider.get_width()) * i, y))
+            if i != 4 and i + 1 <= value // 100:
+                image.blit(divider,
+                           (x + (empty_bar.get_width() + empty_divider.get_width()) * i + empty_bar.get_width(), y))
+    window = pygame.transform.smoothscale(image, (WIDTH * 0.675, HEIGHT * 0.75))
+
+    surface.blit(window, (center_x - window.get_width() // 2, center_y - window.get_height() // 2))
+
+    img = pygame.image.load("./lib/assets/windows/reputation_details.png")
+    for i, line in enumerate(possible_colliders):
+        if line.collidepoint(*mouse_pos):
+            surf = pygame.Surface(img.get_size(), SRCALPHA)
+
+            draw_text([
+                          "Маги",
+                          "Убийцы",
+                          "Воры",
+                          "Контрабандисты",
+                          "Торговцы Пряностями",
+                      ][i], (img.get_width() // 2, 20), surf, None, color="#595157",
+                      centerx=img.get_width() // 2, cache=False)
+
+            img.blit(surf.convert_alpha(), (0, 0))
+            x = mouse_pos[0] + 25
+            y = mouse_pos[1] - 40
+            surface.blit(img, (x, y))
+            break
+
+
+def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons: dict):
+    size = WIDTH, HEIGHT = surface.get_size()
+    window_img = images["tasks"]
+    tasks_details = images["task"]
+
+    mouse_pos = pygame.mouse.get_pos()
+    possible_colliders = []
+    center_x, center_y = surface.get_width() // 2, surface.get_height() // 2
+
+    window = pygame.transform.smoothscale(window_img, (WIDTH * 0.675, HEIGHT * 0.75))
+
+    surface.blit(window, (center_x - window.get_width() // 2, center_y - window.get_height() // 2))
+
 
 
 def draw_inventory(surface: pygame.Surface, player, images, blocks_data, screen):

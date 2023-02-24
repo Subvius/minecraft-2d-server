@@ -32,7 +32,7 @@ from lib.models.buttons import Button
 import lib.functions.api as api
 from lib.functions.telegram import get_recent_posts
 from lib.models.screen import *
-from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory
+from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory, draw_rep, draw_tasks
 from lib.models.npc import Npc
 from lib.users.skin.generate_animations import generate_animations
 
@@ -492,7 +492,8 @@ while running:
                     jumping = True
 
                 elif event.key == K_c:
-                    print(PLAYER.rect)
+                    print(f"[PLAYER COORD] {PLAYER.rect}")
+                    print(f"[MOUSE COORD] {pygame.mouse.get_pos()}")
                 elif event.key == K_g:
                     add_to_background = not add_to_background
                     print(add_to_background)
@@ -505,15 +506,11 @@ while running:
                     jumping = False
 
         if event.type == KEYDOWN:
-            if event.key == K_e:
-                # if not SCREEN.show_dialog:
-                #     SCREEN.start_dialog()
-                # else:
-                #     SCREEN.close_dialog()
-                pass
+            if event.key == K_k:
+                SCREEN.toggle_rep()
             elif event.key == K_ESCAPE:
-                if SCREEN.show_dialog:
-                    SCREEN.close_dialog()
+                SCREEN.call_close_window()
+
         if event.type == MOUSEMOTION:
             SCREEN.set_mouse_pos(event.pos)
         if event.type == MOUSEBUTTONDOWN:
@@ -555,10 +552,12 @@ while running:
     PLAYER.set_size(28, 60)
 
     screen.fill(CONSTANTS.sky)
+
     if SCREEN.screen == "lobby":
         screen.blit(pygame.transform.scale(icons['Ocean_background_6'], SIZE), (0, 0))
     else:
         screen.fill((17, 36, 42))
+
     colliding_objects = list()
     if SCREEN.screen == 'lobby':
         PLAYER.dimension = "lobby"
@@ -764,6 +763,12 @@ while running:
         screen.blit(img,
                     (screen.get_width() // 2 - img.get_width() // 2, screen.get_height() // 2 - img.get_height() // 2))
         draw_dialog_window(screen, SCREEN, fonts[24], PLAYER, get_npc())
+
+    elif SCREEN.show_rep:
+        draw_rep(screen, PLAYER_DATA.get("reputation", {}), images, icons, SIZE)
+
+    elif SCREEN.show_tasks:
+        draw_tasks(screen, PLAYER_DATA.get("active_tasks", {}), images, icons)
 
     _npc, _field, _value = SCREEN.story(PLAYER, get_npc())
     if _npc is not None:

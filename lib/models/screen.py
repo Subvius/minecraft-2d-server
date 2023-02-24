@@ -13,10 +13,11 @@ class Screen:
             "right": False
         }
         self.screen = 'lobby'  # | game
+        self.location = None  # | house | some castle area etc.
         self.paused = False
         self.show_inventory = False
         self.show_players = False
-        self.show_dialog = False
+        self.show_dialog = self.show_rep = self.show_tasks = False
         self.dialog_action = '0'
         self.dialog = {}
         self.current_dialog = {}
@@ -156,6 +157,30 @@ class Screen:
     def toggle_pause(self):
         self.paused = not self.paused
 
+    def call_toggle_pause(self):
+        if not self.show_tasks and not self.show_rep and not self.show_dialog:
+            self.paused = False
+        else:
+            self.paused = True
+
+    def call_close_window(self):
+        if self.show_dialog:
+            self.close_dialog()
+        elif self.show_rep:
+            self.show_rep = False
+        elif self.show_tasks:
+            self.show_tasks = False
+
+        self.call_toggle_pause()
+
+    def toggle_rep(self):
+        self.show_rep = not self.show_rep
+        self.call_toggle_pause()
+
+    def toggle_tasks(self):
+        self.show_tasks = not self.show_tasks
+        self.call_toggle_pause()
+
     def change_screen(self, screen: str):
         self.screen = screen
 
@@ -170,10 +195,10 @@ class Screen:
                     break
             self.high_lighted_choice = picked
 
-    def set_hold_button(self, button: str, value: bool, player):
-        self.hold_buttons.update({button: value})
+    def set_hold_button(self, button: str, pressed: bool, player):
+        self.hold_buttons.update({button: pressed})
 
-        if button == "left" and value:
+        if button == "left" and pressed:
             if self.show_dialog:
                 picked = None
                 for index, r in enumerate(self.dialog_rects):
@@ -207,3 +232,13 @@ class Screen:
                         self.dialog_action = f"{int(self.dialog_action.split('-')[0]) + 1}"
                         self.current_dialog = self.dialog[int(self.dialog_action)]
                         self.reset_dialog_rects()
+            elif self.show_rep:
+                tasks_rect = pygame.Rect(421, 108, 41, 23)
+                if tasks_rect.collidepoint(*self.mouse_pos):
+                    self.toggle_rep()
+                    self.toggle_tasks()
+            elif self.show_tasks:
+                rep_rect = pygame.Rect(360, 108, 41, 23)
+                if rep_rect.collidepoint(*self.mouse_pos):
+                    self.toggle_tasks()
+                    self.toggle_rep()
