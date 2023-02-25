@@ -3,6 +3,7 @@ import json
 
 import pygame
 from lib.functions.drawing import draw_text
+from lib.models.action_bar import ActionBar
 
 
 class Screen:
@@ -32,11 +33,24 @@ class Screen:
         self.wait_for_dialog_end = False
         self.story_world_pos = (0, 0)
 
+        self.action_bar: ActionBar = None
+
     def get_story(self):
         with open("lib/storage/story.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
         return data, data.get(f"phase{self.phase_index}", None)
+
+    def render_action_bar(self, surface: pygame.Surface, player):
+        if self.action_bar is not None:
+            self.action_bar.render(surface, player)
+
+    def set_action_bar(self, text: str, duration: int, position: str = "bottom"):
+        self.action_bar = ActionBar(text, duration, position)
+        self.action_bar.show()
+
+    def remove_action_bar(self):
+        self.action_bar = None
 
     @staticmethod
     def get_phase():

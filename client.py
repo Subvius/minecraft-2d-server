@@ -494,6 +494,9 @@ while running:
                 elif event.key == K_c:
                     print(f"[PLAYER COORD] {PLAYER.rect}")
                     print(f"[MOUSE COORD] {pygame.mouse.get_pos()}")
+
+                elif event.key == K_r:
+                    SCREEN.set_action_bar("Задачи обновлены.", 3)
                 elif event.key == K_g:
                     add_to_background = not add_to_background
                     print(add_to_background)
@@ -508,6 +511,8 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_k:
                 SCREEN.toggle_rep()
+                moving_left = moving_right = jumping = False
+
             elif event.key == K_ESCAPE:
                 SCREEN.call_close_window()
 
@@ -768,7 +773,9 @@ while running:
         draw_rep(screen, PLAYER_DATA.get("reputation", {}), images, icons, SIZE)
 
     elif SCREEN.show_tasks:
-        draw_tasks(screen, PLAYER_DATA.get("active_tasks", {}), images, icons)
+        draw_tasks(screen, PLAYER_DATA.get("active_tasks", {}), images, icons, PLAYER)
+
+    SCREEN.render_action_bar(screen, PLAYER)
 
     _npc, _field, _value = SCREEN.story(PLAYER, get_npc())
     if _npc is not None:

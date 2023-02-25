@@ -14,6 +14,11 @@ def get_player_data():
     player = request.args.get("player")
     create = request.args.get("create")
     stats = request.args.get("stats")
+
+    complete_task = request.args.get("complete_task")
+    add_task = request.args.get("add_task")
+    update_task = request.args.get("update_task")
+
     password = request.args.get("password")
     method = request.method
     response = {
@@ -60,6 +65,40 @@ def get_player_data():
                 if stats is not None and stats:
                     for key in keys:
                         data[player]['stats'].update({key: data[player]['stats'].get(key, 0) + player_update.get(key)})
+
+                elif complete_task is not None and complete_task:
+                    task_id = player_update.get("id", "")
+                    active_tasks = data[player].get("active_tasks", {})
+                    active_tasks = {key: val for key, val in active_tasks.items() if key != task_id}
+
+                    data[player].update({
+                        "active_tasks": active_tasks
+                    })
+                elif add_task is not None and add_task:
+                    task_id = player_update.get("id")
+                    active_tasks = data[player].get("active_tasks", {})
+
+                    active_tasks.update(
+                        {
+                            task_id: player_update
+                        }
+                    )
+                    data[player].update({
+                        "active_tasks": active_tasks
+                    })
+                elif update_task is not None and update_task:
+                    task_id = player_update.get("id")
+                    active_tasks = data[player].get("active_tasks", {})
+
+                    for key in keys:
+                        active_tasks[task_id].update({
+                            key: player_update.get(key)
+                        })
+
+                    data[player].update({
+                        "active_tasks": active_tasks
+                    })
+
                 else:
                     for key in keys:
                         data[player].update({key: player_update.get(key)})

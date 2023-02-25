@@ -1,3 +1,5 @@
+import datetime
+
 import pygame
 from pygame.locals import *
 import lib.functions.ptext as ptext
@@ -179,19 +181,73 @@ def draw_rep(surface: pygame.Surface, reputation: dict, images: dict, icons: dic
             break
 
 
-def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons: dict):
+def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons: dict, player):
     size = WIDTH, HEIGHT = surface.get_size()
-    window_img = images["tasks"]
+    window_img: pygame.Surface = images["tasks"]
     tasks_details = images["task"]
 
     mouse_pos = pygame.mouse.get_pos()
     possible_colliders = []
     center_x, center_y = surface.get_width() // 2, surface.get_height() // 2
 
+    for index, el in enumerate(list(active_tasks.items())):
+        key: str = el[0]
+        value: dict = el[1]
+        x = 137
+        y = 158 + 50 * index
+
+        possible_colliders.append(
+            pygame.Rect(345, 213 + 50 * index,
+                        window_img.get_width() - x, 40)
+        )
+
+        fraction = value.get("fraction")
+        title = value.get("title")
+
+        guild_img = None if fraction == "neutral" else icons[fraction]
+
+        if guild_img is not None:
+            window_img.blit(guild_img, (x, y))
+
+        draw_text(title, (x + 50, y + 15), surf=window_img, player=player, color="#564e55", fontsize=45)
+
     window = pygame.transform.smoothscale(window_img, (WIDTH * 0.675, HEIGHT * 0.75))
 
     surface.blit(window, (center_x - window.get_width() // 2, center_y - window.get_height() // 2))
 
+    for i, task_rect in enumerate(possible_colliders):
+        if task_rect.collidepoint(*mouse_pos):
+            task = list(active_tasks.values())[i]
+            fraction = task.get("fraction")
+            title = task.get("title")
+            task_type = task.get("type")
+            questor = task.get("questor")
+            reqs = task.get("requirements")
+            short_desc = task.get("short_desc")
+            deadline = task.get("deadline")
+
+            img = pygame.image.load("./lib/assets/windows/task.png")
+
+            draw_text(title, (0, 50,), img, player, color="#564e55", centerx=img.get_width() // 2, fontsize=45)
+
+            draw_text(f"Тип: {task_type}", (83, 200), img, player, color="#564e55", fontsize=32)
+            draw_text(f"Квестодатель: {questor}", (83, 225), img, player, color="#564e55", fontsize=32)
+            draw_text(f"Требования:", (83, 265), img, player, color="#564e55", fontsize=32)
+
+            for req_i, req in enumerate(reqs):
+                req_title = req.get("title")
+                draw_text(f"• {req_title} &c[ **X** ]", (83, 290 + 30 * req_i), img, player, color='#564e55', fontsize=32,
+                          width=710, italictag="**")
+
+            draw_text(short_desc, (83, 445), img, player, color="#564e55", width=710, fontsize=32)
+            draw_text(f"Фракция: {fraction}", (83, 200), img, player, color="#564e55", right=795, fontsize=32)
+            draw_text(
+                f"Срок выполнения: {f'{(datetime.datetime.fromtimestamp(deadline) - datetime.datetime.now()).days} дней' if deadline != -1 else 'бессрочно'}",
+                (83, 225), img, player, color="#564e55", right=795, fontsize=32)
+
+            surface.blit(pygame.transform.smoothscale(img, (img.get_width() * 0.65, img.get_height() * 0.65)),
+                         (mouse_pos[0] + 25, mouse_pos[1] - 50))
+            break
 
 
 def draw_inventory(surface: pygame.Surface, player, images, blocks_data, screen):
