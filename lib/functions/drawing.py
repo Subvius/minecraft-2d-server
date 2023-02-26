@@ -194,10 +194,10 @@ def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons:
         key: str = el[0]
         value: dict = el[1]
         x = 137
-        y = 158 + 50 * index
+        y = 158 + 55 * index
 
         possible_colliders.append(
-            pygame.Rect(345, 213 + 50 * index,
+            pygame.Rect(345, 213 + 55 * index,
                         window_img.get_width() - x, 40)
         )
 
@@ -236,7 +236,8 @@ def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons:
 
             for req_i, req in enumerate(reqs):
                 req_title = req.get("title")
-                draw_text(f"• {req_title} &c[ **X** ]", (83, 290 + 30 * req_i), img, player, color='#564e55', fontsize=32,
+                draw_text(f"• {req_title} &c[ **X** ]", (83, 290 + 30 * req_i), img, player, color='#564e55',
+                          fontsize=32,
                           width=710, italictag="**")
 
             draw_text(short_desc, (83, 445), img, player, color="#564e55", width=710, fontsize=32)

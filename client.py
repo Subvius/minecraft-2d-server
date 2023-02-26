@@ -25,6 +25,7 @@ from lib.functions.run_multiple_tasks import run_multiple_tasks
 from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
 from lib.models.player import Player
 from lib.functions.movement import move
+from lib.models.storytasks import StoryTasks
 from lib.models.text_input import InputBox
 from lib.models.touchable_opacity import TouchableOpacity
 from lib.storage.constants import Constants
@@ -436,6 +437,8 @@ gm_map = []
 add_to_background = False
 collisions_before = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
+STORY_TASKS = StoryTasks(PLAYER_DATA.get("active_tasks", {}))
+
 while running:
     ins, outs, ex = select.select([client], [], [], 0)
 
@@ -704,7 +707,7 @@ while running:
 
     if jumping and PLAYER.air_timer < 10 and collisions_before[
         "bottom"] and pygame.time.get_ticks() - PLAYER.last_landing_time > 75:
-        PLAYER.vertical_momentum -= 9
+        PLAYER.vertical_momentum -= 9.5
 
     movement[1] += PLAYER.vertical_momentum
     PLAYER.vertical_momentum = PLAYER.vertical_momentum + 0.5 if PLAYER.vertical_momentum + 0.5 <= 3 else 3
@@ -773,7 +776,7 @@ while running:
         draw_rep(screen, PLAYER_DATA.get("reputation", {}), images, icons, SIZE)
 
     elif SCREEN.show_tasks:
-        draw_tasks(screen, PLAYER_DATA.get("active_tasks", {}), images, icons, PLAYER)
+        draw_tasks(screen, STORY_TASKS.get_tasks(), images, icons, PLAYER)
 
     SCREEN.render_action_bar(screen, PLAYER)
 

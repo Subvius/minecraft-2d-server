@@ -4,7 +4,8 @@ import pygame
 class Entity:
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], hp: int, max_hp: int, damage: int,
                  images_path: str = "",
-                 entity_type: str = "player", dimension='stormhold', speed=1.2, jump_height=2, has_cape=False, cape=None):
+                 entity_type: str = "player", dimension='stormhold', speed=1.2, jump_height=2, has_cape=False,
+                 cape=None):
         self.rect: pygame.Rect = pygame.Rect(*pos, *size)
         self.hp = hp
         self.max_hp = max_hp
@@ -12,6 +13,7 @@ class Entity:
         self.image = None
         self.images_path = images_path
         self.type = entity_type
+        self.location = None
         self.frame = 0
         self.condition = 'idle'
         self.moving_left = self.moving_right = False
@@ -34,6 +36,9 @@ class Entity:
 
     def set_destination(self, pos):
         self.destination = pos
+
+    def set_location(self, loc=None):
+        self.location = loc
 
     def set_landing_time(self, time=None):
         if time is None:
