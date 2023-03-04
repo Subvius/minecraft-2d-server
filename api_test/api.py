@@ -6,11 +6,11 @@ import os
 import uuid
 
 app = Flask(__name__)
+dir_path = os.path.dirname(__file__)
 
 
 @app.route('/player/', methods=["GET", "POST"])
 def get_player_data():
-    dir_path = os.path.dirname(__file__)
     player = request.args.get("player")
     create = request.args.get("create")
     stats = request.args.get("stats")
@@ -114,9 +114,72 @@ def get_player_data():
     return response
 
 
+@app.route("/auth/", methods=["GET", "POST"])
+def auth():
+    method = request.method
+    nickname = request.args.get("nickname")
+    password = request.args.get("password")
+    create = request.args.get("create")
+
+    response = {
+        "success": False
+    }
+
+    try:
+        with open(os.path.join(dir_path, "players_data.json"), "r", encoding="utf-8") as f:
+            json_data: dict = json.load(f)
+        if password is not None and nickname is not None:
+
+            if method == "GET":
+
+                if create is not None:
+                    if json_data.get(nickname, None) is None:
+                        player_data = {
+                            "id": uuid.uuid4().__str__(),
+                            "password": password,
+                            'nickname': nickname,
+                            "first_login": datetime.datetime.now().timestamp(),
+                            "last_logout": datetime.datetime.now().timestamp(),
+                            "stats": {},
+                            "cosmetics": []
+                        }
+                        json_data.update({nickname: player_data})
+                        with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
+                            json.dump(json_data, f)
+
+                        response.update({"player": player_data})
+                        response.update({"success": True})
+
+                if json_data.get(nickname, None) is None:
+                    response.update({
+                        "E": "unknown user"
+                    })
+                    return response
+
+                if json_data.get(nickname).get("password") != password:
+                    response.update({
+                        "E": "incorrect password"
+                    })
+                    return response
+
+                response.update({"player": json_data.get(nickname)})
+                response.update({"success": True})
+                return response
+
+        else:
+            response.update({
+                "E": "Not enough arguments. Usage: nickname=Nickname&password=Password."
+            })
+            return response
+
+    except Exception as e:
+        response.update({"E": e.__str__()})
+
+    return response
+
+
 @app.route("/game/", methods=["GET", "POST"])
 def get_game_data():
-    dir_path = os.path.dirname(__file__)
     method = request.method
     update = request.args.get("update")
 

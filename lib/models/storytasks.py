@@ -15,6 +15,10 @@ class StoryTasks:
         self.tasks = tasks
         self.constants = Constants()
 
+    def get_tasks(self, nickname: str):
+        res = api.get_data(self.constants.api_url + f"player/?player={nickname}")
+        self.tasks = res.get("player").get("active_tasks")
+
     def check_for_completion(self, player, screen):
         """
 
@@ -42,8 +46,9 @@ class StoryTasks:
 
         return completed_tasks
 
-    def get_tasks(self):
-        return self.tasks
+    def list_tasks(self):
+        for _, task in list(self.tasks.items()):
+            print(task)
 
     def add_task(self, nickname, fraction: str, questor: str, requirements: list[dict], title: str, task_type: str,
                  short_desc: str = "", deadline: int = -1, rewards: list[dict] = []):
@@ -120,7 +125,24 @@ class StoryTasks:
             "id": task_id
         }
 
-        res = api.post_data(self.constants.api_url + f"player/?player={nickname}&complete_task=true", task_data)
+        res = self._push_to_server_with_response(self.constants.api_url + "player/", task_data,
+                                                 {"player": nickname, "complete_task": True})
+
+        if res.get("success"):
+            self.tasks.pop(task_id)
+
+        return res
+
+    def _push_to_server_with_response(self, url: str, task_data: dict, request_params: dict = None, ):
+        """
+
+        :param url: String. API url
+        :param request_params: Dictionary of request params
+        :param task_data: Data to post on the server
+        :return: {success: bool, "E": if there are any error}
+        """
+
+        res = api.post_data(url, task_data, request_params)
 
         if res.get("success", False):
             self.tasks.update({

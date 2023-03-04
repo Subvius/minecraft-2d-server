@@ -6,11 +6,12 @@ import threading
 from copy import deepcopy
 
 from lib.models.player import Player
+import config
 
 HEADER = 64
-PORT = 5050
+PORT = config.PORT
 # SERVER = '127.0.0.1'
-SERVER = '192.168.1.64'
+SERVER = config.IPADDRESS
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"

@@ -1,6 +1,4 @@
 import asyncio
-import datetime
-import json
 import math
 import os
 import pickle
@@ -12,9 +10,8 @@ import sqlite3
 import sys
 import webbrowser
 from copy import deepcopy
+import config
 
-import pygame
-from pygame.event import Event
 from pygame.locals import *
 
 from lib.functions.blocks import get_block_from_coords
@@ -23,6 +20,7 @@ from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
 from lib.functions.run_multiple_tasks import run_multiple_tasks
 from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
+from lib.models.notifications import Notification
 from lib.models.player import Player
 from lib.functions.movement import move
 from lib.models.storytasks import StoryTasks
@@ -33,8 +31,10 @@ from lib.models.buttons import Button
 import lib.functions.api as api
 from lib.functions.telegram import get_recent_posts
 from lib.models.screen import *
+
 from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory, draw_rep, draw_tasks
 from lib.models.npc import Npc
+
 from lib.users.skin.generate_animations import generate_animations
 
 pygame.init()
@@ -44,16 +44,16 @@ for i in range(10, 25):
     # fonts.update({i: pygame.font.Font(f"lib/assets/fonts/Poppins-Light.ttf", i)})
     fonts.update({i: pygame.font.SysFont("Helvetica", i)})
 
-SIZE = WIDTH, HEIGHT = (1360, 768)
+SIZE = WIDTH, HEIGHT = config.WINDOW_SIZE
 screen = pygame.display.set_mode((1280, 787), pygame.NOFRAME)
 
 # screen = pygame.display.set_mode(SIZE, pygame.FULLSCREEN)
 
 HEADER = 64
-PORT = 5050  # server port
+PORT = config.PORT  # server port
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-SERVER = '192.168.1.64'  # server address to connect
+SERVER = config.IPADDRESS  # server address to connect
 BLOCK_SIZE = 32  # 42.5 blocks in width, 24 blocks in height
 NOT_COLLIDING_BLOCKS = []  # blocks such as water and etc
 FRACTIONS = ["killer", "magician", "smuggler"]  # Story fractions of npcs and da player
@@ -89,10 +89,10 @@ moving_left = moving_right = jumping = False
 
 lobby_map, game_map, blocks_data = get_maps()
 images, icons, mobs_images, block_breaking = get_images(blocks_data)
-session_stats = {}
-player_stats = {}
+session_stats = dict()
+player_stats = dict()
 PLAYER: Player = None
-PLAYER_DATA = {}
+PLAYER_DATA = dict()
 STORY_WORLD_COORD = (0, 0)
 
 
@@ -147,32 +147,40 @@ def log_in_screen():
 
                             continue
                         else:
-                            global PLAYER, session_stats, db_user, db_cur, db_connection, player_stats
-                            PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
-                                            username_input.text.strip())
-                            api_data = api.get_data(
-                                CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
-                                                    f"password={password_input.text}").get("player")
+                            res = api.get_data(
+                                CONSTANTS.api_url + f"auth/?nickname={username_input.text.strip()}&"
+                                                    f"password={password_input.text}&create=True")
+                            if res.get("success", False):
+                                global PLAYER, session_stats, db_user, db_cur, db_connection, player_stats
+                                PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
+                                                username_input.text.strip())
+                                api_data = res.get("player")
 
-                            global STORY_WORLD_COORD, PLAYER_DATA
-                            PLAYER_DATA = api_data
-                            if api_data.get("story_world_coord", None) is None:
-                                STORY_WORLD_COORD = (1240, 2340)
+                                global STORY_WORLD_COORD, PLAYER_DATA
+                                PLAYER_DATA = api_data
+                                if api_data.get("story_world_coord", None) is None:
+                                    STORY_WORLD_COORD = (1240, 2340)
+                                else:
+                                    STORY_WORLD_COORD = api_data.get("story_world_coord")
+                                player_stats = api_data.get(
+                                    "stats", {})
+                                session_stats.update({"play_time": datetime.datetime.now()})
+                                if db_user is None:
+                                    db_cur.execute(
+                                        f"INSERT INTO user(id, username, password, logged_in)"
+                                        f" VALUES(0, '{PLAYER.nickname}',"
+                                        f" '{password_input.text.strip()}', 1)")
+                                    db_connection.commit()
+                                    db_user = (
+                                        0, PLAYER.nickname, password_input.text.strip(), 1
+                                    )
                             else:
-                                STORY_WORLD_COORD = api_data.get("story_world_coord")
-                            player_stats = api_data.get(
-                                "stats", {})
-                            session_stats.update({"play_time": datetime.datetime.now()})
-                            if db_user is None:
-                                db_cur.execute(
-                                    f"INSERT INTO user(id, username, password, logged_in)"
-                                    f" VALUES(0, '{PLAYER.nickname}',"
-                                    f" '{password_input.text.strip()}', 1)")
-                                db_connection.commit()
-                                db_user = (
-                                    0, PLAYER.nickname, password_input.text.strip(), 1
-                                )
-
+                                error = res.get("E")
+                                if error.count("password"):
+                                    password_input.color = (232, 101, 80)
+                                elif error.count("unknown"):
+                                    username_input.color = (232, 101, 80)
+                                continue
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -217,7 +225,7 @@ def start_screen():
     touchables = list()
     for p_i, post in enumerate(posts):
         touchables.append(TouchableOpacity(post, (30 + 415 * p_i, 475), p_i, True))
-
+    notification = Notification("Unable to connect to the server. Try again later.", 4, (width, height))
     while on_screen:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -261,6 +269,12 @@ def start_screen():
                             player_stats = api_data.get(
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
+
+                        try:
+                            client.connect(ADDR)
+                        except Exception as _:
+                            notification.show_window()
+                            continue
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -299,6 +313,7 @@ def start_screen():
         for touchable in touchables:
             touchable.render(screen)
 
+        notification.draw(screen, None)
         pygame.display.flip()
         clock.tick(60)
 
@@ -313,7 +328,6 @@ if PLAYER_DATA.get("cloak", None) is not None:
 else:
     print(PLAYER_DATA)
 
-client.connect(ADDR)
 print(sys.argv)
 if len(sys.argv) >= 2:
     PLAYER.nickname = sys.argv[1]
@@ -776,7 +790,7 @@ while running:
         draw_rep(screen, PLAYER_DATA.get("reputation", {}), images, icons, SIZE)
 
     elif SCREEN.show_tasks:
-        draw_tasks(screen, STORY_TASKS.get_tasks(), images, icons, PLAYER)
+        draw_tasks(screen, STORY_TASKS.list_tasks(), images, icons, PLAYER)
 
     SCREEN.render_action_bar(screen, PLAYER)
 
