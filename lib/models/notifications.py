@@ -38,6 +38,9 @@ class Notification:
         self.show_start = datetime.datetime.now() if self.show else None
         self.rect = self.rect_before if self.show else self.rect
 
+    def set_custom_color(self, color: any):
+        self.border_color = color
+
     def show_window(self):
         self.show = True
         self.show_start = datetime.datetime.now()

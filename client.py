@@ -270,6 +270,8 @@ def customise_character():
                (31, 31, 31), 2, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
         Button("Show cloak", 200, 32, "#10acf4", "white", 420, 168,
                "#107bf4", 3, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
+        Button("Save changes", 200, 32, "#12d016", "white", 420, 340,
+               "#15bf31", 4, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
 
     ]
     buttons[0].toggle_high_light()
@@ -279,7 +281,8 @@ def customise_character():
 
     logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
     skin_uuid = PLAYER_DATA.get("skin_uuid", None)
-    skin_image, cloak_preview = asyncio.run(fetch_skins(skin_uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None)))
+    selected_cloak = PLAYER_DATA.get("cloak", None)
+    skin_image, cloak_preview = asyncio.run(fetch_skins(skin_uuid, PLAYER.nickname, selected_cloak))
     show_cloak = False
     cosmetics = PLAYER_DATA.get("cosmetics", None)
 
@@ -295,6 +298,7 @@ def customise_character():
 
     touchables = list()
     _cosmetic_names = dict()
+    notification = Notification("Changes have been saved.", 2, (width, height), )
 
     if cosmetics is not None:
         prev_height = 0
@@ -313,8 +317,6 @@ def customise_character():
                 _cosmetic_names.update({
                     ci + index * 3: cloak
                 })
-
-    print(_cosmetic_names)
 
     while on_screen:
         for event in pygame.event.get():
@@ -356,6 +358,26 @@ def customise_character():
                         show_cloak = not show_cloak
                         buttons[3].label = "Show cloak" if not show_cloak else "Show skin"
 
+                    elif btn.id == 4:
+                        update_data = {
+                            "skin_uuid": skin_uuid,
+                            "cloak": selected_cloak
+                        }
+                        PLAYER_DATA.update(
+                            update_data
+                        )
+
+                        res = api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}", update_data)
+                        if res.get("success", False):
+                            notification.set_type("info")
+                            notification.set_custom_color("#14c614")
+                            notification.set_text("Changes have been saved.")
+                            notification.show_window()
+                        else:
+                            notification.set_text("An error occurred.Please, try again later.")
+                            notification.set_type("danger")
+                            notification.show_window()
+
                 touchable = None
                 for tch in touchables:
                     res = tch.on_click(pos)
@@ -363,20 +385,16 @@ def customise_character():
                         touchable = tch
                         break
                 if touchable is not None:
-                    if PLAYER_DATA.get("cloak") != _cosmetic_names.get(touchable.id):
-                        PLAYER_DATA.update(
-                            {
-                                "cloak": _cosmetic_names.get(touchable.id)
-                            }
-                        )
-                        uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
-                                            json_res=False).content.decode(encoding="utf-8")
+                    if selected_cloak != _cosmetic_names.get(touchable.id):
+                        selected_cloak = _cosmetic_names.get(touchable.id)
+                        skin_uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
+                                                 json_res=False).content.decode(encoding="utf-8")
                         skin_image, cloak_preview = asyncio.run(
-                            fetch_skins(uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None),
+                            fetch_skins(skin_uuid, PLAYER.nickname, selected_cloak,
                                         ignore_existing_file=True))
 
-                        api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}",
-                                      data={"cloak": PLAYER_DATA.get("cloak")})
+                        # api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}",
+                        #               data={"cloak": PLAYER_DATA.get("cloak")})
 
         screen.fill((10, 10, 10))
         pygame.draw.rect(screen, "#181818", pygame.Rect(0, 68, width, height - 68))
@@ -405,12 +423,13 @@ def customise_character():
             box.update()
             box.draw(screen)
 
+        notification.draw(screen, None)
         pygame.display.flip()
         if (datetime.datetime.now() - last_input).seconds > 1 and not fetched:
-            uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
-                                json_res=False).content.decode(encoding="utf-8")
+            skin_uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
+                                     json_res=False).content.decode(encoding="utf-8")
             skin_image, cloak_preview = asyncio.run(
-                fetch_skins(uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None), ignore_existing_file=True))
+                fetch_skins(skin_uuid, PLAYER.nickname, selected_cloak, ignore_existing_file=True))
             fetched = True
             print("fetched")
         clock.tick(60)
@@ -561,8 +580,6 @@ if PLAYER_DATA.get("cloak", None) is not None:
     print("has cloak")
     PLAYER.has_cape = True
     PLAYER.cape = PLAYER_DATA.get("cloak", None)
-else:
-    print(PLAYER_DATA)
 
 print(sys.argv)
 if len(sys.argv) >= 2:
@@ -640,6 +657,8 @@ async def main_screen():
 
 
 async def load_skin(skin_name, nickname: str, save_directory: str, cape):
+    if skin_name is None:
+        skin_name = nickname
     res = api.get_data(f"https://mineskin.eu/skin/{skin_name}", json_res=False)
     shutil.copyfile(f"lib/users/skin/raw_steve.png", f"lib/temp/raw_skins/{nickname}.png")
     with open(f"lib/temp/raw_skins/{nickname}.png", "wb") as f:
@@ -648,7 +667,8 @@ async def load_skin(skin_name, nickname: str, save_directory: str, cape):
                               cape)
 
 
-asyncio.run(run_multiple_tasks([main_screen(), load_skin(PLAYER.nickname, PLAYER.nickname, sheet_path, PLAYER.cape)]))
+asyncio.run(run_multiple_tasks(
+    [main_screen(), load_skin(PLAYER_DATA.get("skin_uuid", None), PLAYER.nickname, sheet_path, PLAYER.cape)]))
 
 print(PLAYER.nickname)
 PLAYER_IMAGES = load_player_images(sheet_path)
