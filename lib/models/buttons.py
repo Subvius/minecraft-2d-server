@@ -2,8 +2,8 @@ import pygame
 
 
 class Button:
-    def __init__(self, label: str = "Button Label", width: int = 100, height: int = 20, background_color: str = "black",
-                 text_color: str = "white", x: int = 0, y: int = 0, hover_color: str = "gray", uniq_id: int = 1,
+    def __init__(self, label: str = "Button Label", width: int = 100, height: int = 20, background_color="black",
+                 text_color="white", x: int = 0, y: int = 0, hover_color="gray", uniq_id: int = 1,
                  lighting: bool = False, font=None, high_light_color=(10, 10, 225), border_radius=0
                  ):
         self.label = label

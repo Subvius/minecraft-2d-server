@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import math
 import os
 import pickle
@@ -10,6 +11,9 @@ import sqlite3
 import sys
 import webbrowser
 from copy import deepcopy
+
+import pygame.image
+
 import config
 
 from pygame.locals import *
@@ -35,7 +39,11 @@ from lib.models.screen import *
 from lib.functions.drawing import draw_rect_alpha, draw_dialog_window, draw_inventory, draw_rep, draw_tasks
 from lib.models.npc import Npc
 
-from lib.users.skin.generate_animations import generate_animations
+from lib.users.skin.generate_animations import generate_animations, generate_preview
+
+if os.path.exists("lib/temp/session/"):
+    shutil.rmtree("lib/temp/session/")
+os.mkdir("lib/temp/session/")
 
 pygame.init()
 pygame.font.init()
@@ -88,7 +96,7 @@ clock = pygame.time.Clock()
 moving_left = moving_right = jumping = False
 
 lobby_map, game_map, blocks_data = get_maps()
-images, icons, mobs_images, block_breaking = get_images(blocks_data)
+images, icons, mobs_images, block_breaking, cloaks_images = get_images(blocks_data)
 session_stats = dict()
 player_stats = dict()
 PLAYER: Player = None
@@ -112,6 +120,8 @@ def log_in_screen():
     password_input = InputBox(width // 2 - 100, 280, 200, fonts[16].get_height() + 10, fonts[16], "white", "gray", True,
                               fonts[13], True, min_length=8)
     input_boxes = [username_input, password_input]
+    notification = Notification("", 3, (width, height),
+                                notification_type="danger")
     while on_screen:
         screen.fill((20, 20, 20))
 
@@ -178,9 +188,24 @@ def log_in_screen():
                                 error = res.get("E")
                                 if error.count("password"):
                                     password_input.color = (232, 101, 80)
+                                    notification.set_text("Incorrect password.")
+                                    notification.set_type("danger")
+                                    notification.show_window()
                                 elif error.count("unknown"):
                                     username_input.color = (232, 101, 80)
+                                    notification.set_text("Unknown user.")
+                                    notification.set_type("danger")
+                                    notification.show_window()
                                 continue
+
+                        try:
+                            client.connect(ADDR)
+                        except Exception as _:
+                            notification = Notification("Unable to connect to the server. Try again later.", 4,
+                                                        (width, height),
+                                                        notification_type="danger")
+                            notification.show_window()
+                            continue
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -199,7 +224,195 @@ def log_in_screen():
             box.draw(screen)
         screen.blit(login_text, (width // 2 - login_text.get_width() // 2, 150))
 
+        notification.draw(screen, None)
         pygame.display.flip()
+        clock.tick(60)
+
+
+async def fetch_skins(skin_uuid, nickname, cloak, ignore_existing_file=False):
+    if skin_uuid is None:
+        skin_uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{nickname}",
+                                 json_res=False).content.decode(encoding="utf-8")
+        PLAYER_DATA.update({"skin_uuid": skin_uuid})
+    if not skin_uuid.lower().count("player"):
+        if os.path.exists("lib/temp/session/front_image.png") and not ignore_existing_file:
+            skin_image = pygame.image.load("lib/temp/session/front_image.png")
+            cloak_preview = pygame.image.load("lib/temp/session/cloak_preview.png")
+        else:
+            res = api.get_data(f"https://mineskin.eu/skin/{skin_uuid}", json_res=False)
+            shutil.copyfile(f"lib/users/skin/raw_steve.png", f"lib/temp/raw_skins/{nickname}.png")
+            with open(f"lib/temp/raw_skins/{nickname}.png", "wb") as f:
+                f.write(res.content)
+
+            await generate_preview(f"lib/temp/raw_skins/{nickname}.png", "lib/temp/session/", cloak)
+
+            skin_image = pygame.image.load("lib/temp/session/front_image.png")
+            cloak_preview = pygame.image.load("lib/temp/session/cloak_preview.png")
+
+    else:
+        skin_image = pygame.image.load("lib/users/skin/front_body_steve.png")
+        cloak_preview = pygame.image.load("lib/users/skin/front_body_steve.png")
+
+    return skin_image, cloak_preview
+
+
+def customise_character():
+    on_screen = True
+    pygame.display.set_caption("Launcher - Customise Character")
+    width = 1280
+    height = 787
+    buttons = [
+        Button("X", 30, 32, (31, 31, 31), "white", width - 48, 18,
+               (208, 53, 53), 0, lighting=True, font=fonts[16], high_light_color=(35, 35, 35), border_radius=5),
+        Button("Home", 50, 32, (10, 10, 10), "white", 380, 30,
+               (31, 31, 31), 1, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
+        Button("Skin", 50, 32, (31, 31, 31), "white", 450, 30,
+               (31, 31, 31), 2, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
+        Button("Show cloak", 200, 32, "#10acf4", "white", 420, 168,
+               "#107bf4", 3, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
+
+    ]
+    buttons[0].toggle_high_light()
+    buttons[2].toggle_high_light()
+
+    global screen, PLAYER, PLAYER_DATA
+
+    logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
+    skin_uuid = PLAYER_DATA.get("skin_uuid", None)
+    skin_image, cloak_preview = asyncio.run(fetch_skins(skin_uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None)))
+    show_cloak = False
+    cosmetics = PLAYER_DATA.get("cosmetics", None)
+
+    current_skin_name = api.get_data(
+        f"https://minecraft-api.com/api/pseudo/{skin_uuid}/json").get(
+        "pseudo") if skin_uuid is not None and not skin_uuid.lower().count('player') else PLAYER.nickname
+
+    skin_name_input = InputBox(420, 125, 200, fonts[16].get_height() + 10, fonts[16], "white", "gray",
+                               False, fonts[13], False, text=current_skin_name)
+    last_input = datetime.datetime.now()
+    fetched = True
+    input_boxes = [skin_name_input, ]
+
+    touchables = list()
+    _cosmetic_names = dict()
+
+    if cosmetics is not None:
+        prev_height = 0
+        for index, value in enumerate(list(cosmetics.values())):
+            y = 105 + prev_height + 15
+            x = 840
+
+            for ci, cloak in enumerate(value):
+                cx = x + (ci % 3) * 56
+                cy = y + (ci // 3) * 100
+
+                touchables.append(
+                    TouchableOpacity(pygame.transform.smoothscale(cloaks_images.get(cloak), (48, 96)), (cx, cy),
+                                     ci + index * 3, )
+                )
+                _cosmetic_names.update({
+                    ci + index * 3: cloak
+                })
+
+    print(_cosmetic_names)
+
+    while on_screen:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit(0)
+            for box in input_boxes:
+                box.handle_event(event)
+
+            if event.type == KEYDOWN:
+                last_input = datetime.datetime.now()
+                fetched = False
+            if event.type == MOUSEMOTION:
+                pos = event.pos
+                SCREEN.set_mouse_pos(pos)
+                for btn in buttons:
+                    btn.on_mouse_motion(*pos)
+
+                for touchable in touchables:
+                    touchable.on_mouse_motion(pos)
+
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                btn = None
+                for button in buttons:
+                    res = button.on_mouse_click(*pos)
+                    if res:
+                        btn = button
+                        break
+                if btn is not None:
+                    if btn.id == 0:
+                        on_screen = False
+                        pygame.quit()
+                        exit(0)
+                    elif btn.id == 1:
+                        on_screen = False
+                        return start_screen()
+                    elif btn.id == 3:
+                        show_cloak = not show_cloak
+                        buttons[3].label = "Show cloak" if not show_cloak else "Show skin"
+
+                touchable = None
+                for tch in touchables:
+                    res = tch.on_click(pos)
+                    if res:
+                        touchable = tch
+                        break
+                if touchable is not None:
+                    if PLAYER_DATA.get("cloak") != _cosmetic_names.get(touchable.id):
+                        PLAYER_DATA.update(
+                            {
+                                "cloak": _cosmetic_names.get(touchable.id)
+                            }
+                        )
+                        uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
+                                            json_res=False).content.decode(encoding="utf-8")
+                        skin_image, cloak_preview = asyncio.run(
+                            fetch_skins(uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None),
+                                        ignore_existing_file=True))
+
+                        api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}",
+                                      data={"cloak": PLAYER_DATA.get("cloak")})
+
+        screen.fill((10, 10, 10))
+        pygame.draw.rect(screen, "#181818", pygame.Rect(0, 68, width, height - 68))
+
+        for button in buttons:
+            button.render(screen, fonts[20])
+
+        logo_image = icons['logo']
+        screen.blit(pygame.transform.scale(logo_image, (48, 48)), (15, 15))
+        screen.blit(logo_text, (85, 33))
+
+        pygame.draw.rect(screen, "black",
+                         pygame.Rect(235, 105,
+                                     148, 276), border_radius=7)
+        screen.blit(
+            pygame.transform.smoothscale(skin_image if not show_cloak else cloak_preview, (128, 256)),
+            (250, 120))
+
+        draw_text("Skin name:", (420, 105), screen, PLAYER, fontsize=23)
+        draw_text("Cosmetics:", (835, 105), screen, PLAYER, fontsize=23)
+
+        for touchable in touchables:
+            touchable.render(screen)
+
+        for box in input_boxes:
+            box.update()
+            box.draw(screen)
+
+        pygame.display.flip()
+        if (datetime.datetime.now() - last_input).seconds > 1 and not fetched:
+            uuid = api.get_data(f"https://minecraft-api.com/api/uuid/{skin_name_input.text.strip()}",
+                                json_res=False).content.decode(encoding="utf-8")
+            skin_image, cloak_preview = asyncio.run(
+                fetch_skins(uuid, PLAYER.nickname, PLAYER_DATA.get("cloak", None), ignore_existing_file=True))
+            fetched = True
+            print("fetched")
         clock.tick(60)
 
 
@@ -214,9 +427,14 @@ def start_screen():
                CONSTANTS.launch_color, 0, lighting=True, border_radius=5),
         Button("X", 30, 32, (31, 31, 31), "white", width - 48, 18,
                (208, 53, 53), 1, lighting=True, font=fonts[16], high_light_color=(35, 35, 35), border_radius=5),
+        Button("Home", 50, 32, (31, 31, 31), "white", 380, 30,
+               (31, 31, 31), 2, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
+        Button("Skin", 50, 32, (10, 10, 10), "white", 450, 30,
+               (31, 31, 31), 3, font=fonts[14], high_light_color=(35, 35, 35), border_radius=5, ),
 
     ]
     buttons[1].toggle_high_light()
+    buttons[2].toggle_high_light()
     global screen
     logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
     recent_news_text = fonts[16].render("Recent News", False, "white")
@@ -225,7 +443,8 @@ def start_screen():
     touchables = list()
     for p_i, post in enumerate(posts):
         touchables.append(TouchableOpacity(post, (30 + 415 * p_i, 475), p_i, True))
-    notification = Notification("Unable to connect to the server. Try again later.", 4, (width, height))
+    notification = Notification("Unable to connect to the server. Try again later.", 4, (width, height),
+                                notification_type="danger")
     while on_screen:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -278,14 +497,31 @@ def start_screen():
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
-                        screen = pygame.display.set_mode(SIZE
-                                                         # , pygame.FULLSCREEN
-                                                         )
+                        screen = pygame.display.set_mode(SIZE)
                         break
                     elif btn.id == 1:
                         on_screen = False
                         pygame.quit()
                         exit(0)
+                    elif btn.id == 3:
+                        if db_user is None or not db_user[3]:
+                            return log_in_screen()
+                        else:
+                            PLAYER = Player((28, 60), (100, 12 * BLOCK_SIZE), 20, 20, 1,
+                                            db_user[1])
+                            api_data = api.get_data(
+                                CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True&"
+                                                    f"password={db_user[2]}").get("player")
+                            PLAYER_DATA = api_data
+                            if api_data.get("story_world_coord", None) is None:
+                                STORY_WORLD_COORD = (1240, 2340)
+                            else:
+                                STORY_WORLD_COORD = api_data.get("story_world_coord")
+                            player_stats = api_data.get(
+                                "stats", {})
+                            session_stats.update({"play_time": datetime.datetime.now()})
+                        on_screen = False
+                        return customise_character()
                 touchable = None
                 for tch in touchables:
                     res = tch.on_click(pos)
@@ -415,8 +651,6 @@ async def load_skin(skin_name, nickname: str, save_directory: str, cape):
 asyncio.run(run_multiple_tasks([main_screen(), load_skin(PLAYER.nickname, PLAYER.nickname, sheet_path, PLAYER.cape)]))
 
 print(PLAYER.nickname)
-# PLAYER.cut_sheet(pygame.image.load(sheet_path + "idle.png"), 4, 1, "idle", 62, 80)
-# PLAYER.cut_sheet(pygame.image.load(sheet_path + "walk.png"), 6, 1, "walk", 50, 95)
 PLAYER_IMAGES = load_player_images(sheet_path)
 players_images.update({PLAYER.nickname: PLAYER_IMAGES})
 

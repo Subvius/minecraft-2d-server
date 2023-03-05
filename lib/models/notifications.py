@@ -6,7 +6,8 @@ from lib.functions.drawing import draw_text
 
 
 class Notification:
-    def __init__(self, text: str, duration: int, window_size, position: str = "left", animation: str = "slide", ):
+    def __init__(self, text: str, duration: int, window_size, position: str = "left", animation: str = "slide",
+                 notification_type: str = "info"):
         """
         Notification class. Displaying messages on the screen..
 
@@ -14,8 +15,13 @@ class Notification:
         :param duration: Duration of notification display
         :param position: Position on the screen. Default - left
         :param animation: Animation of notification popup. Default - slide
+        :param notification_type: Type of the notification. Info | Warning | Danger
         """
 
+        self.notification_type = notification_type
+        self._colors = ["#272726", "#e9d75f", "#e8817c", ]
+        self._types = ["info", "warning", "danger"]
+        self.border_color = self._colors[self._types.index(self.notification_type.lower())]
         self.text = text
         self.duration = duration
         self.position = position
@@ -44,10 +50,32 @@ class Notification:
             else:
                 self.rect.x += 10
 
+    def set_text(self, text: str):
+        """
+        Set's text for the notification
+        :param text: New text to display
+        :return: None
+        """
+
+        self.text = text
+
+    def set_type(self, type: str):
+        if type.lower() in self._types:
+            self.border_color = self._colors[self._types.index(self.notification_type.lower())]
+        else:
+            self.border_color = self._colors[0]
+
     def draw(self, surface: pygame.Surface, player):
+        """
+        Drawing notification on the given surface...
+
+        :param surface: Surface to draw notification on
+        :param player: Current player.
+        :return: None
+        """
         if self.show:
             pygame.draw.rect(surface, "#090707", self.rect, border_radius=8)
-            pygame.draw.rect(surface, "#272726", self.rect, width=2, border_radius=8)
+            pygame.draw.rect(surface, self.border_color, self.rect, width=2, border_radius=8)
 
             draw_text(self.text, (self.rect.topleft[0] + 10, 0), surface, player,
                       centery=self.rect.centery, width=self.rect.width - 20, fontsize=20)

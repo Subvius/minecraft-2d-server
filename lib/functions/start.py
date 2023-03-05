@@ -31,6 +31,7 @@ def get_images(blocks_data: dict):
     icons = dict()
     mob_images = dict()
     block_breaking = dict()
+    cloaks_images = dict()
 
     for file in os.listdir("lib/assets/animations/block_breaking"):
         if file.endswith(".png"):
@@ -70,27 +71,16 @@ def get_images(blocks_data: dict):
     icons.update({"sun": pygame.image.load("lib/assets/sun.png")})
     icons.update({"moon": pygame.image.load("lib/assets/moon.png")})
 
-    # for folder in os.listdir("lib/assets/animations/mobs/"):
-    #     if folder != ".DS_Store":
-    #         mob_images.update({folder: {}})
-    #         for file in os.listdir(f"lib/assets/animations/mobs/{folder}"):
-    #             if file != ".DS_Store":
-    #                 mob_images[folder][file.split(".")[0]] = pygame.image.load(
-    #                     f"lib/assets/animations/mobs/{folder}/{file}")
-    #
-    # mob = CaveMonster(20, 20, 1, 2, 1, True, False, (0, 0), 32, 64, 8)
-    # mob.cut_sheet(mob_images["cave_monster"]["idle"], 4, 1, "idle", 120, 50)
-    # mob_images['cave_monster']['idle'] = mob.images
-    # mob.cut_sheet(mob_images["cave_monster"]["walk"], 6, 1, "walk", 120, 45)
-    # mob_images['cave_monster']['walk'] = mob.images
-    # mob.cut_sheet(mob_images["cave_monster"]["hurt"], 4, 1, "hurt", 120, 50)
-    # mob_images['cave_monster']['hurt'] = mob.images
-    # mob.cut_sheet(mob_images["cave_monster"]["death"], 4, 1, "death", 120, 50)
-    # mob_images['cave_monster']['death'] = mob.images
-    # mob.cut_sheet(mob_images["cave_monster"]["attack"], 4, 1, "attack", 120, 50)
-    # mob_images['cave_monster']['attack'] = mob.images
+    for file in os.listdir("lib/assets/animations/Entities/cloaks_preview/"):
+        if file.endswith(".png"):
+            cloaks_images.update(
+                {
+                    file.split(".")[0]: pygame.image.load(
+                        os.path.join("lib/assets/animations/Entities/cloaks_preview/", file))
+                }
+            )
 
-    return images, icons, mob_images, block_breaking
+    return images, icons, mob_images, block_breaking, cloaks_images
 
 
 def get_posts_surface(fonts, icons):

@@ -98,3 +98,16 @@ async def generate_animations(sheet_path: str, save_directory: str = './', cape_
 #             os.mkdir(f"../../assets/animations/Entities/npc/{name}/")
 #         asyncio.run(generate_animations(f"../../assets/animations/Entities/npc/{file}",
 #                                         f"../../assets/animations/Entities/npc/{name}/"))
+
+
+async def generate_preview(sheet_path: str, save_directory: str = './', cape_name=None):
+    raw_cape = None if cape_name is None else Image.open(f"lib/assets/animations/Entities/cloaks/{cape_name}.webp")
+    raw_skin = Image.open(sheet_path)
+    s = Skin(raw_skin=raw_skin, raw_cape=raw_cape)
+
+    await s.render_skin(vr=0, hr=15)
+    s.skin.save(os.path.join(save_directory, "front_image.png"))
+    await s.render_skin(vr=0, hr=135, vrc=15)
+    s.skin.save(os.path.join(save_directory, "cloak_preview.png"))
+
+
