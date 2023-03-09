@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новости</title>
+</head>
+<body>
+    {% for item in news['news'] %}
+        {% if item["name"] == name %}
+            <h2>{{item["name"]}}</h2>
+            <img src={{item["photo"]}} class="d-block w-100" alt="...">
+            <div>{{item["text"]}}</div>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>

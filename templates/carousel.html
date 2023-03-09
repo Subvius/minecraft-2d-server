@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    {% for image in images %}
+        {% if loop.first %}
+            <div class="carousel-item active">
+        {% else %}
+            <div class="carousel-item">
+        {% endif %}
+      <img src="/static/img/{{ image }}" class="d-block w-100" alt="...">
+    </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<form action="" method="post" novalidate enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.file.label }}<br>
+        {{ form.file(class="form-control") }}<br>
+        {% for error in form.file.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn btn-outline-primary") }}</p>
+</form>
+{% endblock %}

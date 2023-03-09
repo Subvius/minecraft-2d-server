@@ -1,0 +1,19 @@
+{
+    "news": [
+        {
+            "name": "Алексей",
+            "photo": "/static/img/mars1.jpg",
+            "text": "Астролог, кик-боксер"
+        },
+        {
+            "name": "Николай",
+            "photo": "/static/img/mars2.jpg",
+            "text": "Астронафт, повар"
+        },
+        {
+            "name": "Елисей",
+            "photo": "/static/img/mars3.jpg",
+            "text": "Актер, писатель"
+        }
+    ]
+}
