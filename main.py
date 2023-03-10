@@ -37,5 +37,10 @@ def news():
     return render_template('members.html', news=news_list, name=name)
 
 
+@app.route('/table/<male>/<int:age>')
+def two_params(male, age):
+    return render_template('table.html', male=male, age=age)
+
+
 if __name__ == '__main__':
     app.run(host='localhost', port=8080)
