@@ -11,16 +11,16 @@ screen = pygame.display.set_mode(SIZE)
 
 running = True
 images = {}
-path = "./lib/assets/icons"
+path = "../lib/assets/icons"
 for file in os.listdir(path):
     if file.endswith(".png"):
         images.update({file.split(".")[0]: pygame.image.load(os.path.join(path, file))})
 
 images.update({
-    "reputation": pygame.image.load("./lib/assets/windows/reputation.png")
+    "reputation": pygame.image.load("../lib/assets/windows/reputation.png")
 })
 images.update({
-    "reputation_details": pygame.image.load("./lib/assets/windows/reputation_details.png")
+    "reputation_details": pygame.image.load("../lib/assets/windows/reputation_details.png")
 })
 
 
@@ -82,7 +82,7 @@ def draw(surface: pygame.Surface, reputation: dict):
 
     surface.blit(window, (center_x - window.get_width() // 2, center_y - window.get_height() // 2))
 
-    img = pygame.image.load("./lib/assets/windows/reputation_details.png")
+    img = pygame.image.load("../lib/assets/windows/reputation_details.png")
     for i, line in enumerate(possible_colliders):
         if line.collidepoint(*mouse_pos):
             draw_text(sorted_rep_translated[i], (img.get_width() // 2, 20), img, None, color="#595157",

@@ -15,3 +15,6 @@ def post_data(url, data: dict, params=None) -> dict:
     res = requests.post(url, data=json.dumps(data), params=params)
     print(res.json())
     return res.json()
+
+
+
