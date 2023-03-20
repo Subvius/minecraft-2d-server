@@ -36,7 +36,7 @@ def make_image_for_general(nickname: str, data: dict):
     save_path = f'lib/temp/{nickname}-general.png'
     img = Image.open("lib/assets/statsschema.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("../lib/assets/fonts/Panton-BlackCaps.ttf", 18)
+    font = ImageFont.truetype("lib/assets/fonts/Panton-BlackCaps.ttf", 18)
     params = {
         "first_login": data.get("first_login"),
         "last_login": data.get("last_login"),
@@ -95,13 +95,15 @@ def make_image_for_general(nickname: str, data: dict):
     try:
         if os.path.exists(f"lib/temp/{nickname}-front.png"):
             front_img = Image.open(f"lib/temp/{nickname}-front.png")
-        else:
+        elif data.get('skin_uuid', None) is not None:
             res = api.get_data(f"https://skins.mcstats.com/body/front/{data.get('skin_uuid', None)}",
                                json_res=False)
             with open(f"lib/temp/{nickname}-front.png", "wb") as f:
                 f.write(res.content)
 
             front_img = Image.open(f"lib/temp/{nickname}-front.png")
+        else:
+            raise ValueError()
 
     except Exception:
         front_img = Image.open("lib/assets/steve_front.png")
@@ -137,7 +139,7 @@ def rep_leaderboard(data: list[dict], first: int):
     save_path = f"lib/temp/leaderboard-reputation-{first}.png"
     img = Image.open("lib/assets/reputationschema.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("../lib/assets/fonts/Panton-BlackCaps.ttf", 18)
+    font = ImageFont.truetype("lib/assets/fonts/Panton-BlackCaps.ttf", 18)
     colors = (
         "#fddd00",
         "#c7c7c7",
@@ -158,12 +160,14 @@ def rep_leaderboard(data: list[dict], first: int):
         try:
             if os.path.exists(head_image_path):
                 head_image = Image.open(head_image_path)
-            else:
+            elif skin_uuid is not None:
                 res = api.get_data(f"https://skins.mcstats.com/face/{skin_uuid}", json_res=False)
                 with open(head_image_path, "wb") as f:
                     f.write(res.content)
 
                 head_image = Image.open(head_image_path)
+            else:
+                raise ValueError()
 
         except Exception:
             head_image = Image.open("lib/assets/steve_face.png")
@@ -184,7 +188,7 @@ def playtime_leaderboard(data: list[dict], first: int):
     save_path = f"lib/temp/leaderboard-playtime-{first}.png"
     img = Image.open("lib/assets/playtimeschema.png")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("../lib/assets/fonts/Panton-BlackCaps.ttf", 18)
+    font = ImageFont.truetype("lib/assets/fonts/Panton-BlackCaps.ttf", 18)
     colors = (
         "#fddd00",
         "#c7c7c7",
@@ -208,14 +212,17 @@ def playtime_leaderboard(data: list[dict], first: int):
         try:
             if os.path.exists(head_image_path):
                 head_image = Image.open(head_image_path)
-            else:
+            elif skin_uuid is not None:
                 res = api.get_data(f"https://skins.mcstats.com/face/{skin_uuid}", json_res=False)
                 with open(head_image_path, "wb") as f:
                     f.write(res.content)
 
                 head_image = Image.open(head_image_path)
+            else:
+                raise ValueError()
 
-        except Exception:
+        except Exception as e:
+            print(e.__str__())
             head_image = Image.open("lib/assets/steve_face.png")
 
         draw.text((60, 142 + 51 * index), f"#{position}", position_color, font=font, align="center")

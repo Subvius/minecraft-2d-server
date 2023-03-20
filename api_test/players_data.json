@@ -1,6 +1,6 @@
 {
   "Artur": {
-    "cosmetics": [],
+    "cosmetics": {},
     "first_login": 1679073202.175358,
     "id": "d24b3114-a720-4f86-a15b-3e3e0926b360",
     "last_logout": 1679073202.175519,
@@ -16,7 +16,8 @@
     "nickname": "Karim",
     "password": "12345678",
     "reputation": {
-      "killer": 4
+      "killer": 4,
+      "smuggler": 96
     },
     "stats": {
       "blocks_mined": 7,
@@ -25,7 +26,7 @@
     }
   },
   "Nikita": {
-    "cosmetics": [],
+    "cosmetics": {},
     "first_login": 1678444693.526236,
     "id": "dec61517-4027-4e31-bc5a-f8769c5a1948",
     "last_login": 1678719994.911384,
@@ -75,7 +76,7 @@
       "smuggler": 150,
       "spice": 150
     },
-    "skin_uuid": "9c1f49120e184350afa49f22ea43764e",
+    "skin_uuid": "f7c77d999f154a66a87dc4a51ef30d19",
     "stats": {
       "blocks_mined": 10236,
       "blocks_placed": 9285,

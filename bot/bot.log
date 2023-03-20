@@ -1,0 +1,963 @@
+2023-03-20 21:04:57,204 - asyncio - DEBUG - Using selector: EpollSelector
+2023-03-20 21:04:57,205 - telegram._bot - DEBUG - Entering: get_me
+2023-03-20 21:04:57,413 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,413 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,413 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,413 - hpack.hpack - DEBUG - Encoding 1 with 6 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 12 with 7 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getMe') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 43 with 7 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Adding (b'content-length', b'0') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 1 with 7 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 19 with 6 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,414 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Encoding 16 with 6 bits
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Encoding 13 with 7 bits
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Encoding 58 with 6 bits
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Encoding 43 with 7 bits
+2023-03-20 21:04:57,415 - hpack.hpack - DEBUG - Encoded header block to b"\x83A\x8c\x1df]%\xa0\xb3X:W=\x93\x7f\x87D\xabb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8cLT\xe8/\\\x81\x07S\x83\xf9c\xe7P\x8d\x9b\xd9\xab\xfaRB\xcb@\xd2_\xa5#\xb3z\xab\xaf\xd2g=K$\xb4\x16k\x07J\xd1\x9d*w\x10\x17\n\x9f\xd4\xe9Mh\xb8\xc3\x15\xfaL\xe7\xa9d\x96\x82\xcd`\xe9Z3\xa5s\xd97\xf7"
+2023-03-20 21:04:57,501 - hpack.hpack - DEBUG - Decoding b' \x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc05q\xb7T\xc5\xa3\x7f_\x8b\x1du\xd0b\r&=LtA\xea\\\x03191\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:04:57,501 - hpack.hpack - DEBUG - Decoded 0, consumed 1 bytes
+2023-03-20 21:04:57,501 - hpack.table - DEBUG - Resizing header table to 0 from 4096
+2023-03-20 21:04:57,501 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:04:57,501 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:04:57 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8940>), total consumed 5 bytes, indexed True
+2023-03-20 21:04:57,502 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8a00>), total consumed 23 bytes, indexed False
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,503 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:04:57,504 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:04:57,505 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getMe "HTTP/2 200 OK"
+2023-03-20 21:04:57,506 - telegram._bot - DEBUG - User(can_join_groups=True, can_read_all_group_messages=False, first_name='Minecraft2d', id=5645930699, is_bot=True, supports_inline_queries=False, username='mc2dbot')
+2023-03-20 21:04:57,506 - telegram._bot - DEBUG - Exiting: get_me
+2023-03-20 21:04:57,506 - telegram._bot - DEBUG - This Bot is already initialized.
+2023-03-20 21:04:57,507 - telegram.ext._updater - DEBUG - Updater started (polling)
+2023-03-20 21:04:57,507 - telegram.ext._updater - DEBUG - Start network loop retry bootstrap del webhook
+2023-03-20 21:04:57,507 - telegram.ext._updater - DEBUG - Deleting webhook
+2023-03-20 21:04:57,507 - telegram._bot - DEBUG - Entering: delete_webhook
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteWebhook') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 49 with 7 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b'content-length', b'0') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:04:57,509 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Encoding 64 with 7 bits
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:04:57,510 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc3\x87D\xb1b3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8cHZ\n\x92\xf2,s\x9c\xfd\x7f\xc2\xc1\xc0\xbf"
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc05q\xb7T\xc5\xa3\x7f_\x8b\x1du\xd0b\r&=LtA\xea\\\x0268\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:04:57,594 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:04:57 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 2, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d87c0>), total consumed 4 bytes, indexed True
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:04:57,595 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8880>), total consumed 23 bytes, indexed False
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:04:57,596 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:04:57,597 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteWebhook "HTTP/2 200 OK"
+2023-03-20 21:04:57,598 - telegram._bot - DEBUG - True
+2023-03-20 21:04:57,598 - telegram._bot - DEBUG - Exiting: delete_webhook
+2023-03-20 21:04:57,598 - telegram.ext._updater - DEBUG - Bootstrap done
+2023-03-20 21:04:57,598 - telegram.ext._updater - DEBUG - Waiting for polling to start
+2023-03-20 21:04:57,598 - telegram.ext._updater - DEBUG - Polling updates from Telegram started
+2023-03-20 21:04:57,598 - telegram.ext._updater - DEBUG - Start network loop retry getting Updates
+2023-03-20 21:04:57,598 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:04:57,600 - apscheduler.scheduler - INFO - Scheduler started
+2023-03-20 21:04:57,600 - telegram.ext._application - DEBUG - JobQueue started
+2023-03-20 21:04:57,600 - telegram.ext._application - INFO - Application started
+2023-03-20 21:04:57,600 - apscheduler.scheduler - DEBUG - Looking for jobs to run
+2023-03-20 21:04:57,600 - apscheduler.scheduler - DEBUG - No jobs; waiting until a job is added
+2023-03-20 21:04:57,769 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,769 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,769 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,769 - hpack.hpack - DEBUG - Encoding 1 with 6 bits
+2023-03-20 21:04:57,769 - hpack.hpack - DEBUG - Encoding 12 with 7 bits
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Encoding 46 with 7 bits
+2023-03-20 21:04:57,770 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Encoding 19 with 6 bits
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Encoding 16 with 6 bits
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Encoding 13 with 7 bits
+2023-03-20 21:04:57,771 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 58 with 6 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 43 with 7 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Adding (b'content-length', b'19') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 2 with 7 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoding 24 with 7 bits
+2023-03-20 21:04:57,772 - hpack.hpack - DEBUG - Encoded header block to b"\x83A\x8c\x1df]%\xa0\xb3X:W=\x93\x7f\x87D\xaeb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8cLT\xf0\xaeA\xa4\xa8S\x83\xf9c\xe7P\x8d\x9b\xd9\xab\xfaRB\xcb@\xd2_\xa5#\xb3z\xab\xaf\xd2g=K$\xb4\x16k\x07J\xd1\x9d*w\x10\x17\n\x9f\xd4\xe9Mh\xb8\xc3\x15\xfaL\xe7\xa9d\x96\x82\xcd`\xe9Z3\xa5s\xd97\xf7\\\x82\x0b\xff_\x98\x1du\xd0b\r&=Ly[\xc7\x8f\x0bJ{)Z\xdb(-D<\x85\x93"
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoding b' \x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc05q\xb7T\xc5\xa3\x7f_\x8b\x1du\xd0b\r&=LtA\xea\\\x03402\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 0, consumed 1 bytes
+2023-03-20 21:04:57,861 - hpack.table - DEBUG - Resizing header table to 0 from 4096
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:04:57,861 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:04:57 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8a00>), total consumed 5 bytes, indexed True
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:04:57,862 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8400>), total consumed 23 bytes, indexed False
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:04:57,863 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:04:57,864 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:04:57,865 - telegram._bot - DEBUG - Getting updates: [546035108]
+2023-03-20 21:04:57,865 - telegram._bot - DEBUG - (Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 4, 6, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=5, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=911, supergroup_chat_created=False, text='/help'), update_id=546035108),)
+2023-03-20 21:04:57,866 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:04:57,867 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:04:57,868 - telegram.ext._application - DEBUG - Processing update Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 4, 6, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=5, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=911, supergroup_chat_created=False, text='/help'), update_id=546035108)
+2023-03-20 21:04:57,868 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:04:57,868 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:04:57,868 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:04:57,869 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:04:57,869 - telegram._bot - DEBUG - Entering: send_message
+2023-03-20 21:04:57,871 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,871 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,871 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,871 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:04:57,871 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 64 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 2 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:04:57,872 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc4\x87\xc3\xc2\xc1\xc0\\\x82\x13\xbf\xbf'
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,873 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 47 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 64 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Adding (b'content-length', b'808') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoding 24 with 7 bits
+2023-03-20 21:04:57,874 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc4\x87D\xafb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8c \xb5I\xa0\xa8@\xe6/\xc2\xc1\xc0\\\x83x\x0f\x7f_\x98\x1du\xd0b\r&=Ly[\xc7\x8f\x0bJ{)Z\xdb(-D<\x85\x93"
+2023-03-20 21:04:58,035 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc05q\xb7T\xc5\xa3\x7f_\x8b\x1du\xd0b\r&=LtA\xea\\\x03828\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:04:58,035 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:04:58,035 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:04:58,035 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:04:57 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8880>), total consumed 5 bytes, indexed True
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:04:58,036 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8940>), total consumed 23 bytes, indexed False
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:04:58,037 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:04:58,038 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage "HTTP/2 200 OK"
+2023-03-20 21:04:58,039 - telegram._bot - DEBUG - Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 4, 57, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=4, offset=79, type=<MessageEntityType.BOT_COMMAND>), MessageEntity(length=12, offset=148, type=<MessageEntityType.BOT_COMMAND>), MessageEntity(length=5, offset=326, type=<MessageEntityType.BOT_COMMAND>), MessageEntity(length=6, offset=336, type=<MessageEntityType.BOT_COMMAND>)), from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=912, supergroup_chat_created=False, text='Minecraft 2D Help\n\nReputation\nTo view the reputation, you just need to use the /rep command\n\nLeaderboards\nWe offer several leaderboards through the /leaderboard command. You can see leaderboards based on total time, reputation and much more!\n\nMinecraft\nYou can view general Minecraft information such as skins, cloaks through /skin and /cloak respectively.')
+2023-03-20 21:04:58,040 - telegram._bot - DEBUG - Exiting: send_message
+2023-03-20 21:05:03,550 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0c\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03405\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:03,550 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:03,550 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:03,550 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:03,550 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:03 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:03,551 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8400>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d87c0>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:03,552 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:03,553 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:03,554 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:05:03,554 - telegram._bot - DEBUG - Getting updates: [546035109]
+2023-03-20 21:05:03,580 - telegram._bot - DEBUG - (Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 3, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=8, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=913, supergroup_chat_created=False, text='/general'), update_id=546035109),)
+2023-03-20 21:05:03,581 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:05:03,581 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:05:03,582 - telegram.ext._application - DEBUG - Processing update Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 3, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=8, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=913, supergroup_chat_created=False, text='/general'), update_id=546035109)
+2023-03-20 21:05:03,582 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:03,583 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:03,583 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:03,583 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:03,595 - telegram._bot - DEBUG - Entering: send_message
+2023-03-20 21:05:03,598 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,598 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:03,598 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,598 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:03,599 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,599 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:03,599 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,599 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoding 62 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:03,624 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc5\x87\xc4\xc3\xc2\xc1\xbe\xbf'
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Encoding 1 with 6 bits
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Encoding 12 with 7 bits
+2023-03-20 21:05:03,825 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 47 with 7 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 19 with 6 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 16 with 6 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 13 with 7 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 58 with 6 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 43 with 7 bits
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Adding (b'content-length', b'374') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,826 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:03,827 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:03,827 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:03,827 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:05:03,827 - hpack.hpack - DEBUG - Encoding 24 with 7 bits
+2023-03-20 21:05:03,827 - hpack.hpack - DEBUG - Encoded header block to b"\x83A\x8c\x1df]%\xa0\xb3X:W=\x93\x7f\x87D\xafb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8c \xb5I\xa0\xa8@\xe6/S\x83\xf9c\xe7P\x8d\x9b\xd9\xab\xfaRB\xcb@\xd2_\xa5#\xb3z\xab\xaf\xd2g=K$\xb4\x16k\x07J\xd1\x9d*w\x10\x17\n\x9f\xd4\xe9Mh\xb8\xc3\x15\xfaL\xe7\xa9d\x96\x82\xcd`\xe9Z3\xa5s\xd97\xf7\\\x83e\xd6\xbf_\x98\x1du\xd0b\r&=Ly[\xc7\x8f\x0bJ{)Z\xdb(-D<\x85\x93"
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoding b' \x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0c\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03287\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded 0, consumed 1 bytes
+2023-03-20 21:05:03,940 - hpack.table - DEBUG - Resizing header table to 0 from 4096
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:03,940 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:03 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:03,942 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8940>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8a00>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:03,943 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:03,944 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:03,944 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:03,944 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:03,944 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:03,944 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage "HTTP/2 200 OK"
+2023-03-20 21:05:03,945 - telegram._bot - DEBUG - Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 3, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=914, supergroup_chat_created=False, text='Alright. Send me username')
+2023-03-20 21:05:03,946 - telegram._bot - DEBUG - Exiting: send_message
+2023-03-20 21:05:06,933 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0e)\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03346\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:06,933 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:06,933 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:06,934 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:06,940 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:06,940 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:06,940 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:06,940 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:06 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d87c0>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:06,941 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8880>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:06,942 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:06,943 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:05:06,944 - telegram._bot - DEBUG - Getting updates: [546035110]
+2023-03-20 21:05:06,945 - telegram._bot - DEBUG - (Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 6, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=915, supergroup_chat_created=False, text='Subvius'), update_id=546035110),)
+2023-03-20 21:05:06,945 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:05:06,945 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:05:06,946 - telegram.ext._application - DEBUG - Processing update Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 6, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=915, supergroup_chat_created=False, text='Subvius'), update_id=546035110)
+2023-03-20 21:05:06,950 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:06,950 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:06,950 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:06,950 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state 1
+2023-03-20 21:05:06,951 - telegram._bot - DEBUG - Entering: send_message
+2023-03-20 21:05:06,954 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,954 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:06,954 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:06,955 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Encoding 62 with 7 bits
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc5\x87\xc4\xc3\xc2\xc1\xbe\xbf'
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:06,956 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 64 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b'content-length', b'53') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Encoding 2 with 7 bits
+2023-03-20 21:05:06,957 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:06,958 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:06,958 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc4\x87\xc3\xc2\xc1\xc0\\\x82m\x9f\xbf'
+2023-03-20 21:05:07,077 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0e\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03292\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:07,077 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:07 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:07,078 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d8a00>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:07,079 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d8400>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:07,080 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:07,081 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage "HTTP/2 200 OK"
+2023-03-20 21:05:07,082 - telegram._bot - DEBUG - Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 7, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=916, supergroup_chat_created=False, text='Searching stats for Subvius...')
+2023-03-20 21:05:07,082 - telegram._bot - DEBUG - Exiting: send_message
+2023-03-20 21:05:07,085 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): minecraft2d.pythonanywhere.com:443
+2023-03-20 21:05:07,118 - urllib3.connectionpool - DEBUG - https://minecraft2d.pythonanywhere.com:443 "GET /player/?player=Subvius HTTP/1.1" 200 None
+2023-03-20 21:05:07,134 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:07,134 - PIL.PngImagePlugin - DEBUG - STREAM b'sRGB' 41 1
+2023-03-20 21:05:07,134 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 54 80
+2023-03-20 21:05:07,134 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 146 345
+2023-03-20 21:05:07,134 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 503 16384
+2023-03-20 21:05:07,220 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): skins.mcstats.com:443
+2023-03-20 21:05:07,225 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:07,226 - PIL.PngImagePlugin - DEBUG - STREAM b'bKGD' 41 6
+2023-03-20 21:05:07,226 - PIL.PngImagePlugin - DEBUG - b'bKGD' 41 6 (unknown)
+2023-03-20 21:05:07,226 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 59 8192
+2023-03-20 21:05:07,558 - telegram._bot - DEBUG - Entering: delete_message
+2023-03-20 21:05:07,560 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,560 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:07,560 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,560 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 48 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:07,561 - hpack.hpack - DEBUG - Adding (b'content-length', b'32') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,562 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:07,562 - hpack.hpack - DEBUG - Encoding 2 with 7 bits
+2023-03-20 21:05:07,562 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,562 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:07,562 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc5\x87D\xb0b3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8cHZ\n\x92\xe8*\x109\x8b\xc4\xc3\xc2\\\x82d_\xc1"
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0e\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x0225\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:07,666 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:07 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 2, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9c00>), total consumed 4 bytes, indexed True
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:07,667 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9cc0>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:07,668 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:07,669 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteMessage "HTTP/2 200 OK"
+2023-03-20 21:05:07,670 - telegram._bot - DEBUG - True
+2023-03-20 21:05:07,670 - telegram._bot - DEBUG - Exiting: delete_message
+2023-03-20 21:05:07,671 - telegram._bot - DEBUG - Entering: send_photo
+2023-03-20 21:05:07,675 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,675 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:07,675 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,675 - hpack.hpack - DEBUG - Encoding 71 with 7 bits
+2023-03-20 21:05:07,675 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendPhoto') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 46 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 70 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b'content-length', b'271086') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 5 with 7 bits
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Adding (b'content-type', b'multipart/form-data; boundary=d7d548e510da4e4ad18506a7bbeb08e8') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:07,676 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:05:07,677 - hpack.hpack - DEBUG - Encoding 45 with 7 bits
+2023-03-20 21:05:07,677 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc7\x87D\xaeb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8c \xb5I\xaes\xa4\xff\xc6\xc5\xc4\\\x85\x13\xa1\x03\xce\x7f_\xad\xa6\xda\x12j\xc7bX\x94\xf6R\xb4\x83H\xfe\xd4\x8c\xf6\xd5 \xec\xf5\x04\x8e\xc8\xdbO\x15\xb0\x82A\xb4V\x87 ^l\x0e\r\xd8\xe3,`x\xaf\x7f"
+2023-03-20 21:05:08,276 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p\x0f)\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03827\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:08,276 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:08,276 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:08,276 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:08 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9b40>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:08,277 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9d80>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:08,278 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:08,279 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendPhoto "HTTP/2 200 OK"
+2023-03-20 21:05:08,281 - telegram._bot - DEBUG - Message(caption='General stats of Subvius', channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 8, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=917, photo=(PhotoSize(file_id='AgACAgIAAxkDAAIDlWQYyoSlvfu3qpJdfVQqKIMjOc0PAALHxTEbFOzBSPUo61nJTMzzAQADAgADcwADLwQ', file_size=1783, file_unique_id='AQADx8UxGxTswUh4', height=80, width=90), PhotoSize(file_id='AgACAgIAAxkDAAIDlWQYyoSlvfu3qpJdfVQqKIMjOc0PAALHxTEbFOzBSPUo61nJTMzzAQADAgADbQADLwQ', file_size=20627, file_unique_id='AQADx8UxGxTswUhy', height=283, width=320), PhotoSize(file_id='AgACAgIAAxkDAAIDlWQYyoSlvfu3qpJdfVQqKIMjOc0PAALHxTEbFOzBSPUo61nJTMzzAQADAgADeAADLwQ', file_size=61991, file_unique_id='AQADx8UxGxTswUh9', height=638, width=721)), supergroup_chat_created=False)
+2023-03-20 21:05:08,281 - telegram._bot - DEBUG - Exiting: send_photo
+2023-03-20 21:05:17,047 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p.\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x0223\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:17,048 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:17,048 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:17,048 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:17,048 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:17 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 2, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9840>), total consumed 4 bytes, indexed True
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:17,049 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9a80>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:17,050 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:17,051 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:05:17,052 - telegram._bot - DEBUG - No new updates found.
+2023-03-20 21:05:17,052 - telegram._bot - DEBUG - ()
+2023-03-20 21:05:17,052 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:05:17,053 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:05:17,054 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,055 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:17,056 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,056 - hpack.hpack - DEBUG - Encoding 62 with 7 bits
+2023-03-20 21:05:17,056 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:17,056 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:17,056 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc5\x87\xc4\xc3\xc2\xc1\xbe\xbf'
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p/\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03410\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:19,290 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:19 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9b40>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:19,291 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9d80>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:19,292 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:19,293 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:05:19,294 - telegram._bot - DEBUG - Getting updates: [546035111]
+2023-03-20 21:05:19,294 - telegram._bot - DEBUG - (Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 19, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=12, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=918, supergroup_chat_created=False, text='/leaderboard'), update_id=546035111),)
+2023-03-20 21:05:19,295 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:05:19,295 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:05:19,296 - telegram.ext._application - DEBUG - Processing update Update(message=Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 19, tzinfo=<UTC>), delete_chat_photo=False, entities=(MessageEntity(length=12, offset=0, type=<MessageEntityType.BOT_COMMAND>),), from_user=User(first_name='Артур', id=509737198, is_bot=False, language_code='ru', username='Subvius'), group_chat_created=False, message_id=918, supergroup_chat_created=False, text='/leaderboard'), update_id=546035111)
+2023-03-20 21:05:19,297 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:19,297 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:19,297 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:19,297 - telegram.ext._conversationhandler - DEBUG - Selecting conversation (509737198, 509737198) with state None
+2023-03-20 21:05:19,297 - telegram._bot - DEBUG - Entering: send_message
+2023-03-20 21:05:19,300 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,301 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:19,302 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,302 - hpack.hpack - DEBUG - Encoding 62 with 7 bits
+2023-03-20 21:05:19,302 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,302 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:19,302 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc5\x87\xc4\xc3\xc2\xc1\xbe\xbf'
+2023-03-20 21:05:19,475 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,475 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 1 with 6 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 12 with 7 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 47 with 7 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 19 with 6 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:19,476 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 16 with 6 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 13 with 7 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 58 with 6 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 43 with 7 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Adding (b'content-length', b'258') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoding 24 with 7 bits
+2023-03-20 21:05:19,477 - hpack.hpack - DEBUG - Encoded header block to b"\x83A\x8c\x1df]%\xa0\xb3X:W=\x93\x7f\x87D\xafb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8c \xb5I\xa0\xa8@\xe6/S\x83\xf9c\xe7P\x8d\x9b\xd9\xab\xfaRB\xcb@\xd2_\xa5#\xb3z\xab\xaf\xd2g=K$\xb4\x16k\x07J\xd1\x9d*w\x10\x17\n\x9f\xd4\xe9Mh\xb8\xc3\x15\xfaL\xe7\xa9d\x96\x82\xcd`\xe9Z3\xa5s\xd97\xf7\\\x83\x13o\x7f_\x98\x1du\xd0b\r&=Ly[\xc7\x8f\x0bJ{)Z\xdb(-D<\x85\x93"
+2023-03-20 21:05:19,705 - hpack.hpack - DEBUG - Decoding b' \x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p/\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03419\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 0, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.table - DEBUG - Resizing header table to 0 from 4096
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:19 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:19,706 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9a80>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9cc0>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:19,707 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:19,708 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:19,708 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:19,708 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:19,708 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:19,709 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendMessage "HTTP/2 200 OK"
+2023-03-20 21:05:19,710 - telegram._bot - DEBUG - Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 19, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=919, reply_markup=InlineKeyboardMarkup(inline_keyboard=((InlineKeyboardButton(callback_data='lbreputation', text='Reputation'), InlineKeyboardButton(callback_data='lbplaytime', text='Play Time')),)), supergroup_chat_created=False, text='Loading data...')
+2023-03-20 21:05:19,711 - telegram._bot - DEBUG - Exiting: send_message
+2023-03-20 21:05:19,713 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): minecraft2d.pythonanywhere.com:443
+2023-03-20 21:05:19,740 - urllib3.connectionpool - DEBUG - https://minecraft2d.pythonanywhere.com:443 "GET /leaderboard HTTP/1.1" 308 289
+2023-03-20 21:05:19,754 - urllib3.connectionpool - DEBUG - https://minecraft2d.pythonanywhere.com:443 "GET /leaderboard/ HTTP/1.1" 200 None
+2023-03-20 21:05:19,761 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:19,762 - PIL.PngImagePlugin - DEBUG - STREAM b'gAMA' 41 4
+2023-03-20 21:05:19,762 - PIL.PngImagePlugin - DEBUG - STREAM b'cHRM' 57 32
+2023-03-20 21:05:19,762 - PIL.PngImagePlugin - DEBUG - STREAM b'eXIf' 101 80
+2023-03-20 21:05:19,762 - PIL.PngImagePlugin - DEBUG - STREAM b'iTXt' 193 562
+2023-03-20 21:05:19,762 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 767 16384
+2023-03-20 21:05:19,804 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): skins.mcstats.com:443
+2023-03-20 21:05:19,807 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:19,807 - PIL.PngImagePlugin - DEBUG - STREAM b'bKGD' 41 6
+2023-03-20 21:05:19,807 - PIL.PngImagePlugin - DEBUG - b'bKGD' 41 6 (unknown)
+2023-03-20 21:05:19,807 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 59 284
+2023-03-20 21:05:19,814 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): skins.mcstats.com:443
+2023-03-20 21:05:19,816 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:19,816 - PIL.PngImagePlugin - DEBUG - STREAM b'bKGD' 41 6
+2023-03-20 21:05:19,816 - PIL.PngImagePlugin - DEBUG - b'bKGD' 41 6 (unknown)
+2023-03-20 21:05:19,816 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 59 284
+2023-03-20 21:05:19,822 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): skins.mcstats.com:443
+2023-03-20 21:05:19,824 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:19,824 - PIL.PngImagePlugin - DEBUG - STREAM b'bKGD' 41 6
+2023-03-20 21:05:19,824 - PIL.PngImagePlugin - DEBUG - b'bKGD' 41 6 (unknown)
+2023-03-20 21:05:19,824 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 59 284
+2023-03-20 21:05:19,830 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): skins.mcstats.com:443
+2023-03-20 21:05:19,831 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2023-03-20 21:05:19,832 - PIL.PngImagePlugin - DEBUG - STREAM b'bKGD' 41 6
+2023-03-20 21:05:19,832 - PIL.PngImagePlugin - DEBUG - b'bKGD' 41 6 (unknown)
+2023-03-20 21:05:19,832 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 59 284
+2023-03-20 21:05:20,195 - telegram._bot - DEBUG - Entering: delete_message
+2023-03-20 21:05:20,197 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,197 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:20,197 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,197 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteMessage') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 48 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b'content-length', b'32') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 2 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoding 64 with 7 bits
+2023-03-20 21:05:20,198 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc4\x87D\xb0b3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8cHZ\n\x92\xe8*\x109\x8b\xc3\xc2\xc1\\\x82d_\xc0"
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p@S\x16\x8d\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x0225\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:20,294 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:20 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 2, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9d80>), total consumed 4 bytes, indexed True
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:20,295 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9c00>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:20,296 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:20,297 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/deleteMessage "HTTP/2 200 OK"
+2023-03-20 21:05:20,298 - telegram._bot - DEBUG - True
+2023-03-20 21:05:20,298 - telegram._bot - DEBUG - Exiting: delete_message
+2023-03-20 21:05:20,299 - telegram._bot - DEBUG - Entering: send_photo
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 70 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendPhoto') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 4 with 6 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 46 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b'content-length', b'301725') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 28 with 6 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 5 with 7 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Adding (b'content-type', b'multipart/form-data; boundary=a6fa6a8a817cd1f382e8304baaed7e70') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 31 with 6 bits
+2023-03-20 21:05:20,301 - hpack.hpack - DEBUG - Encoding 44 with 7 bits
+2023-03-20 21:05:20,302 - hpack.hpack - DEBUG - Encoded header block to b"\x83\xc6\x87D\xaeb3\xa5\xb7\x1am\xf6@\xe3\xef\xdc\x86\x1c}\xd9&~\xfb\xf07\xef\xf3'_$\xf0@\x83@\x84?9e\xe9\x1f\x12fx\x8c \xb5I\xaes\xa4\xff\xc5\xc4\xc3\\\x85d\x01tM\xff_\xac\xa6\xda\x12j\xc7bX\x94\xf6R\xb4\x83H\xfe\xd4\x8c\xf6\xd5 \xec\xf5\x00\xdc\x94n\r\xe1\xbc\x17I ee\xe1\x15\xe6@\xd4c\x19dt\xae\x83"
+2023-03-20 21:05:20,824 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07p@S\x16\x8d\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x03932\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:20,824 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:20,824 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:20 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 3, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9840>), total consumed 5 bytes, indexed True
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:20,825 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9e40>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:20,826 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:20,827 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/sendPhoto "HTTP/2 200 OK"
+2023-03-20 21:05:20,829 - telegram._bot - DEBUG - Message(channel_chat_created=False, chat=Chat(first_name='Артур', id=509737198, type=<ChatType.PRIVATE>, username='Subvius'), date=datetime.datetime(2023, 3, 20, 21, 5, 20, tzinfo=<UTC>), delete_chat_photo=False, from_user=User(first_name='Minecraft2d', id=5645930699, is_bot=True, username='mc2dbot'), group_chat_created=False, message_id=920, photo=(PhotoSize(file_id='AgACAgIAAxkDAAIDmGQYypBW1ezUqLIjmlVvxLKffw_0AALIxTEbFOzBSNdsEuM8RxwmAQADAgADcwADLwQ', file_size=1386, file_unique_id='AQADyMUxGxTswUh4', height=87, width=90), PhotoSize(file_id='AgACAgIAAxkDAAIDmGQYypBW1ezUqLIjmlVvxLKffw_0AALIxTEbFOzBSNdsEuM8RxwmAQADAgADbQADLwQ', file_size=15914, file_unique_id='AQADyMUxGxTswUhy', height=309, width=320), PhotoSize(file_id='AgACAgIAAxkDAAIDmGQYypBW1ezUqLIjmlVvxLKffw_0AALIxTEbFOzBSNdsEuM8RxwmAQADAgADeAADLwQ', file_size=48841, file_unique_id='AQADyMUxGxTswUh9', height=700, width=724)), reply_markup=InlineKeyboardMarkup(inline_keyboard=((InlineKeyboardButton(callback_data='lbreputation', text='Reputation'), InlineKeyboardButton(callback_data='lbplaytime', text='Play Time')),)), supergroup_chat_created=False)
+2023-03-20 21:05:20,829 - telegram._bot - DEBUG - Exiting: send_photo
+2023-03-20 21:05:29,387 - hpack.hpack - DEBUG - Decoding b'\x88v\x89\xaacU\xe5\x80\xae\x17\x97\x07a\x96\xd0z\xbe\x94\x10\x14\xd0;\x14\x10\x04\xca\x82\r\xc07pO\xa9\x8bF\xff_\x8b\x1du\xd0b\r&=LtA\xea\\\x0223\x00\x91Bl1\x12\xb2l\x1dH\xac\xf6%d\x14\x96\xd8d\xfa\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93\x00\x93\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xc7\xb0\xd3\x1a\xaf\x01*\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16\x1d\x14\x1f\xc2\xd4\x953\x9eD\x7f\x90\xc5\x83\x7f\xd2\x9a\xf5n\xdf\xf4\xa6\xad{\xf2j\xd3\xbb\x00\x94\x19\x08T!b\x1e\xa4\xd8z\x16/\x9a\xce\x82\xad9G!lG\xa5\xbcz\x92Z\x92\xb6r\xd52g\xfa\xbcz\x92Z\x92\xb6\xffU\x97\xea\xf8\xd2_\xad\xc5\xb3\xb9l\xfa\xbcz\xaa)\x12c\xd5'
+2023-03-20 21:05:29,387 - hpack.hpack - DEBUG - Decoded 8, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded (b':status', b'200'), consumed 1
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 54, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 9, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded (b'server', b'nginx/1.18.0'), total consumed 11 bytes, indexed True
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 33, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 22, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded (b'date', b'Mon, 20 Mar 2023 21:05:29 GMT'), total consumed 24 bytes, indexed True
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 31, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 11, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded (b'content-type', b'application/json'), total consumed 13 bytes, indexed True
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 28, consumed 1 bytes
+2023-03-20 21:05:29,388 - hpack.hpack - DEBUG - Decoded 2, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded (b'content-length', <memory at 0x7f78106d9a80>), total consumed 4 bytes, indexed True
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 17, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 32, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 52 bytes, indexed False
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 19, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 1, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-origin', <memory at 0x7f78106d9cc0>), total consumed 23 bytes, indexed False
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:29,389 - hpack.hpack - DEBUG - Decoded 16, consumed 1 bytes
+2023-03-20 21:05:29,390 - hpack.hpack - DEBUG - Decoded (b'access-control-allow-methods', b'GET, POST, OPTIONS'), total consumed 39 bytes, indexed False
+2023-03-20 21:05:29,390 - hpack.hpack - DEBUG - Decoded 20, consumed 1 bytes
+2023-03-20 21:05:29,390 - hpack.hpack - DEBUG - Decoded 37, consumed 1 bytes
+2023-03-20 21:05:29,390 - hpack.hpack - DEBUG - Decoded (b'access-control-expose-headers', b'Content-Length,Content-Type,Date,Server,Connection'), total consumed 60 bytes, indexed False
+2023-03-20 21:05:29,391 - httpx._client - DEBUG - HTTP Request: POST https://api.telegram.org/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates "HTTP/2 200 OK"
+2023-03-20 21:05:29,392 - telegram._bot - DEBUG - No new updates found.
+2023-03-20 21:05:29,392 - telegram._bot - DEBUG - ()
+2023-03-20 21:05:29,392 - telegram._bot - DEBUG - Exiting: get_updates
+2023-03-20 21:05:29,392 - telegram._bot - DEBUG - Entering: get_updates
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b':method', b'POST') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 3 with 7 bits
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b':authority', b'api.telegram.org') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 69 with 7 bits
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 7 with 7 bits
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b':path', b'/bot5645930699:AAHv3cLvTE5zXIkxcwc10M22axJfjbVcK8c/getUpdates') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 68 with 7 bits
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b'accept', b'*/*') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 67 with 7 bits
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Adding (b'accept-encoding', b'gzip, deflate, br') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,394 - hpack.hpack - DEBUG - Encoding 66 with 7 bits
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Adding (b'user-agent', b'python-telegram-bot v20.1 (https://python-telegram-bot.org)') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Encoding 65 with 7 bits
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Adding (b'content-length', b'27') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Encoding 62 with 7 bits
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Adding (b'content-type', b'application/x-www-form-urlencoded') to the header table, sensitive:False, huffman:True
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Encoding 63 with 7 bits
+2023-03-20 21:05:29,395 - hpack.hpack - DEBUG - Encoded header block to b'\x83\xc5\x87\xc4\xc3\xc2\xc1\xbe\xbf'
+2023-03-20 21:05:35,774 - telegram.ext._updater - DEBUG - Stopping Updater
+2023-03-20 21:05:35,774 - telegram.ext._updater - DEBUG - Waiting background polling task to finish up.
+2023-03-20 21:05:35,774 - telegram.ext._updater - DEBUG - Network loop retry getting Updates was cancelled
+2023-03-20 21:05:35,774 - telegram.ext._updater - DEBUG - Updater.stop() is complete
+2023-03-20 21:05:35,774 - telegram.ext._application - INFO - Application is stopping. This might take a moment.
+2023-03-20 21:05:35,775 - telegram.ext._application - DEBUG - Waiting for update_queue to join
+2023-03-20 21:05:35,775 - telegram.ext._application - DEBUG - Dropping pending updates
+2023-03-20 21:05:35,775 - telegram.ext._application - DEBUG - Application stopped fetching of updates.
+2023-03-20 21:05:35,775 - telegram.ext._application - DEBUG - Waiting for running jobs to finish
+2023-03-20 21:05:35,775 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2023-03-20 21:05:35,785 - telegram.ext._application - DEBUG - JobQueue stopped
+2023-03-20 21:05:35,785 - telegram.ext._application - DEBUG - Waiting for `create_task` calls to be processed
+2023-03-20 21:05:35,785 - telegram.ext._application - INFO - Application.stop() complete
+2023-03-20 21:05:35,786 - telegram._bot - DEBUG - This Bot is already shut down. Returning.
+2023-03-20 21:05:35,787 - telegram.ext._updater - DEBUG - Shut down of Updater complete
