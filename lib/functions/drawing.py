@@ -190,6 +190,7 @@ def draw_tasks(surface: pygame.Surface, active_tasks: dict, images: dict, icons:
     possible_colliders = []
     center_x, center_y = surface.get_width() // 2, surface.get_height() // 2
 
+    print(active_tasks)
     for index, el in enumerate(list(active_tasks.items())):
         key: str = el[0]
         value: dict = el[1]

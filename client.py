@@ -1044,7 +1044,7 @@ while running:
         draw_rep(screen, PLAYER_DATA.get("reputation", {}), images, icons, SIZE)
 
     elif SCREEN.show_tasks:
-        draw_tasks(screen, STORY_TASKS.list_tasks(), images, icons, PLAYER)
+        draw_tasks(screen, STORY_TASKS.tasks, images, icons, PLAYER)
 
     SCREEN.render_action_bar(screen, PLAYER)
 

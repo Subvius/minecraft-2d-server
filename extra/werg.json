@@ -1,12 +1,7 @@
 {
-  "Artur": {
-    "cosmetics": [],
-    "first_login": 1679073202.175358,
-    "id": "d24b3114-a720-4f86-a15b-3e3e0926b360",
-    "last_logout": 1679073202.175519,
-    "nickname": "Artur",
-    "password": "12346578",
-    "stats": {}
+  "First": {
+    "last_login": 1678698507.51199,
+    "last_logout": 0
   },
   "Karim": {
     "first_login": 1675629682.86494,
@@ -16,7 +11,7 @@
     "nickname": "Karim",
     "password": "12345678",
     "reputation": {
-      "killer": 4
+      "killer": 1
     },
     "stats": {
       "blocks_mined": 7,
@@ -35,6 +30,10 @@
     "stats": {
       "play_time": 358
     }
+  },
+  "Second": {
+    "last_login": 1678698895.341378,
+    "last_logout": 0
   },
   "Subvius": {
     "active_tasks": {

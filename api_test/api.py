@@ -41,7 +41,14 @@ def get_player_data():
                         "first_login": datetime.datetime.now().timestamp(),
                         "last_logout": datetime.datetime.now().timestamp(),
                         "stats": {},
-                        "cosmetics": []
+                        "cosmetics": [],
+                        "reputation": {
+                            "killer": 150,
+                            "magician": 150,
+                            "robber": 150,
+                            "smuggler": 150,
+                            "spice": 150
+                        }
                     }
                     data.update({player: player_data})
                     with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
@@ -141,7 +148,14 @@ def auth():
                             "first_login": datetime.datetime.now().timestamp(),
                             "last_logout": datetime.datetime.now().timestamp(),
                             "stats": {},
-                            "cosmetics": []
+                            "cosmetics": [],
+                            "reputation": {
+                                "killer": 150,
+                                "magician": 150,
+                                "robber": 150,
+                                "smuggler": 150,
+                                "spice": 150
+                            }
                         }
                         json_data.update({nickname: player_data})
                         with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
@@ -171,6 +185,52 @@ def auth():
                 "E": "Not enough arguments. Usage: nickname=Nickname&password=Password."
             })
             return response
+
+    except Exception as e:
+        response.update({"E": e.__str__()})
+
+    return response
+
+
+@app.route("/leaderboard/", methods=["GET"])
+def get_leaderboard():
+    lb_type = request.args.get("type", "reputation")
+    start = request.args.get("start", 1)
+    amount = request.args.get("amount", 10)
+
+    response = {
+        "success": False
+    }
+
+    try:
+        start, amount = int(start), int(amount)
+        with open(os.path.join(dir_path, "players_data.json"), "r") as f:
+            data: dict = json.load(f)
+        if lb_type == "reputation":
+
+            res = [el for el in
+                   sorted(
+                       list(data.values()),
+                       key=lambda x: sum([rep for rep in x.get("reputation", {}).values()]),
+                       reverse=True
+                   )[start - 1: start - 1 + amount]]
+        elif lb_type == 'play_time':
+            res = [el for el in
+                   sorted(
+                       list(data.values()),
+                       key=lambda x: x.get("stats", {}).get("play_time", 0),
+                       reverse=True
+                   )[start - 1: start - 1 + amount]]
+        else:
+            res = []
+
+        response.update(
+            {
+                "data": res,
+                "success": True
+            }
+        )
+        return response
 
     except Exception as e:
         response.update({"E": e.__str__()})
