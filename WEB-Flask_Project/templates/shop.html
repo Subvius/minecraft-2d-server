@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_for_shop.css') }}">
+</head>
+<body>
+<a href="http://localhost:8080/statistics" target="_target">Статистика</a>
+<table>
+    <tr>
+    {% for image in images %}
+        {% if loop.index % 3 == 0 %}
+            <td><img src="/static/cloak/{{ image }}" class="d-block w-100" alt="..."></td></tr><tr>
+        {% else %}
+            <td><img src="/static/cloak/{{ image }}" class="d-block w-100" alt="..."> rytg</td>
+        {% endif %}
+    {% endfor %}
+    {% if len % 3 != 0 %}
+        </tr>
+    {% endif %}
+</table>
+</body>
+</html>

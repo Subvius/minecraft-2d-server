@@ -1,0 +1,22 @@
+table {
+    width: 100%; /* Ширина таблицы */  /* Цвет фона таблицы */
+    color: white; /* Цвет текста */
+    font-family: 'Roboto', 'Helvetica Nue', sans-serif;
+    border-spacing: 3px; /* Расстояние между ячейками */
+    font-size: 50px;
+    text-shadow: 1px 1px 1px #bbf8f1,
+             2px 2px 1px #bbf8f1;
+
+   }
+th {
+     /* Цвет фона ячеек */
+    padding: 3px; /* Поля вокруг текста */
+   }
+td {
+     /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг текста */
+    }
+
+a {
+font-size: 50px;
+}

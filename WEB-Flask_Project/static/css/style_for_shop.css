@@ -1,0 +1,30 @@
+table {
+    width: 100%; /* Ширина таблицы */  /* Цвет фона таблицы */
+    color: white; /* Цвет текста */
+    font-family: 'Roboto', 'Helvetica Nue', sans-serif;
+    border-spacing: 3px; /* Расстояние между ячейками */
+    font-size: 50px;
+    text-shadow: 1px 1px 1px #bbf8f1,
+             2px 2px 1px #bbf8f1;
+
+   }
+th {
+     /* Цвет фона ячеек */
+    padding: 3px; /* Поля вокруг текста */
+   }
+td {
+     /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг текста */
+    }
+
+img {
+    border: 1px solid #55c5e9; /* Рамка вокруг фотографии */
+    padding: 25px; /* Расстояние от картинки до рамки */
+    background: #666; /* Цвет фона */
+    margin-right: 20px; /* Отступ справа */
+    margin-bottom: 20px; /* Отступ снизу */
+   }
+
+a {
+font-size: 50px;
+}

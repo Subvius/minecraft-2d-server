@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="background: url('static/background/{{ photo }}'); background-size: cover;">
+    <table>
+        <tr>
+            <td rowspan="2"><img src="/static/steve.jpg" class="d-block w-100" alt="..."></td>
+            <td colspan="2" style="text-align: center; font-size: 60px;">{{json["player"]["nickname"]}}</td>
+        </tr>
+        <tr>
+            <td>First login: {{json["player"]["first_login"]}}</td>
+            <td>Last login: {{json["player"]["last_login"]}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Guild:</td>
+            {% if json["player"]["last_logout"]%}
+                <td style="font-size: 60px;">Offline</td>
+            {% else %}
+                <td style="font-size: 60px;">Online</td>
+            {% endif %}
+        </tr>
+        <tr>
+            {% for item in json["player"]["stats"] %}
+                <td>{{item}}: {{json["player"]["stats"][item]}}</td>
+            {% endfor %}
+        </tr>
+            {% for item in json["player"]["reputation"] %}
+                {% if loop.first %}
+                    <tr><td colspan="3">{{item}}: {{json["player"]["reputation"][item]}}</td></tr><tr>
+                {% elif loop.last %}
+                    </tr><tr><td colspan="3">{{item}}: {{json["player"]["reputation"][item]}}</td></tr>
+                {% else %}
+                    <td>{{item}}: {{json["player"]["reputation"][item]}}</td>
+                {% endif %}
+                        {% endfor %}
+    </table>
+    <a href="http://localhost:8080/" target="_target">Магазин</a>
+</body>
+</html>
