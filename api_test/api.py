@@ -4,9 +4,16 @@ import json
 from flask import *
 import os
 import uuid
+from data import db_session
+from data.users import User
+from data.guilds import Guild
 
 app = Flask(__name__)
 dir_path = os.path.dirname(__file__)
+
+db_session.global_init("db/minecraft.db")
+
+db_sess = db_session.create_session()
 
 
 @app.route('/player/', methods=["GET", "POST"])
@@ -25,36 +32,22 @@ def get_player_data():
         "success": False,
     }
     if player is not None:
+        user = db_sess.query(User).filter(User.nickname == player).first()
+
         if method == 'GET':
             try:
-                with open(os.path.join(dir_path, 'players_data.json'), "r") as f:
-                    data = json.load(f)
-                player_data = data.get(player, None)
-                if player_data is not None:
-                    response.update({"player": player_data})
+                if user is not None:
+                    response.update({"player": user.jsonify()})
                     response.update({"success": True})
                 elif create is not None and create and password is not None:
-                    player_data = {
-                        "id": uuid.uuid4().__str__(),
-                        "password": password,
-                        'nickname': player,
-                        "first_login": datetime.datetime.now().timestamp(),
-                        "last_logout": datetime.datetime.now().timestamp(),
-                        "stats": {},
-                        "cosmetics": [],
-                        "reputation": {
-                            "killer": 150,
-                            "magician": 150,
-                            "robber": 150,
-                            "smuggler": 150,
-                            "spice": 150
-                        }
-                    }
-                    data.update({player: player_data})
-                    with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
-                        json.dump(data, f)
+                    user = User()
+                    user.nickname = player
+                    user.password = password
+                    user.uuid = uuid.uuid4().__str__()
+                    db_sess.add(user)
+                    db_sess.commit()
 
-                    response.update({"player": player_data})
+                    response.update({"player": user.jsonify()})
                     response.update({"success": True})
                 return response
             except Exception as e:
@@ -62,55 +55,45 @@ def get_player_data():
                 return response
         elif method == 'POST':
             try:
-                with open(os.path.join(dir_path, 'players_data.json'), "r") as f:
-                    data = json.load(f)
                 player_update: dict = request.get_json(force=True)
-                if player not in list(data.keys()):
-                    data.update({player: {}})
 
                 keys = list(player_update.keys())
                 if stats is not None and stats:
                     for key in keys:
-                        data[player]['stats'].update({key: data[player]['stats'].get(key, 0) + player_update.get(key)})
+                        user.stats.update({
+                            key: user.stats.get(key, 0) + player_update.get(key)
+                        })
 
                 elif complete_task is not None and complete_task:
                     task_id = player_update.get("id", "")
-                    active_tasks = data[player].get("active_tasks", {})
-                    active_tasks = {key: val for key, val in active_tasks.items() if key != task_id}
+                    active_tasks = user.active_tasks
+                    user.active_tasks = {key: val for key, val in active_tasks.items() if key != task_id}
 
-                    data[player].update({
-                        "active_tasks": active_tasks
-                    })
                 elif add_task is not None and add_task:
                     task_id = player_update.get("id")
-                    active_tasks = data[player].get("active_tasks", {})
-
-                    active_tasks.update(
+                    user.active_tasks.update(
                         {
                             task_id: player_update
                         }
                     )
-                    data[player].update({
-                        "active_tasks": active_tasks
-                    })
                 elif update_task is not None and update_task:
                     task_id = player_update.get("id")
-                    active_tasks = data[player].get("active_tasks", {})
 
                     for key in keys:
-                        active_tasks[task_id].update({
+                        user.active_tasks[task_id].update({
                             key: player_update.get(key)
                         })
 
-                    data[player].update({
-                        "active_tasks": active_tasks
-                    })
-
                 else:
                     for key in keys:
-                        data[player].update({key: player_update.get(key)})
-                with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
-                    json.dump(data, f)
+                        if key in list(user.jsonify().keys()):
+                            exec(f"user.{key} = {player_update.get(key)}")
+
+                db_sess.query(User).filter(User.uuid == user.uuid).update(
+                    {User.active_tasks: user.active_tasks}
+                )
+                db_sess.commit()
+
                 response.update({"success": True})
                 return response
             except Exception as e:
@@ -133,50 +116,38 @@ def auth():
     }
 
     try:
-        with open(os.path.join(dir_path, "players_data.json"), "r", encoding="utf-8") as f:
-            json_data: dict = json.load(f)
+        user = db_sess.query(User).filter(User.nickname == nickname).first()
+
         if password is not None and nickname is not None:
 
             if method == "GET":
 
                 if create is not None:
-                    if json_data.get(nickname, None) is None:
-                        player_data = {
-                            "id": uuid.uuid4().__str__(),
-                            "password": password,
-                            'nickname': nickname,
-                            "first_login": datetime.datetime.now().timestamp(),
-                            "last_logout": datetime.datetime.now().timestamp(),
-                            "stats": {},
-                            "cosmetics": [],
-                            "reputation": {
-                                "killer": 150,
-                                "magician": 150,
-                                "robber": 150,
-                                "smuggler": 150,
-                                "spice": 150
-                            }
-                        }
-                        json_data.update({nickname: player_data})
-                        with open(os.path.join(dir_path, 'players_data.json'), "w") as f:
-                            json.dump(json_data, f)
+                    if user is None:
+                        user = User()
+                        user.nickname = nickname
+                        user.password = password
+                        user.uuid = uuid.uuid4().__str__()
+                        db_sess.add(user)
+                        db_sess.commit()
 
-                        response.update({"player": player_data})
+                        response.update({"player": user.jsonify()})
                         response.update({"success": True})
+                        return response
 
-                if json_data.get(nickname, None) is None:
+                if user is None:
                     response.update({
                         "E": "unknown user"
                     })
                     return response
 
-                if json_data.get(nickname).get("password") != password:
+                if user.password != password:
                     response.update({
                         "E": "incorrect password"
                     })
                     return response
 
-                response.update({"player": json_data.get(nickname)})
+                response.update({"player": user.jsonify()})
                 response.update({"success": True})
                 return response
 
@@ -204,23 +175,18 @@ def get_leaderboard():
 
     try:
         start, amount = int(start), int(amount)
-        with open(os.path.join(dir_path, "players_data.json"), "r") as f:
-            data: dict = json.load(f)
         if lb_type == "reputation":
+            db_response = sorted(list(db_sess.query(User).all()), key=lambda x: sum(x.reputation.values()),
+                                 reverse=True)[
+                          start - 1: start - 1 + amount]
 
-            res = [el for el in
-                   sorted(
-                       list(data.values()),
-                       key=lambda x: sum([rep for rep in x.get("reputation", {}).values()]),
-                       reverse=True
-                   )[start - 1: start - 1 + amount]]
+            res = [el.jsonify() for el in db_response]
+
         elif lb_type == 'play_time':
-            res = [el for el in
-                   sorted(
-                       list(data.values()),
-                       key=lambda x: x.get("stats", {}).get("play_time", 0),
-                       reverse=True
-                   )[start - 1: start - 1 + amount]]
+            db_response = sorted(list(db_sess.query(User).all()), key=lambda x: x.stats.get("play_time", 0),
+                                 reverse=True)[
+                          start - 1: start - 1 + amount]
+            res = [el.jsonify() for el in db_response]
         else:
             res = []
 
@@ -284,3 +250,6 @@ def get_game_data():
         response.update({"E": e.__str__()})
         return response
     return response
+
+
+app.run(host="0.0.0.0", port=7676)
