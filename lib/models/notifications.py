@@ -2,17 +2,18 @@ import datetime
 from copy import deepcopy
 
 import pygame
+from pygame.locals import *
 from lib.functions.drawing import draw_text
 
 
 class Notification:
     def __init__(self, text: str, duration: int, window_size, position: str = "left", animation: str = "slide",
-                 notification_type: str = "info"):
+                 notification_type: str = "info", on_click=None):
         """
         Notification class. Displaying messages on the screen..
 
         :param text: Notification text
-        :param duration: Duration of notification display
+        :param duration: Duration of notification display. Provide -1 for infinite display
         :param position: Position on the screen. Default - left
         :param animation: Animation of notification popup. Default - slide
         :param notification_type: Type of the notification. Info | Warning | Danger
@@ -23,7 +24,9 @@ class Notification:
         self._types = ["info", "warning", "danger"]
         self.border_color = self._colors[self._types.index(self.notification_type.lower())]
         self.text = text
+        self.on_click = on_click
         self.duration = duration
+        self.is_disappearing = duration != -1
         self.position = position
         self.animation = animation
         self.show = False
@@ -47,11 +50,12 @@ class Notification:
         self.rect = pygame.Rect(self.window_size[0] - 310 - 10, 10, 310, 85)
 
     def _check_time(self):
-        if (datetime.datetime.now() - self.show_start).seconds >= self.duration:
-            if self.rect.x > self.window_size[0]:
-                self.toggle_visibility()
-            else:
-                self.rect.x += 10
+        if self.is_disappearing:
+            if (datetime.datetime.now() - self.show_start).seconds >= self.duration:
+                if self.rect.x > self.window_size[0]:
+                    self.toggle_visibility()
+                else:
+                    self.rect.x += 10
 
     def set_text(self, text: str):
         """
@@ -67,6 +71,14 @@ class Notification:
             self.border_color = self._colors[self._types.index(self.notification_type.lower())]
         else:
             self.border_color = self._colors[0]
+
+    def on_event(self, events: list[pygame.event.Event]):
+        for event in events:
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                if self.rect.collidepoint(*pos):
+                    if self.on_click is not None:
+                        self.on_click()
 
     def draw(self, surface: pygame.Surface, player):
         """

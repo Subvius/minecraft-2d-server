@@ -3,9 +3,9 @@ from pprint import pprint
 
 import requests
 
-# link = 'http://minecraft2d.pythonanywhere.com/player/?player=Subvius'
+link = 'https://mc2d.onrender.com/'
 #
-link = 'http://127.0.0.1:5000/'
+# link = 'http://127.0.0.1:5000/'
 
 
 # res = requests.post(link + "player", params={"player": "Subvius", "add_task": True}, data=json.dumps({
@@ -25,6 +25,6 @@ link = 'http://127.0.0.1:5000/'
 #     "deadline": -1
 # }))
 
-res = requests.get(link + "player", params={"player": "Nikita"})
+res = requests.post(link + "player", params={"player": "Subvius"}, data=json.dumps({"cloak": None}))
 
 pprint(res.json())

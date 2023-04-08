@@ -252,4 +252,4 @@ def get_game_data():
     return response
 
 
-app.run(host="0.0.0.0", port=7676)
+app.run(host="0.0.0.0")

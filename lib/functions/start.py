@@ -136,3 +136,15 @@ def load_player_images(sheet_path):
             images[anim_type].append(pygame.image.load(os.path.join(sheet_path, file)))
 
     return images
+
+
+def check_version(current: dict, server_data: dict):
+    """
+    Checks if current version of app is outdated
+
+    :param current: Current game data
+    :param server_data: Game data from api
+    :return: True if version is outdated.
+    """
+    return current.get("build_number") != server_data.get("build_number") or current.get("version") != server_data.get(
+        "version")

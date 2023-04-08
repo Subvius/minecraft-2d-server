@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import json
 import math
 import os
 import pickle
@@ -20,10 +21,11 @@ from pygame.locals import *
 
 from lib.functions.blocks import get_block_from_coords
 from lib.functions.map_actions import is_close, on_left_click, on_right_click
+from lib.functions.notification_actions import go_to_website
 from lib.functions.npc import move_npc
 from lib.functions.on_quit import save_stats
 from lib.functions.run_multiple_tasks import run_multiple_tasks
-from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images
+from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images, check_version
 from lib.models.notifications import Notification
 from lib.models.player import Player
 from lib.functions.movement import move
@@ -102,6 +104,10 @@ player_stats = dict()
 PLAYER: Player = None
 PLAYER_DATA = dict()
 STORY_WORLD_COORD = (0, 0)
+
+newest_game_data = api.get_data(f"{CONSTANTS.api_url}game", json_res=True).get("game")
+with open("manifest.json", "r") as f:
+    current_game_data = json.load(f)
 
 
 def log_in_screen():
@@ -287,7 +293,7 @@ def customise_character():
     cosmetics = PLAYER_DATA.get("cosmetics", None)
 
     current_skin_name = api.get_data(
-        f"https://minecraft-api.com/api/pseudo/{skin_uuid}/json").get(
+        f"https://minecraft-api.com/api/pseudo/{skin_uuid}/json", json_res=True).get(
         "pseudo") if skin_uuid is not None and not skin_uuid.lower().count('player') else PLAYER.nickname
 
     skin_name_input = InputBox(420, 125, 200, fonts[16].get_height() + 10, fonts[16], "white", "gray",
@@ -464,8 +470,17 @@ def start_screen():
         touchables.append(TouchableOpacity(post, (30 + 415 * p_i, 475), p_i, True))
     notification = Notification("Unable to connect to the server. Try again later.", 4, (width, height),
                                 notification_type="danger")
+    outdated_version_nfn = Notification(
+        "You have an outdated version installed. Click to download the latest version.", -1, (width, height),
+        notification_type="danger",
+        on_click=lambda: go_to_website(newest_game_data.get("download_url", current_game_data.get("download_url")))
+    )
+    if check_version(current_game_data, newest_game_data):
+        outdated_version_nfn.show_window()
     while on_screen:
+        outdated_version_nfn.on_event(pygame.event.get())
         for event in pygame.event.get():
+
             if event.type == QUIT:
                 pygame.quit()
                 exit(0)
@@ -569,6 +584,7 @@ def start_screen():
             touchable.render(screen)
 
         notification.draw(screen, None)
+        outdated_version_nfn.draw(screen, None)
         pygame.display.flip()
         clock.tick(60)
 
