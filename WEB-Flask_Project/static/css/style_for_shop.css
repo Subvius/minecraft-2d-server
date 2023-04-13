@@ -27,4 +27,10 @@ img {
 
 a {
 font-size: 50px;
+text-shadow: 1px 1px 1px #6f00d2,
+             2px 2px 1px #6f00d2;
+}
+
+.imgContainer .imgButton button {
+    width: 40%;
 }

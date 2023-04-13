@@ -6,14 +6,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_for_shop.css') }}">
 </head>
 <body>
-<a href="http://localhost:8080/statistics" target="_target">Статистика</a>
+<a href="statistics/{{ name }}" target="_self">Статистика</a>
 <table>
     <tr>
     {% for image in images %}
         {% if loop.index % 3 == 0 %}
-            <td><img src="/static/cloak/{{ image }}" class="d-block w-100" alt="..."></td></tr><tr>
+            <td><div class="imgContainer">
+            <div>
+                <img src="/static/cloak/{{ image }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="imgButton">
+                <form>
+    <input type="button" name="{{ image }}"value='10$ BUY'>
+</form>
+
+            </div>
+     </div></tr><tr>
         {% else %}
-            <td><img src="/static/cloak/{{ image }}" class="d-block w-100" alt="..."> rytg</td>
+            <td><div class="imgContainer">
+            <div>
+                <img src="/static/cloak/{{ image }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="imgButton">
+                <form>
+    <input type="button" name="{{ image }}"value='10$ BUY'>
+</form>
+
+            </div>
+     </div></td>
         {% endif %}
     {% endfor %}
     {% if len % 3 != 0 %}
