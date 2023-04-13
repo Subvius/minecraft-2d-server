@@ -51,6 +51,7 @@ def login():
             if json1["E"] != "incorrect password":
                 requests.get(
                     f"https://minecraft2d.pythonanywhere.com/auth/?nickname={name}&password={password}&create=True")
+                return redirect(f"/statistics/{name}")
         else:
             return redirect(f"/statistics/{name}")
 
