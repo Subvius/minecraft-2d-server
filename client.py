@@ -9,6 +9,7 @@ import select
 import shutil
 import socket
 import sqlite3
+import subprocess
 import sys
 import webbrowser
 from copy import deepcopy
@@ -204,14 +205,6 @@ def log_in_screen():
                                     notification.show_window()
                                 continue
 
-                        try:
-                            client.connect(ADDR)
-                        except Exception as _:
-                            notification = Notification("Unable to connect to the server. Try again later.", 4,
-                                                        (width, height),
-                                                        notification_type="danger")
-                            notification.show_window()
-                            continue
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -478,7 +471,9 @@ def start_screen():
     if check_version(current_game_data, newest_game_data):
         outdated_version_nfn.show_window()
     while on_screen:
-        outdated_version_nfn.on_event(pygame.event.get())
+        if outdated_version_nfn.show:
+            outdated_version_nfn.on_event(pygame.event.get())
+
         for event in pygame.event.get():
 
             if event.type == QUIT:
@@ -523,11 +518,6 @@ def start_screen():
                                 "stats", {})
                             session_stats.update({"play_time": datetime.datetime.now()})
 
-                        try:
-                            client.connect(ADDR)
-                        except Exception as _:
-                            notification.show_window()
-                            continue
                         on_screen = False
                         pygame.display.quit()
                         pygame.display.init()
@@ -592,25 +582,19 @@ def start_screen():
 start_screen()
 
 sheet_path = "lib/assets/animations/Entities/player/"
+running = True
+player_id = PLAYER.nickname
+players: dict[str, Player] = {}
+players_images: dict[str, list[pygame.Surface]] = {}
 if PLAYER_DATA.get("cloak", None) is not None:
     print("has cloak")
     PLAYER.has_cape = True
     PLAYER.cape = PLAYER_DATA.get("cloak", None)
 
-print(sys.argv)
 if len(sys.argv) >= 2:
     PLAYER.nickname = sys.argv[1]
 print(PLAYER.nickname)
-client.send(pickle.dumps(["id-update", PLAYER]))
-
-running = True
-player_id = PLAYER.nickname
-players: dict[str, Player] = {}
-players_images: dict[str, list[pygame.Surface]] = {}
 players.update({player_id: PLAYER})
-
-api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
-              {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
 
 ENTITIES_UPDATE_DELAY = 150
 last_entities_update = pygame.time.get_ticks()
@@ -689,6 +673,96 @@ asyncio.run(run_multiple_tasks(
 print(PLAYER.nickname)
 PLAYER_IMAGES = load_player_images(sheet_path)
 players_images.update({PLAYER.nickname: PLAYER_IMAGES})
+
+
+def server_select_screen():
+    on_screen = True
+    pygame.display.set_caption("Minecraft 2D | Server selection")
+
+    buttons = [
+        Button("Refresh", 150, 25, "gray", "white", WIDTH // 2 - 75, HEIGHT - 45, "lightgray", 0),
+    ]
+    searching_text = fonts[24].render("Searching...", False, "white")
+    searching = False
+    ips = list()
+    ip_rects = list()
+
+    selected_server = -1
+    while on_screen:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit(0)
+
+            if event.type == MOUSEMOTION:
+                pos = event.pos
+                SCREEN.set_mouse_pos(pos)
+                for btn in buttons:
+                    btn.on_mouse_motion(*pos)
+
+            if event.type == MOUSEBUTTONDOWN:
+                pos = event.pos
+                btn = None
+                clicked_server = None
+                for button in buttons:
+                    res = button.on_mouse_click(*pos)
+                    if res:
+                        btn = button
+                        break
+                for i, ip_rect in enumerate(ip_rects):
+                    if ip_rect.collidepoint(*pos):
+                        clicked_server = i
+                        break
+                if btn is not None:
+                    if btn.id == 0:
+                        if not searching:
+                            searching = True
+                            subprocess.call(" python lib/functions/server_interaction.py", shell=True)
+                            with open("lib/temp/serverips.txt", "r") as f:
+                                ips = [el.replace("\n", "") for el in f.readlines()]
+                            print(ips)
+                            searching = False
+                if clicked_server is not None:
+                    ip = ips[clicked_server]
+                    if selected_server == clicked_server:
+                        # connect
+                        try:
+                            client.connect((ip, PORT))
+                            client.send(pickle.dumps(["id-update", PLAYER]))
+
+                            api.post_data(CONSTANTS.api_url + f"player/?player={PLAYER.nickname}&create=True",
+                                          {"last_login": datetime.datetime.now().timestamp(), "last_logout": 0})
+
+                            return
+                        except Exception as e:
+                            print(f"Unable to connect:\n{e=}")
+                    else:
+                        selected_server = clicked_server
+                else:
+                    selected_server = -1
+        screen.fill("black")
+        background_image = images['world_select_bg']
+        screen.blit(pygame.transform.scale(background_image, SIZE), (0, 0))
+        if searching:
+            screen.blit(searching_text, (WIDTH // 2 - searching_text.get_width() // 2, HEIGHT // 3))
+
+        for button in buttons:
+            button.render(screen, fonts[16])
+        ip_rects = list()
+
+        for ip_index, ip in enumerate(ips):
+            text = fonts[16].render(f"Minecraft server - {ip}", False, "white")
+            x, y = WIDTH // 2 - 150, HEIGHT // 3 + 65 * ip_index
+            ip_rect = pygame.Rect(x, y, 300, 50)
+            pygame.draw.rect(screen, "white", ip_rect, width=4 if selected_server == ip_index else 1)
+            screen.blit(text, (x + 15, y + 17))
+            ip_rects.append(ip_rect)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+
+server_select_screen()
 
 
 def get_npc():

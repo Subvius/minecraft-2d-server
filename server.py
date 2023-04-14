@@ -8,10 +8,30 @@ from copy import deepcopy
 from lib.models.player import Player
 import config
 
+
+def get_my_ip():
+    """
+    Find my IP address
+    :return:
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return ip
+
+
+IP = get_my_ip()
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((IP, 8787))
+server_socket.listen()
+
 HEADER = 64
 PORT = config.PORT
 # SERVER = '127.0.0.1'
-SERVER = config.IPADDRESS
+# SERVER = config.IPADDRESS
+SERVER = IP
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
