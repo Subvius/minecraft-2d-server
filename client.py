@@ -583,7 +583,6 @@ start_screen()
 
 sheet_path = "lib/assets/animations/Entities/player/"
 running = True
-player_id = PLAYER.nickname
 players: dict[str, Player] = {}
 players_images: dict[str, list[pygame.Surface]] = {}
 if PLAYER_DATA.get("cloak", None) is not None:
@@ -594,6 +593,8 @@ if PLAYER_DATA.get("cloak", None) is not None:
 if len(sys.argv) >= 2:
     PLAYER.nickname = sys.argv[1]
 print(PLAYER.nickname)
+player_id = PLAYER.nickname
+
 players.update({player_id: PLAYER})
 
 ENTITIES_UPDATE_DELAY = 150
