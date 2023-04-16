@@ -685,7 +685,7 @@ def server_select_screen():
     ]
     searching_text = fonts[24].render("Searching...", False, "white")
     searching = False
-    ips = list()
+    ips = ["192.168.1.70"]
     ip_rects = list()
 
     selected_server = -1
@@ -803,7 +803,7 @@ while running:
 
     for inm in ins:
         try:
-            event = pickle.loads(inm.recv(4096))
+            event = pickle.loads(inm.recv(2 ** 20))
             if event[0] == 'id-update':
                 player_id = event[1]
 
@@ -833,7 +833,6 @@ while running:
             pass
         except Exception as e:
             print(f"RAISED EXCEPTION - {e}")
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

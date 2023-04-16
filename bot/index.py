@@ -36,7 +36,7 @@ bot: Bot = None
 
 
 async def echo(update: Update, context):
-    await update.message.reply_text(update.message.text)
+    await help_command(update, context)
 
 
 async def general(update: Update, context):
@@ -192,7 +192,8 @@ async def cloak_send(update: Update, context):
 
 async def help_command(update: Update, context):
     await update.message.reply_text("""**Minecraft 2D Help**
-
+**General**
+You can check your stats by running /general command\n
 **Reputation**
 To view the reputation, you just need to use the /rep command\n
 **Leaderboards**
