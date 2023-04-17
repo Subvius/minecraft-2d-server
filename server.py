@@ -45,16 +45,13 @@ with open("lib/storage/game_map.json", "r", encoding='utf-8') as f:
     game_map = json.load(f).get("map")
 
 
-def players_update():
+def players_update(nickname: str):
     for el in connections:
         player_id, con = el, connections.get(el)
-        players_copy = deepcopy(players)
 
-        for key in players_copy:
-            player = players_copy[key]
-            if key != player_id:
-                update_data = ["players-update", key, player]
-                con.send(pickle.dumps(update_data))
+        if nickname != player_id:
+            update_data = ["players-update", nickname, players.get(nickname)]
+            con.send(pickle.dumps(update_data))
 
 
 def disconnect(player_id):
@@ -100,7 +97,7 @@ def handle_client(conn, addr):
             elif msg[0] == "player-update":
                 players[msg[1]] = msg[2]
 
-                players_update()
+                players_update(msg[1])
 
             elif msg[0] == 'block-break':
                 print("block break")
