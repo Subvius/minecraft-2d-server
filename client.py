@@ -24,6 +24,7 @@ from lib.functions.blocks import get_block_from_coords
 from lib.functions.map_actions import is_close, on_left_click, on_right_click
 from lib.functions.notification_actions import go_to_website
 from lib.functions.npc import move_npc
+from lib.functions.text import strfdelta_round
 from lib.functions.on_quit import save_stats
 from lib.functions.run_multiple_tasks import run_multiple_tasks
 from lib.functions.start import get_maps, get_images, get_posts_surface, load_player_images, check_version
@@ -107,6 +108,7 @@ PLAYER_DATA = dict()
 STORY_WORLD_COORD = (0, 0)
 
 newest_game_data = api.get_data(f"{CONSTANTS.api_url}game", json_res=True).get("game")
+announcement = api.get_data(f"{CONSTANTS.api_url}announcement", json_res=True).get("data", {}).get("announcement", None)
 with open("manifest.json", "r") as f:
     current_game_data = json.load(f)
 
@@ -439,6 +441,10 @@ def start_screen():
     pygame.display.set_caption("Launcher")
     width = 1280
     height = 787
+    global screen
+    if announcement is not None:
+        screen = pygame.display.set_mode((width, height + 50), pygame.NOFRAME)
+
     # noinspection PyTypeChecker
     buttons = [
         Button("Launch", 175, 40, CONSTANTS.launch_color_hovered, "white", width // 2 - 175 // 2, height // 2 - 150,
@@ -453,7 +459,6 @@ def start_screen():
     ]
     buttons[1].toggle_high_light()
     buttons[2].toggle_high_light()
-    global screen
     logo_text = fonts[18].render("Minecraft 2D Multiplayer", False, "white")
     recent_news_text = fonts[16].render("Recent News", False, "white")
 
@@ -573,8 +578,21 @@ def start_screen():
         for touchable in touchables:
             touchable.render(screen)
 
+        if announcement is not None:
+            # screen_copy = screen.copy()
+            #
+            # screen.blit(screen_copy, (0, 50))
+
+            pygame.draw.rect(screen, (128, 0, 128), pygame.Rect(0, height, width, 50))
+            delta = strfdelta_round(datetime.datetime.fromtimestamp(announcement.get('end')) - datetime.datetime.now())
+            draw_text(
+                f"{announcement.get('text')} "
+                f"{delta}",
+                (width // 2, height + 20), screen, None, centerx=width // 2, color="white")
+
         notification.draw(screen, None)
         outdated_version_nfn.draw(screen, None)
+
         pygame.display.flip()
         clock.tick(60)
 

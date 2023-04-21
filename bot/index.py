@@ -1,9 +1,12 @@
+import datetime
 import logging
 
+import telegram.ext
 from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler, \
     CallbackQueryHandler
 from telegram import ReplyKeyboardMarkup, Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.lib.functions.commands import strfdelta_round
 from lib.functions.images import make_image_for_general, make_image_for_leaderboard
 from lib.functions.constants import Constants
 import lib.functions.api as api
@@ -19,7 +22,8 @@ logger = logging.getLogger(__name__)
 reply_markup = [
     ["/help", "/general"],
     ["/rep", "/leaderboard"],
-    ["/skin", "/cloak"]
+    ["/skin", "/cloak"],
+    ["/announcement"],
 ]
 
 settings_markup = [
@@ -110,7 +114,10 @@ async def button(update: Update, context) -> None:
     """Parses the CallbackQuery and updates the message text."""
     query = update.callback_query
     await query.answer()
-    if query.data.count("lb"):
+    if query.data == "no":
+        await query.message.delete()
+        await query.message.reply_text("Alright. Canceled operation!")
+    elif query.data.count("lb"):
         keyboard = [
             [InlineKeyboardButton("Reputation", callback_data='lbreputation'),
              InlineKeyboardButton("Play Time", callback_data='lbplaytime')],
@@ -135,6 +142,18 @@ async def button(update: Update, context) -> None:
         if operation == "clearcache":
             clearcache()
             await query.message.reply_text("Successfully cleared the cache! 🧹")
+    elif query.data.startswith("anncmt"):
+        operation = query.data[6:]
+        print(f"{operation=}")
+
+        await query.message.delete()
+
+        if operation == "delete":
+            res = api.post_data(constants.api_url + "announcement/", params={"delete": True}, data={})
+            if res.get("success"):
+                await query.message.reply_text("Announcement was successfully deleted.")
+            else:
+                await query.message.reply_text("Something went wrong.")
 
 
 async def leaderboard(update: Update, context):
@@ -217,6 +236,92 @@ async def settings(update: Update, context):
         await help_command(update, context)
 
 
+async def announcement(update: Update, context):
+    if update.message.from_user.id in [509737198]:
+        reply_keyboard = [
+            ["View announcement", "Create announcement"],
+            ["Delete announcement"],
+        ]
+        _markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+        await update.message.reply_text("Hey Admin.\nPick an option from keyboard below.", reply_markup=_markup)
+
+    else:
+        await help_command(update, context)
+
+
+async def delete_announcement(update: Update, context):
+    if update.message.from_user.id in [509737198]:
+        dl_anncmt = [
+            [InlineKeyboardButton("Yes", callback_data='anncmtdelete')],
+            [InlineKeyboardButton("No", callback_data="no"), ],
+        ]
+        replymarkup = InlineKeyboardMarkup(dl_anncmt, )
+
+        await update.message.reply_text("Are you sure?", reply_markup=replymarkup)
+    else:
+        await help_command(update, context)
+
+
+async def view_announcement(update: Update, context):
+    if update.message.from_user.id in [509737198]:
+        res = api.get_data(constants.api_url + "announcement/", json_res=True).get("data", {})
+
+        announce = res.get("announcement", None)
+        if announce is not None:
+            end, text = announce.get("end"), announce.get("text")
+
+            end_date = datetime.datetime.fromtimestamp(end)
+            reply_text = f"Here's current announcement:\n\n**{text} " \
+                         f"{strfdelta_round(end_date - datetime.datetime.now(), 'second')}**"
+        else:
+            reply_text = "No announcement's found"
+
+        await update.message.reply_text(reply_text, reply_markup=markup, parse_mode="markdown")
+    else:
+        await help_command(update, context)
+
+
+async def create_announcement(update: Update, context):
+    if update.message.from_user.id in [509737198]:
+        await update.message.reply_text("OK. Provide text to announce", reply_markup=None)
+        return 1
+
+    else:
+        await help_command(update, context)
+
+
+async def provide_date(update: Update, context: telegram.ext.ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
+    context.user_data["announce_text"] = text
+    await update.message.reply_text("Great! Now specify the end date of the announcement in format: YYYY-MM-DD HH:MM")
+    return 2
+
+
+async def announcement_done(update: Update, context: telegram.ext.ContextTypes.DEFAULT_TYPE):
+    date_string = update.message.text
+    user_data = context.user_data
+    announce_text = user_data.get("announce_text")
+    try:
+        date = datetime.datetime.strptime(date_string, "%Y-%m-%d %H:%M")
+    except:
+        await update.message.reply_text("Date does not match format YYYY-MM-DD HH:MM")
+        return 2
+
+    if "announce_text" in user_data:
+        del user_data["announce_text"]
+
+    res = api.post_data(constants.api_url + "announcement",
+                        data={"text": announce_text.strip(), "end": date.timestamp()},
+                        params={"create": True})
+
+    if res.get("success", False):
+        await update.message.reply_text("✅ Successfully created a new announcement!")
+    else:
+        await update.message.reply_text("Something went wrong. Try again later.")
+
+    return ConversationHandler.END
+
+
 async def skin_send(update: Update, context):
     ign = update.message.text.strip()
     message = await update.message.reply_text(f"Searching for {ign}'s skin...")
@@ -247,6 +352,8 @@ def main():
     bot = application.bot
 
     text_handler = MessageHandler(filters.TEXT, echo)
+    view_announcement_handler = MessageHandler(filters.Regex("^View announcement$"), view_announcement)
+    delete_announcement_handler = MessageHandler(filters.Regex("^Delete announcement$"), delete_announcement)
     general_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('general', general)],
 
@@ -283,7 +390,20 @@ def main():
 
         fallbacks=[CommandHandler('stop', stop)]
     )
+    announcement_handler = ConversationHandler(
+        entry_points=[MessageHandler(filters.Regex("^Create announcement$"), create_announcement)],
 
+        states={
+            1: [MessageHandler(filters.TEXT & ~filters.COMMAND, provide_date)],
+            2: [MessageHandler(filters.TEXT & ~filters.COMMAND, announcement_done)],
+        },
+
+        fallbacks=[CommandHandler('stop', stop)]
+    )
+
+    application.add_handler(view_announcement_handler)
+    application.add_handler(delete_announcement_handler)
+    application.add_handler(announcement_handler)
     application.add_handler(cloak_conv_handler)
     application.add_handler(skin_conv_handler)
     application.add_handler(reputation_conv_handler)
@@ -292,6 +412,7 @@ def main():
     application.add_handler(CommandHandler("settings", settings))
     application.add_handler(CommandHandler("leaderboard", leaderboard))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("announcement", announcement))
     application.add_handler(CallbackQueryHandler(button))
     application.add_handler(text_handler)
 
