@@ -441,9 +441,11 @@ def start_screen():
     pygame.display.set_caption("Launcher")
     width = 1280
     height = 787
+    offset = 0
     global screen
     if announcement is not None:
         screen = pygame.display.set_mode((width, height + 50), pygame.NOFRAME)
+        offset = -50
 
     # noinspection PyTypeChecker
     buttons = [
@@ -486,7 +488,7 @@ def start_screen():
                 exit(0)
 
             if event.type == MOUSEMOTION:
-                pos = event.pos
+                pos = (event.pos[0], event.pos[1] + offset)
                 SCREEN.set_mouse_pos(pos)
                 for btn in buttons:
                     btn.on_mouse_motion(*pos)
@@ -495,7 +497,7 @@ def start_screen():
                     touchable.on_mouse_motion(pos)
 
             if event.type == MOUSEBUTTONDOWN:
-                pos = event.pos
+                pos = (event.pos[0], event.pos[1] + offset)
                 btn = None
                 for button in buttons:
                     res = button.on_mouse_click(*pos)
@@ -579,16 +581,16 @@ def start_screen():
             touchable.render(screen)
 
         if announcement is not None:
-            # screen_copy = screen.copy()
-            #
-            # screen.blit(screen_copy, (0, 50))
+            screen_copy = screen.copy()
 
-            pygame.draw.rect(screen, (128, 0, 128), pygame.Rect(0, height, width, 50))
+            screen.blit(screen_copy, (0, 50))
+
+            pygame.draw.rect(screen, (128, 0, 128), pygame.Rect(0, 0, width, 50))
             delta = strfdelta_round(datetime.datetime.fromtimestamp(announcement.get('end')) - datetime.datetime.now())
             draw_text(
                 f"{announcement.get('text')} "
                 f"{delta}",
-                (width // 2, height + 20), screen, None, centerx=width // 2, color="white")
+                (width // 2, 20), screen, None, centerx=width // 2, color="white")
 
         notification.draw(screen, None)
         outdated_version_nfn.draw(screen, None)
