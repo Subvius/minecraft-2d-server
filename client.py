@@ -442,7 +442,7 @@ def start_screen():
     width = 1280
     height = 787
     offset = 0
-    global screen
+    global screen, announcement, session_stats
     if announcement is not None:
         screen = pygame.display.set_mode((width, height + 50), pygame.NOFRAME)
         offset = -50
@@ -581,16 +581,25 @@ def start_screen():
             touchable.render(screen)
 
         if announcement is not None:
-            screen_copy = screen.copy()
+            parsed_date = datetime.datetime.fromtimestamp(announcement.get('end'))
+            if parsed_date <= datetime.datetime.now():
+                api.post_data(f"{CONSTANTS.api_url}announcement", data={}, params={"delete": True})
+                announcement = None
+                offset = 0
+                screen = pygame.display.set_mode((width, height), pygame.NOFRAME)
 
-            screen.blit(screen_copy, (0, 50))
+            if announcement is not None:
+                screen_copy = screen.copy()
 
-            pygame.draw.rect(screen, (128, 0, 128), pygame.Rect(0, 0, width, 50))
-            delta = strfdelta_round(datetime.datetime.fromtimestamp(announcement.get('end')) - datetime.datetime.now())
-            draw_text(
-                f"{announcement.get('text')} "
-                f"{delta}",
-                (width // 2, 20), screen, None, centerx=width // 2, color="white")
+                screen.blit(screen_copy, (0, 50))
+
+                pygame.draw.rect(screen, (128, 0, 128), pygame.Rect(0, 0, width, 50))
+
+                delta = strfdelta_round(parsed_date - datetime.datetime.now())
+                draw_text(
+                    f"{announcement.get('text')} "
+                    f"{delta}",
+                    (width // 2, 20), screen, None, centerx=width // 2, color="white")
 
         notification.draw(screen, None)
         outdated_version_nfn.draw(screen, None)
