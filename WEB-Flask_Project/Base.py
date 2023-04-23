@@ -14,9 +14,11 @@ def statistics(nickname):
     response = requests.get(f"http://minecraft2d.pythonanywhere.com/player/?player={nickname}")
     json1 = response.json()
     date = datetime.datetime.fromtimestamp(json1["player"]["first_login"]).strftime("%d/%m/%Y, %H:%M")
+    last_login = datetime.datetime.fromtimestamp(json1["player"]["last_login"]).strftime("%d/%m/%Y, %H:%M")
+    last_logout = datetime.datetime.fromtimestamp(json1["player"]["last_logout"]).strftime("%d/%m/%Y, %H:%M")
     photo = random.choice(get_all_image_name(path='static/background'))
     if json1["success"]:
-        return render_template('stat.html', json=json1, photo=photo, date=date)
+        return render_template('stat.html', json=json1, photo=photo, date=date, last_login=last_login, last_logout=last_logout)
 
 
 def get_all_image_name(path='static/cloak'):

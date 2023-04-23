@@ -13,12 +13,12 @@
         </tr>
         <tr>
             <td>First login: {{date}}</td>
-            <td>Last login: {{json["player"]["last_login"]}}</td>
+            <td>Last login: {{last_login}}</td>
 
         </tr>
         <tr>
             <td colspan="2">Guild:</td>
-            {% if json["player"]["last_logout"]%}
+            {% if last_logout == last_login%}
                 <td style="font-size: 60px;">Offline</td>
             {% else %}
                 <td style="font-size: 60px;">Online</td>
