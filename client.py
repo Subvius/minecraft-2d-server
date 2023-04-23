@@ -714,7 +714,7 @@ def server_select_screen():
     ]
     searching_text = fonts[24].render("Searching...", False, "white")
     searching = False
-    ips = ["192.168.1.70"]
+    ips = ["192.168.1.67"]
     ip_rects = list()
 
     selected_server = -1

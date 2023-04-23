@@ -78,7 +78,10 @@ def make_image_for_general(nickname: str, data: dict):
                 draw.text(coord, str(amount), (255, 255, 255), font=font, align="center")
         else:
             if "login" in key:
-                text = datetime.datetime.fromtimestamp(value).strftime("%d/%m/%Y, %H:%M")
+                try:
+                    text = datetime.datetime.fromtimestamp(value).strftime("%d/%m/%Y, %H:%M")
+                except Exception:
+                    text = ""
                 draw.text(coord, text, "#dcad38fc", font=font)
             elif "logout" in key:
                 text = "online" if value == 0 else "offline"
