@@ -23,7 +23,7 @@ def make_get_request(url, params):
     return res
 
 
-@client.slash_command(name="stats", description="Get stats", guild_ids=[905824363788517377])
+@client.slash_command(name="stats", description="Get stats", guild_ids=[1067136446047199342])
 async def stats_command(interaction: nextcord.Interaction, player: str):
     res = make_get_request(domen + '/player', {'player': player.strip()})
     player_data = res.get('player')
@@ -56,7 +56,7 @@ async def stats_command(interaction: nextcord.Interaction, player: str):
                            f"playtime: {formatted}", ephemeral=True)
 
 
-@client.slash_command(name='leaderboard', description='Get leaderboard', guild_ids=[905824363788517377])
+@client.slash_command(name='leaderboard', description='Get leaderboard', guild_ids=[1067136446047199342])
 async def leaderboard_command(interaction: nextcord.Interaction,
                               leaderboard: str = nextcord.SlashOption(name="leaderboard",
                                                                       description="Get leaderboard by"
