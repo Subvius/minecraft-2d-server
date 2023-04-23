@@ -3,6 +3,7 @@ import os
 import requests
 import random
 from login import LoginForm
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -12,9 +13,10 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 def statistics(nickname):
     response = requests.get(f"http://minecraft2d.pythonanywhere.com/player/?player={nickname}")
     json1 = response.json()
+    date = datetime.datetime.fromtimestamp(json1["player"]["first_login"]).strftime("%d/%m/%Y, %H:%M")
     photo = random.choice(get_all_image_name(path='static/background'))
     if json1["success"]:
-        return render_template('stat.html', json=json1, photo=photo)
+        return render_template('stat.html', json=json1, photo=photo, date=date)
 
 
 def get_all_image_name(path='static/cloak'):
