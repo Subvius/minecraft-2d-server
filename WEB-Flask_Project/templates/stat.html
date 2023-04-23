@@ -33,7 +33,7 @@
                 {% if loop.first %}
                     <tr><td colspan="3">{{item}}: {{json["player"]["reputation"][item]}}</td></tr><tr>
                 {% elif loop.last %}
-                    </tr><tr><td colspan="3">{{item}}: {{json["player"]["reputation"][item]}} <a href=f"http://localhost:8080/shop/{{json["player"]["nickname"]}}" target="_self">Магазин</a> </td></tr>
+                    </tr><tr><td colspan="3">{{item}}: {{json["player"]["reputation"][item]}} <a href="../../shop/{{json['player']['nickname']}}" target="_self">Магазин</a> </td></tr>
                 {% else %}
                     <td>{{item}}: {{json["player"]["reputation"][item]}}</td>
                 {% endif %}

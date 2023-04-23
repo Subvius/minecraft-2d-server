@@ -39,7 +39,7 @@ def shop(nickname):
     return render_template('shop.html', images=images, len=len(images), name=nickname)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
