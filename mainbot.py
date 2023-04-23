@@ -38,8 +38,8 @@ async def stats_command(interaction: nextcord.Interaction, player: str):
     if not res.get('success'):
         await interaction.send('Такого игрока не существует!\n Но вы можете создать его на нашем официальном сайте!')
         return
-    time = stats_data.get('play_time')
-    formatted = f"{round(time / 60 / 60, 2)}h" if time / 60 / 60 > 1 else f"{round(time / 60, 2)}m"
+    # time = stats_data.get('play_time')
+    # formatted = f"{round(time / 60 / 60, 2)}h" if time / 60 / 60 > 1 else f"{round(time / 60, 2)}m"
     await interaction.send(f"Nickname: {player_data.get('nickname')}\n"
                            f"First Login: {first_login}\n"
                            f"Last Login: {last_login}\n"
@@ -53,10 +53,37 @@ async def stats_command(interaction: nextcord.Interaction, player: str):
                            f"Stats:\n"
                            f"blocks mined: {stats_data.get('blocks_mined')}\n"
                            f"blocks placed: {stats_data.get('blocks_placed')}\n"
-                           f"playtime: {formatted}", ephemeral=True)
+                           f"playtime: {stats_data.get('play_time')} sec.", ephemeral=True)
 
 
-
+@client.slash_command(name='leaderboard', description='Get leaderboard', guild_ids=[905824363788517377])
+async def leaderboard_command(interaction: nextcord.Interaction,
+                              leaderboard: str = nextcord.SlashOption(name="leaderboard",
+                                                                      description="Get leaderboard by"
+                                                                                  " reputation or play time",
+                                                                      choices=["reputation", "play_time"]),
+                              amount: int = nextcord.SlashOption(name="amount", description="number of seats",
+                                                                 min_value=1,
+                                                                 max_value=10, default=5, required=False),
+                              start: int = nextcord.SlashOption(name="start",
+                                                                description="from where to start the countdown",
+                                                                min_value=1,
+                                                                default=1, required=False)):
+    res = make_get_request(domen + '/leaderboard', {'type': leaderboard, 'amount': amount, 'start': start})
+    text = ''
+    if res.get('success'):
+        data = res.get('data')
+        for index, player in enumerate(data, start=1):
+            # time = player.get('stats').get('play_time')
+            # formatted = f"{round(time / 60 / 60, 2)}h" if time / 60 / 60 > 1 else f"{round(time / 60, 2)}m"
+            if leaderboard == 'reputation':
+                text += f"{index} - {player.get('nickname')} reputation:" \
+                        f" {sum(list(player.get('reputation').values()))}\n"
+            elif leaderboard == 'play_time':
+                text += f"{index} - {player.get('nickname')} play time: {player.get('stats').get('play_time')} sec.\n"
+    else:
+        text = 'Ошибка, перепроверте правильность ввода данных!'
+    await interaction.send(text, ephemeral=True)
 
 
 @client.event
