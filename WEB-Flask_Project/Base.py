@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
+
 @app.route('/statistics/<nickname>')
 def statistics(nickname):
     response = requests.get(f"http://minecraft2d.pythonanywhere.com/player/?player={nickname}")
@@ -60,6 +61,18 @@ def login():
             return redirect(f"/statistics/{name}")
 
     return render_template('registration.html', title='Авторизация', form=form)
+
+
+@app.route('/load_photo/<nickname>', methods=['GET', 'POST'])
+def photo(nickname):
+    if request.method == 'GET':
+        return render_template('photo.html', name=nickname)
+    elif request.method == 'POST':
+        f = request.files['file']
+        # print(f.read())
+        with open(f'static/steve.jpg', mode="wb") as file:
+            file.write(f.read())
+        return redirect(f"/load_photo/{nickname}")
 
 
 if __name__ == '__main__':
